@@ -60,9 +60,12 @@ const reducer = (state, action) => (
 export const AuthContext = createContext({ undefined });
 
 export const AuthProvider = (props) => {
+
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
+
+
 
   const initialize = async () => {
     // Prevent from calling twice in development mode with React.StrictMode enabled
@@ -128,6 +131,7 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
+
     if (email !== 'demo@devias.io' || password !== 'Password123!') {
       throw new Error('Please check your email and password');
     }

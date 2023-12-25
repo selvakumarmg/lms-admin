@@ -23,7 +23,7 @@ export const CustomersTable = (props) => {
     items = [],
     onDeselectAll,
     onDeselectOne,
-    onPageChange = () => {},
+    onPageChange = () => { },
     onRowsPerPageChange,
     onSelectAll,
     onSelectOne,
@@ -75,7 +75,7 @@ export const CustomersTable = (props) => {
             <TableBody>
               {items.map((customer) => {
                 const isSelected = selected.includes(customer.id);
-                const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
+                const createdAt = "format(customer?.createdAt, 'dd/MM/yyyy')";
 
                 return (
                   <TableRow
