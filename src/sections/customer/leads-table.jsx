@@ -77,12 +77,11 @@ export const LeadsTable = (props) => {
                         {lead.loanStatus}
                       </SeverityPill>
                     </TableCell>
-                    <TableCell>
-                      /
+                    {/* <TableCell>
                       <SvgIcon fontSize="small">
                         <EditIcon />
                       </SvgIcon>
-                      {/* <IconButton
+                      <IconButton
                                                 color="primary"
                                                 aria-label="Edit"
                                                 onClick={() => {
@@ -91,8 +90,8 @@ export const LeadsTable = (props) => {
                                                 }}
                                             >
                                                 <EditIcon />
-                                            </IconButton> */}
-                    </TableCell>
+                                            </IconButton>
+                    </TableCell> */}
                   </TableRow>
                 );
               })}

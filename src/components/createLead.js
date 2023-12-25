@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
   Dialog,
@@ -29,6 +29,7 @@ const schema = yup.object().shape({
   lastName: yup.string().required('Last Name is required'),
   mobileNo: yup.string().required('Mobile No is required'),
   companyName: yup.string().required('Company Name is required'),
+  // Others: yup.string().required('Others is required'),
   files: yup.array().min(3, 'You can only upload up to 3 files'),
   files1: yup.array().min(1, 'You can only upload up to 1 files'),
 
@@ -61,6 +62,8 @@ const MyForm = ({ open, onClose, onSubmit }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const [loanTypeVal, setLoanType] = useState("");
 
   const handleFileUpload3 = (info) => {
     // Limit the number of files to 3
@@ -122,7 +125,10 @@ const MyForm = ({ open, onClose, onSubmit }) => {
 
   const handleLoanTypeChange = (event) => {
     // Handle loan type change logic here
-    console.log(event.target.value);
+    console.log(event.target.dataset.value);
+
+    setLoanType(event.target.dataset.value)
+
   };
 
   const handleFormSubmit = (data) => {
@@ -273,7 +279,7 @@ const MyForm = ({ open, onClose, onSubmit }) => {
                 render={({ field }) => (
                   <FormControl fullWidth error={!!errors.loanType}>
                     <InputLabel>Loan Type</InputLabel>
-                    <Select {...field} >
+                    <Select {...field} onClick={handleLoanTypeChange}>
                       <MenuItem value="Personal Loan">Personal Loan</MenuItem>
                       <MenuItem value="Business Loan">Business Loan</MenuItem>
                       <MenuItem value="House Loan">House Loan</MenuItem>
@@ -285,6 +291,16 @@ const MyForm = ({ open, onClose, onSubmit }) => {
                 )}
               />
             </Grid>
+            {loanTypeVal === "Others" &&
+              <Grid item xs={6}>
+                <Controller
+                  name="Others"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField {...field} label="Others" error={!!errors.Others} helperText={errors.Others?.message} fullWidth />
+                  )}
+                />
+              </Grid>}
             <Grid item xs={6}>
               <Controller
                 name="loanStatus"
