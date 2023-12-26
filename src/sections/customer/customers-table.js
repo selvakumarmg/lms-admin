@@ -32,8 +32,11 @@ export const CustomersTable = (props) => {
     selected = []
   } = props;
 
-  const selectedSome = (selected.length > 0) && (selected.length < items.length);
-  const selectedAll = (items.length > 0) && (selected.length === items.length);
+  // const selectedSome = (selected.length > 0) && (selected.length < items.length);
+  // const selectedAll = (items.length > 0) && (selected.length === items.length);
+
+
+  console.log("items", items)
 
   return (
     <Card>
@@ -43,7 +46,7 @@ export const CustomersTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
-                  <Checkbox
+                  {/* <Checkbox
                     checked={selectedAll}
                     indeterminate={selectedSome}
                     onChange={(event) => {
@@ -53,7 +56,7 @@ export const CustomersTable = (props) => {
                         onDeselectAll?.();
                       }
                     }}
-                  />
+                  /> */}
                 </TableCell>
                 <TableCell>
                   Name
@@ -80,7 +83,7 @@ export const CustomersTable = (props) => {
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={customer?.id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
@@ -88,9 +91,9 @@ export const CustomersTable = (props) => {
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(customer?.id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(customer?.id);
                           }
                         }}
                       />
@@ -102,24 +105,24 @@ export const CustomersTable = (props) => {
                         spacing={2}
                       >
                         <Avatar src={customer.avatar}>
-                          {getInitials(customer.name)}
+                          {getInitials(customer?.firstName)}
                         </Avatar>
                         <Typography variant="subtitle2">
-                          {customer.name}
+                          {customer?.lastName}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {customer.email}
+                      {customer?.companyName}
                     </TableCell>
                     <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
+                      {customer?.mobileNo}
                     </TableCell>
                     <TableCell>
-                      {customer.phone}
+                      {customer?.salary}
                     </TableCell>
                     <TableCell>
-                      {createdAt}
+                      {customer?.AAdhar}
                     </TableCell>
                   </TableRow>
                 );

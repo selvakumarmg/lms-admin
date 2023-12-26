@@ -27,7 +27,7 @@ const { Dragger } = Upload;
 const schema = yup.object().shape({
   firstName: yup.string().required('First Name is required'),
   lastName: yup.string().required('Last Name is required'),
-  mobileNo: yup.string().required('Mobile No is required'),
+  mobileNo: yup.number().required('Mobile No is required'),
   companyName: yup.string().required('Company Name is required'),
   // Others: yup.string().required('Others is required'),
   files: yup.array().min(3, 'You can only upload up to 3 files'),
@@ -52,18 +52,56 @@ const schema = yup.object().shape({
 
 });
 
-const MyForm = ({ open, onClose, onSubmit }) => {
+const CreateLead = ({ open, onClose, onSubmit }) => {
+
+
+  const [loanTypeVal, setLoanType] = useState("");
+
+
+  const [dynamicSchema, setDynamicSchema] = React.useState(yup.object().shape({
+    firstName: yup.string().required('First Name is required'),
+    lastName: yup.string().required('Last Name is required'),
+    mobileNo: yup.string().required('Mobile No is required').matches(/^\d{10}$/, 'Invalid mobile number'),
+    companyName: yup.string().required('Company Name is required'),
+    // Others: yup.string().required('Others is required'),
+    files: yup.array().min(3, 'You can only upload up to 3 files'),
+    files1: yup.array().min(1, 'You can only upload up to 1 files'),
+
+    files2: yup.array().min(1, 'You can only upload up to 1 files'),
+    files3: yup.array().min(1, 'You can only upload up to 1 files'),
+
+    loanType: yup.string().required('Please select an option'),
+    loanStatus: yup.string().required('Please select an option'),
+    salary: yup.number().required('Salary is required').positive('Salary must be positive'),
+    address: yup.object().shape({
+      doorNumber: yup.string().required('Door Number is required'),
+      street: yup.string().required('Street is required'),
+      city: yup.string().required('City is required'),
+      state: yup.string().required('State is required'),
+      pincode: yup.number().required('Pin code is required').positive('Salary must be positive'),
+    }),
+    loanAmount: yup.number().required('Loan Amount is required').positive('Loan Amount must be positive'),
+    bankName: yup.string().required('Bank Name is required'),
+  }));
+
+
   const {
     control,
     handleSubmit,
     getValues,
     setValue, setError,
+    trigger,
     formState: { errors },
+    reset,
+
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(dynamicSchema),
+    defaultValues: {},
   });
 
-  const [loanTypeVal, setLoanType] = useState("");
+  React.useEffect(() => {
+    reset({}); // Reset to defaultValues or an empty object
+  }, [open, reset]);
 
   const handleFileUpload3 = (info) => {
     // Limit the number of files to 3
@@ -137,6 +175,9 @@ const MyForm = ({ open, onClose, onSubmit }) => {
     onSubmit(data);
     onClose();
   };
+
+
+
 
 
 
@@ -449,7 +490,7 @@ const MyForm = ({ open, onClose, onSubmit }) => {
 }
 
 
-export default MyForm;
+export default CreateLead;
 
 
 
