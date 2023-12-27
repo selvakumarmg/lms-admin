@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { Formik, Field, Form, ErrorMessage, } from 'formik';
 import {
   Dialog,
   DialogTitle,
@@ -14,87 +14,79 @@ import {
   InputLabel,
   FormHelperText,
 } from '@mui/material';
-import { Upload, message } from 'antd';
+import { Upload, message, Form as AntForm, } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import { loanStatusOptions, loanType } from 'src/mockdata';
+
 const { Dragger } = Upload;
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string().required('First Name is required'),
+  lastName: Yup.string().required('Last Name is required'),
+  mobileNo: Yup.string()
+    .matches(/^[0-9]{10}$/, 'Invalid mobile number')
+    .required('Mobile No is required'),
+  email: Yup.string()
+    .matches(emailRegex, 'Invalid email address')
+    .required('Email is required'),
+  companyName: Yup.string().required('Company Name is required'),
+  salary: Yup.number().positive('Salary must be a positive number').required('Salary is required'),
+  doorNumber: Yup.string().required('Door number is required'),
+  street: Yup.string().required('Street is required'),
+  city: Yup.string().required('City is required'),
+  state: Yup.string().required('State is required'),
+  pincode: Yup.string().required('Pin Code is required'),
+  loanAmount: Yup.number().positive('Loan Amount must be a positive number').required('Loan Amount is required'),
+  bankName: Yup.string().required('Bank Name is required'),
+  loanType: Yup.string().required('Loan Type is required'),
+  loanTypeOther: Yup.string().when('loanType', {
+    is: 'Others',
+    then: Yup.string().required('Please specify the loan type'),
+  }),
+  loanProcessStatus: Yup.string().required('Loan Process Status is required'),
+  payslips: Yup.mixed().required('Payslip Upload is required'),
+  aadharCard: Yup.mixed()
+    .test('fileSize', 'File size is too large', (value) => value && value.size <= 2 * 1024 * 1024) // 2MB limit
+    .test('fileType', 'Unsupported file type', (value) => value && ['image/jpeg', 'image/png', 'application/pdf'].includes(value.type))
+    .required('Aadhar Card is required'),
+  panCard: Yup.mixed()
+    .test('fileSize', 'File size is too large', (value) => value && value.size <= 5 * 1024 * 1024) // 5MB limit
+    .test('fileType', 'Unsupported file type', (value) => value && ['application/pdf', 'image/jpeg', 'image/png'].includes(value.type))
+    .required('PAN Card is required'),
+  bankStatement: Yup.mixed()
+    .test('fileSize', 'File size is too large', (value) => value && value.size <= 5 * 1024 * 1024) // 5MB limit
+    .test('fileType', 'Unsupported file type', (value) => value && ['application/pdf', 'image/jpeg', 'image/png'].includes(value.type))
+    .required('Bank Statement is required'),
+});
+
 const CreateLead = ({ open, onClose, onSubmit }) => {
-  const [loanTypeVal, setLoanType] = useState("");
 
-  const [dynamicSchema, setDynamicSchema] = React.useState(yup.object().shape({
-    firstName: yup.string().required('First Name is required'),
-    lastName: yup.string().required('Last Name is required'),
-    mobileNo: yup.string().required('Mobile No is required').matches(/^\d{10}$/, 'Invalid mobile number'),
-    companyName: yup.string().required('Company Name is required'),
-    payslips: yup.array().min(3, 'You can only upload up to 3 files'),
-    aadharCard: yup.array().min(1, 'You can only upload up to 1 file'),
-    panCard: yup.array().min(1, 'You can only upload up to 1 file'),
-    bankStatement: yup.array().min(1, 'You can only upload up to 1 file'),
-    loanType: yup.string().required('Please select an option'),
-    loanStatus: yup.string().required('Please select an option'),
-    salary: yup.number().required('Salary is required').positive('Salary must be positive'),
-    address: yup.object().shape({
-      doorNumber: yup.string().required('Door Number is required'),
-      street: yup.string().required('Street is required'),
-      city: yup.string().required('City is required'),
-      state: yup.string().required('State is required'),
-      pincode: yup.number().required('Pin code is required').positive('Salary must be positive'),
-    }),
-    loanAmount: yup.number().required('Loan Amount is required').positive('Loan Amount must be positive'),
-    bankName: yup.string().required('Bank Name is required'),
-  }));
-
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: yupResolver(dynamicSchema),
-    defaultValues: {},
-  });
-
-  React.useEffect(() => {
-    reset({});
-  }, [open, reset]);
-
-  const handleFileUpload3 = (info) => {
-    const { fileList } = info;
-
-    if (fileList.length > 1) {
-      fileList.splice(-1, 1);
-      message.error('You can only upload up to 1 file');
-    }
-
-    setValue('bankStatement', fileList);
+  const initialValues = {
+    firstName: '',
+    lastName: '',
+    mobileNo: '',
+    email: '',
+    companyName: '',
+    salary: '',
+    doorNumber: '',
+    street: '',
+    city: '',
+    state: '',
+    pincode: '',
+    loanAmount: '',
+    bankName: '',
+    loanType: '',
+    loanProcessStatus: '',
+    payslips: [],
+    aadharCard: [],
+    panCard: [],
+    bankStatement: [],
   };
 
-  const handleFileUpload2 = (info) => {
-    const { fileList } = info;
-
-    if (fileList.length > 1) {
-      fileList.splice(-1, 1);
-      message.error('You can only upload up to 1 file');
-    }
-
-    setValue('panCard', fileList);
-  };
-
-  const handleFileUpload1 = (info) => {
-    const { fileList } = info;
-
-    if (fileList.length > 1) {
-      fileList.splice(-1, 1);
-      message.error('You can only upload up to 1 file');
-    }
-
-    setValue('aadharCard', fileList);
-  };
-
-  const handleFileUpload = (info) => {
+  const handlePayslipUpload = (info, setFieldValue) => {
     const { fileList } = info;
 
     if (fileList.length > 3) {
@@ -102,313 +94,352 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
       message.error('You can only upload up to 3 files');
     }
 
-    setValue('payslips', fileList);
+    setFieldValue('payslips', fileList);
   };
 
-  const handleLoanTypeChange = (event) => {
-    setLoanType(event.target.dataset.value);
+  const handleAadharCardUpload = (info, setFieldValue) => {
+    const { fileList } = info;
+
+    if (fileList.length > 1) {
+      fileList.splice(-1, 1);
+      message.error('You can only upload one file');
+    }
+
+    setFieldValue('aadharCard', fileList[0]);
   };
 
-  const handleFormSubmit = (data) => {
-    onSubmit(data);
-    onClose();
+  const handleBankStatementUpload = (info, setFieldValue) => {
+    const { fileList } = info;
+
+    if (fileList.length > 1) {
+      fileList.splice(-1, 1);
+      message.error('You can only upload one file');
+    }
+
+    setFieldValue('bankStatement', fileList[0]);
   };
 
+  const handlePancardUpload = (info, setFieldValue) => {
+    const { fileList } = info;
+
+    if (fileList.length > 1) {
+      fileList.splice(-1, 1);
+      message.error('You can only upload one file');
+    }
+
+    setFieldValue('panCard', fileList[0]);
+  };
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add Customer</DialogTitle>
+      <DialogTitle>Create Lead</DialogTitle>
       <DialogContent>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Controller
-                name="firstName"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px',marginTop:'20px',margin:'5px'}} {...field} label="First Name" error={!!errors.firstName} helperText={errors.firstName?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="lastName"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px',marginTop:'20px'}} {...field} label="Last Name" error={!!errors.lastName} helperText={errors.lastName?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="mobileNo"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px'}} {...field} label="Mobile No" error={!!errors.mobileNo} helperText={errors.mobileNo?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="companyName"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px'}} {...field} label="Company Name" error={!!errors.companyName} helperText={errors.companyName?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="salary"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px'}} {...field} label="Salary" error={!!errors.salary} helperText={errors.salary?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Controller
-                name="address.doorNumber"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px'}} {...field} label="Door Number" error={!!errors.address?.doorNumber} helperText={errors.address?.doorNumber?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="address.street"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px'}} {...field} label="Street" error={!!errors.address?.street} helperText={errors.address?.street?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="address.city"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px'}} {...field} label="City" error={!!errors.address?.city} helperText={errors.address?.city?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="address.state"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px'}} {...field} label="State" error={!!errors.address?.state} helperText={errors.address?.state?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="address.pincode"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px'}} {...field} label="Pin code" error={!!errors.address?.pincode} helperText={errors.address?.pincode?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="loanAmount"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px'}} {...field} label="Loan Amount" error={!!errors.loanAmount} helperText={errors.loanAmount?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="bankName"
-                control={control}
-                render={({ field }) => (
-                  <TextField style={{margin:'5px'}} {...field} label="Bank Name" error={!!errors.bankName} helperText={errors.bankName?.message} fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="loanType"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <FormControl style={{margin:'5px'}} fullWidth error={!!errors.loanType}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
+            <Form style={{ marginTop: 20 }} onSubmit={handleSubmit}>
+              <Grid style={{ marginTop: 10 }} container spacing={2}>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="firstName"
+                    label="First Name"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.firstName}</FormHelperText>
+                </Grid>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="lastName"
+                    label="Last Name"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.lastName}</FormHelperText>
+                </Grid>
+              </Grid>
+              <Grid style={{ marginTop: 10 }} container spacing={2}>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="email"
+                    label="Email"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.email}</FormHelperText>
+                </Grid>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="mobileNo"
+                    label="Mobile No"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.mobileNo}</FormHelperText>
+                </Grid>
+              </Grid>
+              <Grid style={{ marginTop: 10 }} container spacing={2}>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="companyName"
+                    label="Company Name"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.companyName}</FormHelperText>
+                </Grid>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="salary"
+                    label="Salary"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.salary}</FormHelperText>
+                </Grid>
+              </Grid>
+              <Grid style={{ marginTop: 10 }} container spacing={2}>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="doorNumber"
+                    label="Door No"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.doorNumber}</FormHelperText>
+                </Grid>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="street"
+                    label="Street"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.street}</FormHelperText>
+                </Grid>
+              </Grid>
+              <Grid style={{ marginTop: 10 }} container spacing={2}>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="state"
+                    label="State"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.state}</FormHelperText>
+                </Grid>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="pincode"
+                    label="Pincode"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.pincode}</FormHelperText>
+                </Grid>
+              </Grid>
+              <Grid style={{ marginTop: 10 }} container spacing={2}>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="loanAmount"
+                    label="Loan Amount"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.loanAmount}</FormHelperText>
+                </Grid>
+                <Grid item xs={6}>
+                  <Field
+                    type="text"
+                    name="bankName"
+                    label="Bank Name"
+                    as={TextField}
+                    fullWidth
+                  />
+                  <FormHelperText error>{errors.bankName}</FormHelperText>
+                </Grid>
+              </Grid>
+              <Grid style={{ marginTop: 10 }} container spacing={2}>
+                <Grid item xs={6}>
+                  <FormControl fullWidth error={touched.loanType && !!errors.loanType}>
                     <InputLabel>Loan Type</InputLabel>
-                    <Select {...field} onClick={handleLoanTypeChange}>
-                      <MenuItem value="Personal Loan">Personal Loan</MenuItem>
-                      <MenuItem value="Business Loan">Business Loan</MenuItem>
-                      <MenuItem value="House Loan">House Loan</MenuItem>
-                      <MenuItem value="Loan Against Property">Loan Against Property</MenuItem>
-                      <MenuItem value="Others">Others</MenuItem>
-                    </Select>
-                    {errors.loanType && <FormHelperText error>{errors.loanType?.message}</FormHelperText>}
+                    <Field
+                      as={Select}
+                      name="loanType"
+                      value={values.loanType}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <MenuItem value="">Select</MenuItem>
+                      {loanType.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Field>
+                    {touched.loanType && errors.loanType && (
+                      <FormHelperText>{errors.loanType}</FormHelperText>
+                    )}
                   </FormControl>
-                )}
-              />
-            </Grid>
-            {loanTypeVal === "Others" &&
-              <Grid item xs={6}>
-                <Controller
-                  name="Others"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField style={{margin:'5px'}} {...field} label="Others" error={!!errors.Others} helperText={errors.Others?.message} fullWidth />
-                  )}
-                />
-              </Grid>}
-            <Grid item xs={6}>
-              <Controller
-                name="loanStatus"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <FormControl style={{margin:'5px'}} fullWidth error={!!errors.loanStatus}>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl fullWidth error={touched.loanStatus && !!errors.loanStatus}>
                     <InputLabel>Loan Process Status</InputLabel>
-                    <Select {...field} >
-                      <MenuItem value="Fresh">Fresh</MenuItem>
-                      <MenuItem value="Top Up">Top Up</MenuItem>
-                      <MenuItem value="Balance Transfer">House Loan</MenuItem>
-
-                    </Select>
-                    {errors.loanStatus && <FormHelperText error>{errors.loanStatus?.message}</FormHelperText>}
+                    <Field
+                      as={Select}
+                      name="loanStatus"
+                      value={values.loanStatus}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <MenuItem value="">Select</MenuItem>
+                      {loanStatusOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Field>
+                    {touched.loanStatus && errors.loanStatus && (
+                      <FormHelperText error>{errors.loanStatus?.message}</FormHelperText>
+                    )}
                   </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Controller
-                name="payslips"
-                control={control}
-                defaultValue={[]}
-                render={({ field }) => (
-                  <div>
-                    <Dragger
-                    style={{margin:'5px'}}
-                      {...field}
-                      onChange={handleFileUpload}
-                      beforeUpload={() => false} // Prevent default upload behavior
-                      fileList={field.value}
-                      multiple
-                    >
-                      <p className="ant-upload-drag-icon">
-                        <InboxOutlined />
-                      </p>
-                      <p className="ant-upload-text">Click or drag file to upload Payslip</p>
-                      <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-                    </Dragger>
-                    {errors.payslips && <FormHelperText error>{errors.payslips?.message}</FormHelperText>}
-                  </div>
-
-
-                )}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              {/* File upload for bankStatement */}
-              <Controller
-                name="bankStatement"
-                control={control}
-                defaultValue={[]}
-                render={({ field }) => (
-                  <div>
-                    <Dragger
-                      {...field}
-                      style={{margin:'5px'}}
-                      onChange={handleFileUpload3}
-                      beforeUpload={() => false}
-                      fileList={field.value}
-                      multiple
-                    >
-                      <p className="ant-upload-drag-icon">
-                        <InboxOutlined />
-                      </p>
-                      <p className="ant-upload-text">Click or drag file to upload  Bank Statement</p>
-                      <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-                    </Dragger>
-                    {errors.bankStatement && <FormHelperText error>{errors.bankStatement?.message}</FormHelperText>}
-                  </div>
-
-
-                )}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              {/* File upload for aadharCard */}
-              <Controller
-                name="bankStatement"
-                control={control}
-                defaultValue={[]}
-                render={({ field }) => (
-                  <div>
-                    <Dragger
-                      {...field}
-                      style={{margin:'5px'}}
-                      onChange={handleFileUpload1}
-                      beforeUpload={() => false} // Prevent default upload behavior
-                      fileList={field.value}
-                      multiple
-                    >
-                      <p className="ant-upload-drag-icon">
-                        <InboxOutlined />
-                      </p>
-                      <p className="ant-upload-text">Click or drag file to upload Aadhaar Card</p>
-                      <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-                    </Dragger>
-                    {errors.aadharCard && <FormHelperText error>{errors.aadharCard?.message}</FormHelperText>}
-                  </div>
-
-
-                )}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              {/* File upload for pancard */}
-              <Controller
-                name="panCard"
-                control={control}
-                defaultValue={[]}
-                render={({ field }) => (
-                  <div>
-                    <Dragger
-                      {...field}
-                      style={{margin:'5px'}}
-                      onChange={handleFileUpload2}
-                      beforeUpload={() => false} // Prevent default upload behavior
-                      fileList={field.value}
-                      multiple
-                    >
-                      <p className="ant-upload-drag-icon">
-                        <InboxOutlined />
-                      </p>
-                      <p className="ant-upload-text">Click or drag file to upload Pan Card</p>
-                      <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-                    </Dragger>
-                    {errors.panCard && <FormHelperText error>{errors.panCard?.message}</FormHelperText>}
-                  </div>
-
-
-                )}
-              />
-            </Grid>
-          </Grid>
-          <DialogActions>
-            <Button onClick={onClose}>Cancel</Button>
-            <Button type="submit" variant="contained" color="primary">
-              Save
-            </Button>
-          </DialogActions>
-        </form >
-      </DialogContent >
-    </Dialog >
-  )
-}
-
+                </Grid>
+              </Grid>
+              <Grid style={{ marginTop: 10 }} container spacing={2}>
+                <Grid item xs={12}>
+                  <AntForm.Item
+                    validateStatus={touched.payslips && errors.payslips ? 'error' : ''}
+                    help={touched.payslips && errors.payslips}
+                  >
+                    <Field
+                      name="payslips"
+                      render={({ field }) => (
+                        <Dragger
+                          {...field}
+                          beforeUpload={() => false} // Prevent default upload behavior
+                          onChange={(info) => handlePayslipUpload(info, setFieldValue)}
+                          fileList={values.payslips}
+                          multiple
+                        >
+                          <p className="ant-upload-drag-icon">
+                            <InboxOutlined />
+                          </p>
+                          <p className="ant-upload-text">Click or drag files to upload Payslips</p>
+                          <p className="ant-upload-hint">Support for multiple file uploads (PDF, JPEG, PNG).</p>
+                        </Dragger>
+                      )}
+                    />
+                  </AntForm.Item>
+                </Grid>
+              </Grid>
+              <Grid style={{ marginTop: 10 }} container spacing={2}>
+                <Grid item xs={12}>
+                  <AntForm.Item
+                    validateStatus={touched.aadharCard && errors.aadharCard ? 'error' : ''}
+                    help={touched.aadharCard && errors.aadharCard}
+                  >
+                    <Field
+                      name="aadharCard"
+                      render={({ field }) => (
+                        <Dragger
+                          {...field}
+                          beforeUpload={() => false} // Prevent default upload behavior
+                          onChange={(info) => handleAadharCardUpload(info, setFieldValue)}
+                          fileList={values.aadharCard ? [values.aadharCard] : []}
+                          showUploadList={{ showDownloadIcon: false }}
+                        >
+                          <p className="ant-upload-drag-icon">
+                            <InboxOutlined />
+                          </p>
+                          <p className="ant-upload-text">Click or drag file to upload Aadhar Card</p>
+                          <p className="ant-upload-hint">Support for a single file upload (PDF, JPEG, PNG).</p>
+                        </Dragger>
+                      )}
+                    />
+                  </AntForm.Item>
+                </Grid>
+              </Grid>
+              <Grid style={{ marginTop: 10 }} container spacing={2}>
+                <Grid item xs={12}>
+                  <AntForm.Item
+                    validateStatus={touched.panCard && errors.panCard ? 'error' : ''}
+                    help={touched.panCard && errors.panCard}
+                  >
+                    <Field
+                      name="panCard"
+                      render={({ field }) => (
+                        <Dragger
+                          {...field}
+                          beforeUpload={() => false} // Prevent default upload behavior
+                          onChange={(info) => handlePancardUpload(info, setFieldValue)}
+                          fileList={values.panCard ? [values.panCard] : []}
+                          showUploadList={{ showDownloadIcon: false }}
+                        >
+                          <p className="ant-upload-drag-icon">
+                            <InboxOutlined />
+                          </p>
+                          <p className="ant-upload-text">Click or drag file to upload PAN Card</p>
+                          <p className="ant-upload-hint">Support for a single file upload (PDF, JPEG, PNG).</p>
+                        </Dragger>
+                      )}
+                    />
+                  </AntForm.Item>
+                </Grid>
+              </Grid>
+              <Grid style={{ marginTop: 10 }} container spacing={2}>
+                <Grid item xs={12}>
+                  <AntForm.Item
+                    validateStatus={touched.bankStatement && errors.bankStatement ? 'error' : ''}
+                    help={touched.bankStatement && errors.bankStatement}
+                  >
+                    <Field
+                      name="bankStatement"
+                      render={({ field }) => (
+                        <Dragger
+                          {...field}
+                          beforeUpload={() => false} // Prevent default upload behavior
+                          onChange={(info) => handleBankStatementUpload(info, setFieldValue)}
+                          fileList={values.bankStatement ? [values.bankStatement] : []}
+                          showUploadList={{ showDownloadIcon: false }}
+                        >
+                          <p className="ant-upload-drag-icon">
+                            <InboxOutlined />
+                          </p>
+                          <p className="ant-upload-text">Click or drag file to upload Bank Statement (last 6 months)</p>
+                          <p className="ant-upload-hint">Support for a single file upload (PDF, JPEG, PNG).</p>
+                        </Dragger>
+                      )}
+                    />
+                  </AntForm.Item>
+                </Grid>
+              </Grid>
+              <DialogActions>
+                <Button onClick={onClose}>Cancel</Button>
+                <Button type="submit" variant="contained" color="primary">
+                  Save
+                </Button>
+              </DialogActions>
+            </Form >
+          )}
+        </Formik>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export default CreateLead;
-
-
-
 

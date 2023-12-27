@@ -68,30 +68,21 @@ export const LeadsTable = (props) => {
                   <TableRow hover key={lead.mobileNo}>
                     <TableCell>{lead.firstName + " " + lead.lastName}</TableCell>
                     <TableCell>{lead.companyName}</TableCell>
-                    <TableCell>{lead?.address?.city}</TableCell>
+                    <TableCell>{lead?.city}</TableCell>
                     <TableCell>{lead.mobileNo}</TableCell>
                     <TableCell>{lead.loanAmount}</TableCell>
                     <TableCell>{lead.salary}</TableCell>
                     <TableCell>
-                      <SeverityPill color={statusMap[lead.loanStatus]}>
-                        {lead.loanStatus}
+                      <SeverityPill color={statusMap[lead.loanProcessStatus]}>
+                        {lead.loanProcessStatus}
                       </SeverityPill>
                     </TableCell>
-                    {/* <TableCell>
+                    <TableCell>
                       <SvgIcon fontSize="small">
                         <EditIcon />
                       </SvgIcon>
-                      <IconButton
-                                                color="primary"
-                                                aria-label="Edit"
-                                                onClick={() => {
-                                                    // Handle edit action here
-                                                    console.log(`Edit lead with id ${lead.id}`);
-                                                }}
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-                    </TableCell> */}
+                      
+                    </TableCell>
                   </TableRow>
                 );
               })}

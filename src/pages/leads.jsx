@@ -15,11 +15,12 @@ import CreateLead from "src/components/createLead";
 
 import { useLead } from "src/hooks/use-lead";
 import { useLeadContext } from "src/contexts/lead-context";
+import { data } from "src/mockdata";
 
 const now = new Date();
 
 const Page = () => {
-  const { data } = useLeadContext();
+  // const { data } = useLeadContext();
 
   const [page, setPage] = useState(0);
   const [openModal, setOpenModal] = useState(false);
@@ -43,8 +44,9 @@ const Page = () => {
   };
 
   const createLeadsData = (leadData) => {
-    data.push(leadData);
-    LeadData.LeadList(data.reverse());
+    console.log("Leads", leadData)
+    // data.push(leadData);
+    // LeadData.LeadList(data.reverse());
   };
 
   const useCustomers = (page, rowsPerPage) => {
@@ -150,7 +152,7 @@ const Page = () => {
             <CreateLead
               open={openModal}
               onClose={() => setOpenModal(!openModal)}
-              onSubmit={(el) => createLeadsData(el)}
+              onSubmit={(el) =>{ console.log("datas", el)}}
             />
             <LeadsTable
               count={data?.length}
