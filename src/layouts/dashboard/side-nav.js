@@ -122,7 +122,7 @@ export const SideNav = (props) => {
           </Stack>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />
-        {/* <Box
+        <Box
           sx={{
             px: 2,
             py: 3
@@ -138,7 +138,7 @@ export const SideNav = (props) => {
             color="neutral.500"
             variant="body2"
           >
-            Check out our Pro solution template.
+            Upgrade to premium partner.
           </Typography>
           <Box
             sx={{
@@ -155,23 +155,8 @@ export const SideNav = (props) => {
               alt="Go to pro"
               src="/assets/devias-kit-pro.png"
             />
-          </Box>
-          <Button
-            component="a"
-            endIcon={(
-              <SvgIcon fontSize="small">
-                <ArrowTopRightOnSquareIcon />
-              </SvgIcon>
-            )}
-            fullWidth
-            href="https://material-kit-pro-react.devias.io/"
-            sx={{ mt: 2 }}
-            target="_blank"
-            variant="contained"
-          >
-            Pro Live Preview
-          </Button>
-        </Box> */}
+          </Box>  
+        </Box>
       </Box>
     </Scrollbar>
   );

@@ -21,7 +21,7 @@ export const OverviewTotalCustomers = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Total Customers
+              Approved Leads
             </Typography>
             <Typography variant="h4">
               {value}

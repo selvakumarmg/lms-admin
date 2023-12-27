@@ -14,62 +14,24 @@ import {
   InputLabel,
   FormHelperText,
 } from '@mui/material';
-import Dropzone from 'react-dropzone';
+import { Upload, message } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Form, Input, Upload, message } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
-
-
 const { Dragger } = Upload;
 
-
-const schema = yup.object().shape({
-  firstName: yup.string().required('First Name is required'),
-  lastName: yup.string().required('Last Name is required'),
-  mobileNo: yup.number().required('Mobile No is required'),
-  companyName: yup.string().required('Company Name is required'),
-  // Others: yup.string().required('Others is required'),
-  files: yup.array().min(3, 'You can only upload up to 3 files'),
-  files1: yup.array().min(1, 'You can only upload up to 1 files'),
-
-  files2: yup.array().min(1, 'You can only upload up to 1 files'),
-  files3: yup.array().min(1, 'You can only upload up to 1 files'),
-
-  loanType: yup.string().required('Please select an option'),
-  loanStatus: yup.string().required('Please select an option'),
-  salary: yup.number().required('Salary is required').positive('Salary must be positive'),
-  address: yup.object().shape({
-    doorNumber: yup.string().required('Door Number is required'),
-    street: yup.string().required('Street is required'),
-    city: yup.string().required('City is required'),
-    state: yup.string().required('State is required'),
-    pincode: yup.string().required('Pin code is required'),
-  }),
-  loanAmount: yup.number().required('Loan Amount is required').positive('Loan Amount must be positive'),
-  bankName: yup.string().required('Bank Name is required'),
-  // loanType: yup.string().required('Loan Type is required'),
-
-});
-
 const CreateLead = ({ open, onClose, onSubmit }) => {
-
-
   const [loanTypeVal, setLoanType] = useState("");
-
 
   const [dynamicSchema, setDynamicSchema] = React.useState(yup.object().shape({
     firstName: yup.string().required('First Name is required'),
     lastName: yup.string().required('Last Name is required'),
     mobileNo: yup.string().required('Mobile No is required').matches(/^\d{10}$/, 'Invalid mobile number'),
     companyName: yup.string().required('Company Name is required'),
-    // Others: yup.string().required('Others is required'),
-    files: yup.array().min(3, 'You can only upload up to 3 files'),
-    files1: yup.array().min(1, 'You can only upload up to 1 files'),
-
-    files2: yup.array().min(1, 'You can only upload up to 1 files'),
-    files3: yup.array().min(1, 'You can only upload up to 1 files'),
-
+    payslips: yup.array().min(3, 'You can only upload up to 3 files'),
+    aadharCard: yup.array().min(1, 'You can only upload up to 1 file'),
+    panCard: yup.array().min(1, 'You can only upload up to 1 file'),
+    bankStatement: yup.array().min(1, 'You can only upload up to 1 file'),
     loanType: yup.string().required('Please select an option'),
     loanStatus: yup.string().required('Please select an option'),
     salary: yup.number().required('Salary is required').positive('Salary must be positive'),
@@ -84,118 +46,73 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
     bankName: yup.string().required('Bank Name is required'),
   }));
 
-
   const {
     control,
     handleSubmit,
-    getValues,
-    setValue, setError,
-    trigger,
+    setValue,
     formState: { errors },
     reset,
-
   } = useForm({
     resolver: yupResolver(dynamicSchema),
     defaultValues: {},
   });
 
   React.useEffect(() => {
-    reset({}); // Reset to defaultValues or an empty object
+    reset({});
   }, [open, reset]);
 
   const handleFileUpload3 = (info) => {
-    // Limit the number of files to 3
-    const { file, fileList } = info;
+    const { fileList } = info;
 
     if (fileList.length > 1) {
-      fileList.splice(-1, 1); // Remove the last file if more than 3
-      message.error('You can only upload up to 1 files');
+      fileList.splice(-1, 1);
+      message.error('You can only upload up to 1 file');
     }
 
-    // Update the form value
-    setValue('files3', fileList);
-
-    // Handle other file upload logic if needed
+    setValue('bankStatement', fileList);
   };
+
   const handleFileUpload2 = (info) => {
-    // Limit the number of files to 3
-    const { file, fileList } = info;
+    const { fileList } = info;
 
     if (fileList.length > 1) {
-      fileList.splice(-1, 1); // Remove the last file if more than 3
-      message.error('You can only upload up to 1 files');
+      fileList.splice(-1, 1);
+      message.error('You can only upload up to 1 file');
     }
 
-    // Update the form value
-    setValue('files2', fileList);
-
-    // Handle other file upload logic if needed
+    setValue('panCard', fileList);
   };
+
   const handleFileUpload1 = (info) => {
-    // Limit the number of files to 3
-    const { file, fileList } = info;
+    const { fileList } = info;
 
     if (fileList.length > 1) {
-      fileList.splice(-1, 1); // Remove the last file if more than 3
-      message.error('You can only upload up to 1 files');
+      fileList.splice(-1, 1);
+      message.error('You can only upload up to 1 file');
     }
 
-    // Update the form value
-    setValue('files1', fileList);
-
-    // Handle other file upload logic if needed
+    setValue('aadharCard', fileList);
   };
 
   const handleFileUpload = (info) => {
-    // Limit the number of files to 3
-    const { file, fileList } = info;
+    const { fileList } = info;
 
     if (fileList.length > 3) {
-      fileList.splice(-1, 1); // Remove the last file if more than 3
+      fileList.splice(-1, 1);
       message.error('You can only upload up to 3 files');
     }
 
-    // Update the form value
-    setValue('files', fileList);
-
-    // Handle other file upload logic if needed
+    setValue('payslips', fileList);
   };
 
   const handleLoanTypeChange = (event) => {
-    // Handle loan type change logic here
-    console.log(event.target.dataset.value);
-
-    setLoanType(event.target.dataset.value)
-
+    setLoanType(event.target.dataset.value);
   };
 
   const handleFormSubmit = (data) => {
-    // Perform form submission logic here
-
     onSubmit(data);
     onClose();
   };
-
-
-
-
-
-
-
-
-  const customRequest = async ({ onSuccess, onError, file }) => {
-    // Custom request logic, e.g., upload file to server
-
-    // For demonstration purposes, simulate an upload delay
-    setTimeout(() => {
-      // Mock success
-      onSuccess();
-
-      // Mock error
-      // onError(new Error("Upload failed"));
-    }, 1000);
-  };
-
 
 
   return (
@@ -209,7 +126,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="firstName"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="First Name" error={!!errors.firstName} helperText={errors.firstName?.message} fullWidth />
+                  <TextField style={{margin:'5px',marginTop:'20px',margin:'5px'}} {...field} label="First Name" error={!!errors.firstName} helperText={errors.firstName?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -218,7 +135,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="lastName"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Last Name" error={!!errors.lastName} helperText={errors.lastName?.message} fullWidth />
+                  <TextField style={{margin:'5px',marginTop:'20px'}} {...field} label="Last Name" error={!!errors.lastName} helperText={errors.lastName?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -227,7 +144,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="mobileNo"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Mobile No" error={!!errors.mobileNo} helperText={errors.mobileNo?.message} fullWidth />
+                  <TextField style={{margin:'5px'}} {...field} label="Mobile No" error={!!errors.mobileNo} helperText={errors.mobileNo?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -236,7 +153,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="companyName"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Company Name" error={!!errors.companyName} helperText={errors.companyName?.message} fullWidth />
+                  <TextField style={{margin:'5px'}} {...field} label="Company Name" error={!!errors.companyName} helperText={errors.companyName?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -245,7 +162,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="salary"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Salary" error={!!errors.salary} helperText={errors.salary?.message} fullWidth />
+                  <TextField style={{margin:'5px'}} {...field} label="Salary" error={!!errors.salary} helperText={errors.salary?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -254,7 +171,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="address.doorNumber"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Door Number" error={!!errors.address?.doorNumber} helperText={errors.address?.doorNumber?.message} fullWidth />
+                  <TextField style={{margin:'5px'}} {...field} label="Door Number" error={!!errors.address?.doorNumber} helperText={errors.address?.doorNumber?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -263,7 +180,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="address.street"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Street" error={!!errors.address?.street} helperText={errors.address?.street?.message} fullWidth />
+                  <TextField style={{margin:'5px'}} {...field} label="Street" error={!!errors.address?.street} helperText={errors.address?.street?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -272,7 +189,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="address.city"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="City" error={!!errors.address?.city} helperText={errors.address?.city?.message} fullWidth />
+                  <TextField style={{margin:'5px'}} {...field} label="City" error={!!errors.address?.city} helperText={errors.address?.city?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -281,7 +198,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="address.state"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="State" error={!!errors.address?.state} helperText={errors.address?.state?.message} fullWidth />
+                  <TextField style={{margin:'5px'}} {...field} label="State" error={!!errors.address?.state} helperText={errors.address?.state?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -290,7 +207,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="address.pincode"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Pin code" error={!!errors.address?.pincode} helperText={errors.address?.pincode?.message} fullWidth />
+                  <TextField style={{margin:'5px'}} {...field} label="Pin code" error={!!errors.address?.pincode} helperText={errors.address?.pincode?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -299,7 +216,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="loanAmount"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Loan Amount" error={!!errors.loanAmount} helperText={errors.loanAmount?.message} fullWidth />
+                  <TextField style={{margin:'5px'}} {...field} label="Loan Amount" error={!!errors.loanAmount} helperText={errors.loanAmount?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -308,7 +225,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 name="bankName"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Bank Name" error={!!errors.bankName} helperText={errors.bankName?.message} fullWidth />
+                  <TextField style={{margin:'5px'}} {...field} label="Bank Name" error={!!errors.bankName} helperText={errors.bankName?.message} fullWidth />
                 )}
               />
             </Grid>
@@ -318,7 +235,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                  <FormControl fullWidth error={!!errors.loanType}>
+                  <FormControl style={{margin:'5px'}} fullWidth error={!!errors.loanType}>
                     <InputLabel>Loan Type</InputLabel>
                     <Select {...field} onClick={handleLoanTypeChange}>
                       <MenuItem value="Personal Loan">Personal Loan</MenuItem>
@@ -338,7 +255,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   name="Others"
                   control={control}
                   render={({ field }) => (
-                    <TextField {...field} label="Others" error={!!errors.Others} helperText={errors.Others?.message} fullWidth />
+                    <TextField style={{margin:'5px'}} {...field} label="Others" error={!!errors.Others} helperText={errors.Others?.message} fullWidth />
                   )}
                 />
               </Grid>}
@@ -348,7 +265,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                  <FormControl fullWidth error={!!errors.loanStatus}>
+                  <FormControl style={{margin:'5px'}} fullWidth error={!!errors.loanStatus}>
                     <InputLabel>Loan Process Status</InputLabel>
                     <Select {...field} >
                       <MenuItem value="Fresh">Fresh</MenuItem>
@@ -363,12 +280,13 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
             </Grid>
             <Grid item xs={12}>
               <Controller
-                name="files"
+                name="payslips"
                 control={control}
                 defaultValue={[]}
                 render={({ field }) => (
                   <div>
                     <Dragger
+                    style={{margin:'5px'}}
                       {...field}
                       onChange={handleFileUpload}
                       beforeUpload={() => false} // Prevent default upload behavior
@@ -381,29 +299,26 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                       <p className="ant-upload-text">Click or drag file to upload Payslip</p>
                       <p className="ant-upload-hint">Support for a single or bulk upload.</p>
                     </Dragger>
-                    {errors.files && <FormHelperText error>{errors.files?.message}</FormHelperText>}
+                    {errors.payslips && <FormHelperText error>{errors.payslips?.message}</FormHelperText>}
                   </div>
 
 
                 )}
               />
-
-
-              {/* File upload for payslip */}
-
             </Grid>
             <Grid item xs={12}>
-              {/* File upload for payslip */}
+              {/* File upload for bankStatement */}
               <Controller
-                name="files3"
+                name="bankStatement"
                 control={control}
                 defaultValue={[]}
                 render={({ field }) => (
                   <div>
                     <Dragger
                       {...field}
+                      style={{margin:'5px'}}
                       onChange={handleFileUpload3}
-                      beforeUpload={() => false} // Prevent default upload behavior
+                      beforeUpload={() => false}
                       fileList={field.value}
                       multiple
                     >
@@ -413,7 +328,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                       <p className="ant-upload-text">Click or drag file to upload  Bank Statement</p>
                       <p className="ant-upload-hint">Support for a single or bulk upload.</p>
                     </Dragger>
-                    {errors.files1 && <FormHelperText error>{errors.files1?.message}</FormHelperText>}
+                    {errors.bankStatement && <FormHelperText error>{errors.bankStatement?.message}</FormHelperText>}
                   </div>
 
 
@@ -421,15 +336,16 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
               />
             </Grid>
             <Grid item xs={12}>
-              {/* File upload for payslip */}
+              {/* File upload for aadharCard */}
               <Controller
-                name="files1"
+                name="bankStatement"
                 control={control}
                 defaultValue={[]}
                 render={({ field }) => (
                   <div>
                     <Dragger
                       {...field}
+                      style={{margin:'5px'}}
                       onChange={handleFileUpload1}
                       beforeUpload={() => false} // Prevent default upload behavior
                       fileList={field.value}
@@ -441,7 +357,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                       <p className="ant-upload-text">Click or drag file to upload Aadhaar Card</p>
                       <p className="ant-upload-hint">Support for a single or bulk upload.</p>
                     </Dragger>
-                    {errors.files1 && <FormHelperText error>{errors.files1?.message}</FormHelperText>}
+                    {errors.aadharCard && <FormHelperText error>{errors.aadharCard?.message}</FormHelperText>}
                   </div>
 
 
@@ -449,15 +365,16 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
               />
             </Grid>
             <Grid item xs={12}>
-              {/* File upload for payslip */}
+              {/* File upload for pancard */}
               <Controller
-                name="files2"
+                name="panCard"
                 control={control}
                 defaultValue={[]}
                 render={({ field }) => (
                   <div>
                     <Dragger
                       {...field}
+                      style={{margin:'5px'}}
                       onChange={handleFileUpload2}
                       beforeUpload={() => false} // Prevent default upload behavior
                       fileList={field.value}
@@ -469,7 +386,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                       <p className="ant-upload-text">Click or drag file to upload Pan Card</p>
                       <p className="ant-upload-hint">Support for a single or bulk upload.</p>
                     </Dragger>
-                    {errors.files2 && <FormHelperText error>{errors.files2?.message}</FormHelperText>}
+                    {errors.panCard && <FormHelperText error>{errors.panCard?.message}</FormHelperText>}
                   </div>
 
 
