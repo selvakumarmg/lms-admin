@@ -52,7 +52,10 @@ export const SideNav = (props) => {
               width: 32
             }}
           >
-            <Logo />
+            <img
+              alt=""
+              src="/favicon-16x16.png"
+            />
           </Box>
           <Box
             sx={{
@@ -71,7 +74,7 @@ export const SideNav = (props) => {
                 color="inherit"
                 variant="subtitle1"
               >
-                Devias
+                SP Finnacle
               </Typography>
 
             </div>

@@ -13,6 +13,7 @@ import { useNProgress } from 'src/hooks/use-nprogress';
 import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
+import './index.css'
 
 
 const clientSideEmotionCache = createEmotionCache();
@@ -32,7 +33,7 @@ const App = (props) => {
     <CacheProvider value={emotionCache}>
       <Head>
         <title>
-          Devias Kit
+
         </title>
         <meta
           name="viewport"

@@ -8,17 +8,17 @@ const Favicon = () => (
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="/apple-touch-icon.png"
+      href="/favicon-16x16.png"
     />
     <link
       rel="icon"
-      href="/favicon.ico"
+      href="/favicon-16x16.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="/favicon-32x32.png"
+      href="/favicon-16x16.png"
     />
     <link
       rel="icon"
@@ -63,8 +63,8 @@ class CustomDocument extends Document {
           <Fonts />
         </Head>
         <body>
-        <Main />
-        <NextScript />
+          <Main />
+          <NextScript />
         </body>
       </Html>
     );

@@ -104,7 +104,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Customers | Devias Kit
+          Customers | SP Finnacle
         </title>
       </Head>
       <Box

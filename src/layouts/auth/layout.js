@@ -49,7 +49,10 @@ export const Layout = (props) => {
                 width: 32
               }}
             >
-              <Logo />
+              <img
+                alt=""
+                src="/favicon-16x16.png"
+              />
             </Box>
           </Box>
           {children}
@@ -59,7 +62,7 @@ export const Layout = (props) => {
           lg={6}
           sx={{
             alignItems: 'center',
-            background: 'radial-gradient(50% 50% at 50% 50%, #122647 0%, #090E23 100%)',
+            background: '#122647',
             color: 'white',
             display: 'flex',
             justifyContent: 'center',
@@ -85,7 +88,7 @@ export const Layout = (props) => {
                 sx={{ color: '#15B79E' }}
                 target="_blank"
               >
-                Devias Kit
+                SP Finnacle
               </Box>
             </Typography>
             <Typography
@@ -93,7 +96,7 @@ export const Layout = (props) => {
               sx={{ mb: 3 }}
               variant="subtitle1"
             >
-              A professional kit that comes with ready-to-use MUI components.
+              A professional partners comes ready-to-use loan progress with us.
             </Typography>
             <img
               alt=""
