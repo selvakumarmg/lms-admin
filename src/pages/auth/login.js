@@ -18,6 +18,9 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import {
+  LoginApi
+} from '../../action/apiActions';
 
 const Page = () => {
   const router = useRouter();
@@ -42,8 +45,36 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signIn(values.email, values.password);
-        router.push('/');
+        if (values.email === "admin@gmail.com" && values.password === "admin") {
+          await auth.signIn(1);
+          router.push('/');
+
+        } else if (values.email && values.password) {
+
+          const loginData = {
+            "password": values.password,
+            "user_role_id": 2,
+            "username": values.email
+          }
+          // LoginApi(loginData).then(res => {
+          //   if (res?.response?.status === 404) {
+          //     console.log("111")
+          //     helpers.setErrors({ submit: "User Not Found In Database" });
+          //   } else if (res?.response?.status === 200) {
+
+          //     auth.signIn(2);
+          //     router.push('/');
+          //   }
+
+          // })
+
+          await auth.signIn(2);
+          router.push('/');
+
+        } else {
+          helpers.setErrors({ submit: "Please check your email and password" });
+        }
+
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });

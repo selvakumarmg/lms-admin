@@ -24,7 +24,7 @@ const Page = () => (
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8
+        py: 12
       }}
     >
       <Container maxWidth="xl">
@@ -34,8 +34,8 @@ const Page = () => (
         >
           <Grid
             xs={12}
-            sm={6}
-            lg={3}
+            sm={9}
+            lg={4}
           >
             <OverviewBudget
               difference={12}
@@ -47,7 +47,7 @@ const Page = () => (
           <Grid
             xs={12}
             sm={6}
-            lg={3}
+            lg={4}
           >
             <OverviewTotalCustomers
               difference={16}
@@ -59,14 +59,14 @@ const Page = () => (
           <Grid
             xs={12}
             sm={6}
-            lg={3}
+            lg={4}
           >
             <OverviewTasksProgress
               sx={{ height: '100%' }}
               value={75.5}
             />
           </Grid>
-      
+
           <Grid
             xs={12}
             lg={8}

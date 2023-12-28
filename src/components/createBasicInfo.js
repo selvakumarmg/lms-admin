@@ -3,13 +3,30 @@
 import React, { useState, useEffect } from 'react';
 import { Field, ErrorMessage } from 'formik';
 import { TextField, Button, Grid } from '@mui/material';
+import { message } from 'antd';
 
-const PersonalInfoStep = ({ setActiveFlag, setLoading }) => {
+
+const PersonalInfoStep = ({ setActiveFlag, setLoading, setSendOtpFlag, sendOtpFlag }) => {
+
+
+  const [messageApi, setMessageApi] = useState("")
 
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(30);
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [otpVerify, setOtpVerify] = useState("");
+
+
+
+
+
+  const getMobileNumber = (data) => {
+    console.log("data", data)
+  }
+
+  console.log("sendOtpFlag11", sendOtpFlag)
 
   const handleSendOtp = (data) => {
 
@@ -22,9 +39,28 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading }) => {
 
   const verifyFn = () => {
     setActiveFlag(true);
+    // setMessageApi(message?.useMessage())
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
+
+      // setActiveFlag(true);
+
+
+      // if (otpVerify === "1234") {
+      //   messageApi.open({
+      //     type: 'success',
+      //     content: 'OTP Verified',
+      //   });
+      // } else {
+      //   messageApi.open({
+      //     type: 'info',
+      //     content: 'Invalid OTP',
+      //   });
+      // }
+
+
+
 
     }, 3000)
 
@@ -76,7 +112,7 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading }) => {
             fullWidth
             margin="normal"
           />
-          <ErrorMessage style={{ color: "red" }} name="firstName" component="div" />
+          <ErrorMessage style={{ color: "red", fontSize: "smaller" }} name="firstName" component="div" />
         </Grid>
         <Grid item xs={6}>
           <Field
@@ -87,7 +123,7 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading }) => {
             fullWidth
             margin="normal"
           />
-          <ErrorMessage style={{ color: "red" }} name="lastName" component="div" />
+          <ErrorMessage style={{ color: "red", fontSize: "smaller" }} name="lastName" component="div" />
         </Grid>
 
 
@@ -101,7 +137,7 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading }) => {
             fullWidth
             margin="normal"
           />
-          <ErrorMessage style={{ color: "red" }} name="email" component="div" />
+          <ErrorMessage style={{ color: "red", fontSize: "smaller" }} name="email" component="div" />
         </Grid>
         <Grid item xs={12}>
           <Field
@@ -111,6 +147,7 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading }) => {
             variant="outlined"
             fullWidth
             margin="normal"
+            // onChange={(e) => getMobileNumber(e)}
             // onClick={(e) => { e?.target?.value?.length === 10 ? console.log(e?.target?.value?.length) : console.log("ss", e?.target?.value?.length) }}
             InputProps={{
               endAdornment: (
@@ -118,16 +155,16 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading }) => {
                   variant="contained"
                   color="primary"
                   style={{ height: "3rem", width: "10rem", borderRadius: "0%" }}
-                  onClick={handleSendOtp}
+                  onClick={() => handleSendOtp()}
 
-                  disabled={otpSent}
+                  disabled={(mobileNumber?.length === 10 && otpSent == false) ? false : true}
                 >
-                  {otpSent ? 'OTP Sent' : 'Send OTP'}
+                  {(otpSent) ? 'OTP Sent' : 'Send OTP'}
                 </Button>
               ),
             }}
           />
-          <ErrorMessage style={{ color: "red" }} name="phoneNumber" component="div" />
+          <ErrorMessage style={{ color: "red", fontSize: "smaller" }} name="phoneNumber" component="div" />
         </Grid>
         {otpSent &&
           <Grid item xs={12} style={{ textAlign: "right", color: "blue" }}>
@@ -167,11 +204,11 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading }) => {
                     <Grid item xs={3}>
                       <Button
                         variant="contained"
-                        color={"success"}
+                        // color={"success"}
                         style={{ height: "3rem", width: "8rem", borderRadius: "0%" }}
                         onClick={() => { verifyFn() }}
 
-                      // disabled={otpSent}
+                        disabled={(mobileNumber?.length === 10 && otpVerify?.length === 4) ? false : true}
                       >
                         {'OTP Verify'}
                       </Button>
@@ -192,9 +229,28 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading }) => {
                 ),
               }}
             />
-            <ErrorMessage style={{ color: "red" }} name="otp" component="div" />
+            <ErrorMessage style={{ color: "red", fontSize: "smaller" }} name="otp" component="div" />
           </div>}
         </Grid>
+
+        <Field name="phoneNumber">
+          {({ field }) => {
+
+            if ((Number(field.value))) {
+
+              setMobileNumber(field.value)
+            } else {
+
+              setMobileNumber(0)
+            }
+
+
+          }}
+        </Field>
+
+        <Field name="otp">
+          {({ field }) => setOtpVerify(field.value)}
+        </Field>
 
 
       </Grid>
