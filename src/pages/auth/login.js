@@ -53,23 +53,25 @@ const Page = () => {
 
           const loginData = {
             "password": values.password,
-            "user_role_id": 2,
+
             "username": values.email
           }
-          // LoginApi(loginData).then(res => {
-          //   if (res?.response?.status === 404) {
-          //     console.log("111")
-          //     helpers.setErrors({ submit: "User Not Found In Database" });
-          //   } else if (res?.response?.status === 200) {
+          LoginApi(loginData).then(res => {
 
-          //     auth.signIn(2);
-          //     router.push('/');
-          //   }
+            console.log("res", res)
+            if (res?.length > 0) {
+              auth.signIn(res[0]?.user_role);
+              router.push('/');
 
-          // })
+            } else {
 
-          await auth.signIn(2);
-          router.push('/');
+
+              helpers.setErrors({ submit: "User Not Found In Database" });
+
+            }
+
+          })
+
 
         } else {
           helpers.setErrors({ submit: "Please check your email and password" });

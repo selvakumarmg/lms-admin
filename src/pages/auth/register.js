@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { Box, Button, Link, Stack, Dialog, DialogTitle, CircularProgress, DialogContent, DialogActions, Typography, Stepper, Step, StepLabel, } from '@mui/material';
+import { message } from 'antd';
 
 import PersonalInfoStep from '../../components/createBasicInfo';
 import ContactInfoStep from '../../components/verificationInfo';
@@ -132,6 +133,7 @@ const Page = () => {
         }
       } else {
         setActiveStepFlag(false)
+        setActiveFlag(false)
       }
 
 
@@ -173,6 +175,7 @@ const Page = () => {
         setActiveFlag(true)
       } else {
         setActiveStepFlag(false)
+        setActiveFlag(false)
       }
 
 
@@ -319,7 +322,7 @@ const Page = () => {
                 panNumber: null
               }}
               validate={activeStep === 0 ? validateBasicInfo : activeStep === 1 ? validateVerificationInfo : validateAuthInfo}
-              onSubmit={(values) => {
+              onSubmit={(values, helpers) => {
                 console.log("values", values)
 
                 var data = {
@@ -346,6 +349,8 @@ const Page = () => {
                 partnerSingUp(data, setLoading).then(res => {
                   if (res?.status === "success") {
                     router.push('/pending');
+                  } else {
+                    // message.error('something went wrong please try again');
                   }
                 })
 
