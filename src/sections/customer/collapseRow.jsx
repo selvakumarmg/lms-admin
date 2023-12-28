@@ -11,7 +11,8 @@ import {
     TableCell,
     TableRow,
     TableContainer,
-    TableHead
+    TableHead,
+    TablePagination
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         padding: 5,
-        backgroundColor:'#EFEFEF',
+        backgroundColor:'#FDFDFD',
     },
     paper: {
         padding: 5,
@@ -39,8 +40,8 @@ const GridView = ({ data }) => {
                 {Object.entries(data).map(([key, value]) => (
                     <Grid item key={key} xs={12} md={3}>
                         <div className={classes.paper}>
-                            <Typography style={{fontWeight:'bold', fontSize:14,margin:5}}>{`${key.charAt(0).toUpperCase()}${key.slice(1)}`}</Typography>
-                            <Typography style={{fontSize:12,margin:5, color:'blue'}}>{Array.isArray(value) ? value.join(', ') : value}</Typography>
+                            <Typography style={{fontWeight:'bold', fontSize:14,margin:5, color:'grey'}}>{`${key.charAt(0).toUpperCase()}${key.slice(1)}`}</Typography>
+                            <Typography style={{fontSize:14,margin:5, color:'#2B547E'}}>{Array.isArray(value) ? value.join(' ') : value}</Typography>
                         </div>
                     </Grid>
                 ))}
@@ -101,7 +102,20 @@ function Row(props) {
 }
 
 
-export default function CollapsibleTable({leadData}) {
+export default function CollapsibleTable(props) {
+    const {
+        count = 0,
+        leadData = [],
+        onDeselectAll,
+        onDeselectOne,
+        onPageChange = () => { },
+        onRowsPerPageChange,
+        onSelectAll,
+        onSelectOne,
+        page = 0,
+        rowsPerPage = 0,
+        selected = [],
+      } = props;
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
@@ -124,6 +138,15 @@ export default function CollapsibleTable({leadData}) {
                     ))}
                 </TableBody>
             </Table>
+            <TablePagination
+        component="div"
+        count={count}
+        onPageChange={onPageChange}
+        onRowsPerPageChange={onRowsPerPageChange}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        rowsPerPageOptions={[5, 10, 25]}
+      />
         </TableContainer>
     );
 }

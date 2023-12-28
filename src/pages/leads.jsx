@@ -155,7 +155,19 @@ const Page = () => {
               onClose={() => setOpenModal(!openModal)}
               onSubmit={(el) =>{ console.log("datas", el)}}
             />
-            <CollapsibleTable leadData={filteredData?.length !== 0 ? filteredData : data} />
+            <CollapsibleTable
+              count={data?.length}
+              leadData={filteredData?.length !== 0 ? filteredData : data}
+              onDeselectAll={customersSelection.handleDeselectAll}
+              onDeselectOne={customersSelection.handleDeselectOne}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+              onSelectAll={customersSelection.handleSelectAll}
+              onSelectOne={customersSelection.handleSelectOne}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              selected={customersSelection.selected}
+            />
             {/* <LeadsTable
               count={data?.length}
               leads={filteredData?.length !== 0 ? filteredData : data}
