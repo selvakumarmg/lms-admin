@@ -16,6 +16,7 @@ import CreateLead from "src/components/createLead";
 import { useLead } from "src/hooks/use-lead";
 import { useLeadContext } from "src/contexts/lead-context";
 import { data } from "src/mockdata";
+import CollapsibleTable from "src/sections/customer/collapseRow";
 
 const now = new Date();
 
@@ -154,7 +155,8 @@ const Page = () => {
               onClose={() => setOpenModal(!openModal)}
               onSubmit={(el) =>{ console.log("datas", el)}}
             />
-            <LeadsTable
+            <CollapsibleTable />
+            {/* <LeadsTable
               count={data?.length}
               leads={filteredData?.length !== 0 ? filteredData : data}
               onDeselectAll={customersSelection.handleDeselectAll}
@@ -166,7 +168,7 @@ const Page = () => {
               page={page}
               rowsPerPage={rowsPerPage}
               selected={customersSelection.selected}
-            />
+            /> */}
           </Stack>
         </Container>
       </Box>

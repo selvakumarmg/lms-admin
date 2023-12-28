@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { format } from "date-fns";
+import * as React from 'react';
 import {
   Avatar,
   Box,
@@ -14,10 +14,15 @@ import {
   TableRow,
   Typography,
   SvgIcon,
+  Collapse,
+  IconButton
 } from "@mui/material";
 import { Scrollbar } from "src/components/scrollbar";
 import { SeverityPill } from "src/components/severity-pill";
-import EditIcon from "@heroicons/react/24/solid/ArrowRightIcon";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
+
 
 const statusMap = {
   Procesing: "warning",
@@ -32,7 +37,7 @@ export const LeadsTable = (props) => {
     leads = [],
     onDeselectAll,
     onDeselectOne,
-    onPageChange = () => {},
+    onPageChange = () => { },
     onRowsPerPageChange,
     onSelectAll,
     onSelectOne,
@@ -40,6 +45,7 @@ export const LeadsTable = (props) => {
     rowsPerPage = 0,
     selected = [],
   } = props;
+  const [open, setOpen] = React.useState(false);
 
   // const selectedSome = selected.length > 0 && selected.length < leads.length;
   // const selectedAll = leads.length > 0 && selected.length === leads.length;
@@ -65,25 +71,52 @@ export const LeadsTable = (props) => {
                 // const createdAt = format(lead.createdAt, "dd/MM/yyyy");
 
                 return (
-                  <TableRow hover key={lead.mobileNo}>
-                    <TableCell>{lead.firstName + " " + lead.lastName}</TableCell>
-                    <TableCell>{lead.companyName}</TableCell>
-                    <TableCell>{lead?.city}</TableCell>
-                    <TableCell>{lead.mobileNo}</TableCell>
-                    <TableCell>{lead.loanAmount}</TableCell>
-                    <TableCell>{lead.salary}</TableCell>
-                    <TableCell>
-                      <SeverityPill color={statusMap[lead.loanProcessStatus]}>
-                        {lead.loanProcessStatus}
-                      </SeverityPill>
-                    </TableCell>
-                    <TableCell>
-                      <SvgIcon fontSize="small">
-                        <EditIcon />
-                      </SvgIcon>
-                      
-                    </TableCell>
-                  </TableRow>
+                  <React.Fragment>
+                    <TableRow hover key={lead.mobileNo}>
+                      <TableCell>
+                        <IconButton
+                          aria-label="expand row"
+                          size="small"
+                          onClick={() => setOpen(!open)}
+                        >
+                          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        </IconButton>
+                      </TableCell>
+                      <TableCell>{lead.firstName + " " + lead.lastName}</TableCell>
+                      <TableCell>{lead.companyName}</TableCell>
+                      <TableCell>{lead?.city}</TableCell>
+                      <TableCell>{lead.mobileNo}</TableCell>
+                      <TableCell>{lead.loanAmount}</TableCell>
+                      <TableCell>{lead.salary}</TableCell>
+                      <TableCell>
+                        <SeverityPill color={statusMap[lead.loanProcessStatus]}>
+                          {lead.loanProcessStatus}
+                        </SeverityPill>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                        <Collapse in={open} timeout="auto" unmountOnExit>
+                          <Box sx={{ margin: 1 }}>
+                            <Typography variant="h6" gutterBottom component="div">
+                              History
+                            </Typography>
+                            <Table size="small" aria-label="purchases">
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell>Date</TableCell>
+                                  <TableCell>Customer</TableCell>
+                                  <TableCell align="right">Amount</TableCell>
+                                  <TableCell align="right">Total price ($)</TableCell>
+                                </TableRow>
+                              </TableHead>
+
+                            </Table>
+                          </Box>
+                        </Collapse>
+                      </TableCell>
+                    </TableRow>
+                  </React.Fragment>
                 );
               })}
             </TableBody>
