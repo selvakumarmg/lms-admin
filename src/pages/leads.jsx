@@ -155,7 +155,7 @@ const Page = () => {
               onClose={() => setOpenModal(!openModal)}
               onSubmit={(el) =>{ console.log("datas", el)}}
             />
-            <CollapsibleTable />
+            <CollapsibleTable leadData={filteredData?.length !== 0 ? filteredData : data} />
             {/* <LeadsTable
               count={data?.length}
               leads={filteredData?.length !== 0 ? filteredData : data}
