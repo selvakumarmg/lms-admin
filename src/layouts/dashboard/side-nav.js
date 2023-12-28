@@ -148,10 +148,6 @@ export const SideNav = (props) => {
             px: 2,
             py: 3
           }}
-<<<<<<< HEAD
-        >{window.sessionStorage?.getItem("uAuth") === "2" ? <>
-          <Typography
-=======
         >
           {window.sessionStorage?.getItem("uAuth") === 2 ? <div>
             <Typography
@@ -167,7 +163,6 @@ export const SideNav = (props) => {
               Upgrade to premium partner.
             </Typography>
           </div> : <Typography
->>>>>>> 91a75982382d985f445f2dc472a5aee38468fd43
             color="neutral.100"
             variant="subtitle2"
             style={{ textAlign: "center" }}
