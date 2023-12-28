@@ -21,11 +21,6 @@ import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 
 const steps = ['Personal Information', 'Verification', "Authentication"];
 
-
-
-
-
-
 const Page = () => {
   const router = useRouter();
   const auth = useAuth();
@@ -39,12 +34,6 @@ const Page = () => {
   const [sendOtpFlag, setSendOtpFlag] = useState(false)
   const [imgString, setImageString] = useState("")
   const [flag, setFlag] = useState(false)
-
-
-
-
-
-
 
   const handleOpen = () => {
     setOpen(true);
@@ -135,10 +124,6 @@ const Page = () => {
         setActiveStepFlag(false)
         setActiveFlag(false)
       }
-
-
-
-
 
     }
     return errors;
@@ -236,14 +221,6 @@ const Page = () => {
       } else {
         setActiveStepFlag(false)
       }
-
-      // else if (activeStepFlag === true) {
-      //   console.log("1111111")
-      //   setActiveStep((prevStep) => prevStep + 1);
-      // }
-
-
-
 
     }
 
@@ -347,17 +324,12 @@ const Page = () => {
                 }
 
                 partnerSingUp(data, setLoading).then(res => {
-                  if (res?.status === "success") {
+                  if (res?.Profile_Status === "Pending") {
                     router.push('/pending');
                   } else {
-                    // message.error('something went wrong please try again');
+                    message.error('something went wrong please try again');
                   }
                 })
-
-
-
-                // Handle form submission here
-                // handleOpen()
               }}
             >
               {({ isSubmitting }) => (

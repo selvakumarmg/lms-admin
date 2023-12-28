@@ -28,8 +28,8 @@ const Page = () => {
   const [method, setMethod] = useState('email');
   const formik = useFormik({
     initialValues: {
-      email: 'demo@devias.io',
-      password: 'Password123!',
+      email: '',
+      password: '',
       submit: null
     },
     validationSchema: Yup.object({
@@ -45,11 +45,7 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        if (values.email === "admin@gmail.com" && values.password === "admin") {
-          await auth.signIn(1);
-          router.push('/');
-
-        } else if (values.email && values.password) {
+        if (values.email && values.password) {
 
           const loginData = {
             "password": values.password,
@@ -58,7 +54,6 @@ const Page = () => {
           }
           LoginApi(loginData).then(res => {
 
-            console.log("res", res)
             if (res?.length > 0) {
               auth.signIn(res[0]?.user_role);
               router.push('/');
@@ -195,7 +190,10 @@ const Page = () => {
                 sx={{ mt: 3 }}
               >
                 <div>
-                  You can use <b>demo@devias.io</b> and password <b>Password123!</b>
+                   <span>Partner - You can use <b>raj1@gmail.com</b> and password <b>raj1@123</b></span>{'\n'}
+                </div>
+                <div>
+                <span>Telecaller - You can use <b>tellecaller@gmail.com</b> and password <b>tellecaller</b></span>
                 </div>
               </Alert>
             </form>

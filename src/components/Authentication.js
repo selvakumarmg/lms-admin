@@ -15,6 +15,11 @@ const PersonalInfoStep = () => {
     setOtpSent((prevOtpSent) => !prevOtpSent);
   };
 
+  const handleTermsClick = () => {
+    // Open a new tab with the terms and conditions page URL
+    window.open('https://example.com/terms-and-conditions', '_blank');
+  };  
+
 
   return (
     <div >
@@ -54,7 +59,7 @@ const PersonalInfoStep = () => {
                 color="primary"
               />
             }
-            label="I agree to the terms and conditions"
+            label={<span style={{color:'blue'}} onClick={handleTermsClick}>I agree to the terms and conditions</span>}
           />
           <ErrorMessage style={{ color: "red", fontSize: "smaller" }} name="agreedToTerms" component="div" />
         </Grid>

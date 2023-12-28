@@ -6,7 +6,7 @@ import { TextField, Button, Grid } from '@mui/material';
 
 const VerificationInfoStep = () => {
 
-
+ 
   return (
     <div >
       <Grid container spacing={2}>
@@ -69,7 +69,7 @@ const VerificationInfoStep = () => {
         <Grid item xs={6}>
           <Field
             as={TextField}
-            label="Referral Code"
+            label="Referral Code (Optional)"
             name="Referral"
             variant="outlined"
             fullWidth

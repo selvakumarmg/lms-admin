@@ -76,7 +76,7 @@ export const SideNav = (props) => {
                 color="inherit"
                 variant="subtitle1"
               >
-                SP Finnacle
+                {window.sessionStorage?.getItem("uAuth") === '2' ? "Partner Portal" : "Telecaller Portal"}
               </Typography>
 
             </div>
@@ -149,7 +149,7 @@ export const SideNav = (props) => {
             py: 3
           }}
         >
-          {window.sessionStorage?.getItem("uAuth") === 2 ? <div>
+          {window.sessionStorage?.getItem("uAuth") === '2' ? <div>
             <Typography
               color="neutral.100"
               variant="subtitle2"

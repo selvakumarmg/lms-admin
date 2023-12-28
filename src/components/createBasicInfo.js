@@ -26,7 +26,6 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading, setSendOtpFlag, sendOtpFl
     console.log("data", data)
   }
 
-  console.log("sendOtpFlag11", sendOtpFlag)
 
   const handleSendOtp = (data) => {
 
@@ -43,7 +42,7 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading, setSendOtpFlag, sendOtpFl
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
-
+      message.success('Otp verified Successfully')
       // setActiveFlag(true);
 
 
@@ -152,7 +151,8 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading, setSendOtpFlag, sendOtpFl
             InputProps={{
               endAdornment: (
                 <Button
-                  variant="contained"
+              
+                  variant="text"
                   color="primary"
                   style={{ height: "3rem", width: "10rem", borderRadius: "0%" }}
                   onClick={() => handleSendOtp()}
@@ -203,7 +203,7 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading, setSendOtpFlag, sendOtpFl
                   <div >
                     <Grid item xs={3}>
                       <Button
-                        variant="contained"
+                        variant="text"
                         // color={"success"}
                         style={{ height: "3rem", width: "8rem", borderRadius: "0%" }}
                         onClick={() => { verifyFn() }}
@@ -245,6 +245,13 @@ const PersonalInfoStep = ({ setActiveFlag, setLoading, setSendOtpFlag, sendOtpFl
             }
 
 
+          }}
+        </Field>
+
+        <Field name="PAN">
+          {({ field }) => {
+
+      
           }}
         </Field>
 
