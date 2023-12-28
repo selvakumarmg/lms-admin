@@ -18,7 +18,7 @@ export const loanStatusOptions = [
       id: 1,
       firstName: 'John',
       lastName: 'Doe',
-      mobileNo: '1234567890',
+      mobileNo: '7397316421',
       email: 'john.doe@example.com',
       companyName: 'ABC Corporation',
       salary: '50000',

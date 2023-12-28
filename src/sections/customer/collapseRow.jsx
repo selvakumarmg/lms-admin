@@ -15,7 +15,6 @@ import {
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { data } from 'src/mockdata';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { makeStyles } from '@mui/styles';
 
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         padding: 5,
-        backgroundColor:'#EFEFEF'
+        backgroundColor:'#EFEFEF',
     },
     paper: {
         padding: 5,
@@ -38,7 +37,7 @@ const GridView = ({ data }) => {
         <div className={classes.root}>
             <Grid container spacing={1}>
                 {Object.entries(data).map(([key, value]) => (
-                    <Grid item key={key} xs={12} md={2}>
+                    <Grid item key={key} xs={12} md={3}>
                         <div className={classes.paper}>
                             <Typography style={{fontWeight:'bold', fontSize:14,margin:5}}>{`${key.charAt(0).toUpperCase()}${key.slice(1)}`}</Typography>
                             <Typography style={{fontSize:12,margin:5, color:'blue'}}>{Array.isArray(value) ? value.join(', ') : value}</Typography>
@@ -86,7 +85,7 @@ function Row(props) {
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             <Typography style={{amrgin:10}} variant="h6" gutterBottom component="div">
@@ -101,9 +100,8 @@ function Row(props) {
     );
 }
 
-const rows = data;
 
-export default function CollapsibleTable() {
+export default function CollapsibleTable({leadData}) {
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
@@ -121,7 +119,7 @@ export default function CollapsibleTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
+                    {leadData.map((row) => (
                         <Row key={row.name} row={row} />
                     ))}
                 </TableBody>

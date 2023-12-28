@@ -148,26 +148,27 @@ export const SideNav = (props) => {
             px: 2,
             py: 3
           }}
-        >{window.sessionStorage?.getItem("uAuth") === 2 ? <>
-          <Typography
+        >
+          {window.sessionStorage?.getItem("uAuth") === 2 ? <div>
+            <Typography
+              color="neutral.100"
+              variant="subtitle2"
+            >
+              Need more features?
+            </Typography>
+            <Typography
+              color="neutral.500"
+              variant="body2"
+            >
+              Upgrade to premium partner.
+            </Typography>
+          </div> : <Typography
             color="neutral.100"
             variant="subtitle2"
+            style={{ textAlign: "center" }}
           >
-            Need more features?
-          </Typography>
-          <Typography
-            color="neutral.500"
-            variant="body2"
-          >
-            Upgrade to premium partner.
-          </Typography>
-        </> : <Typography
-          color="neutral.100"
-          variant="subtitle2"
-          style={{ textAlign: "center" }}
-        >
-          Focus on the solution, Not a problem
-        </Typography>}
+            Focus on the solution, Not a problem
+          </Typography>}
 
           <Box
             sx={{
