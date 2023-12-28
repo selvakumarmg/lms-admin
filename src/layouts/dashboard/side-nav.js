@@ -33,7 +33,7 @@ export const SideNav = (props) => {
           height: '100%'
         },
         '& .simplebar-scrollbar:before': {
-          background: 'neutral.400'
+          background: '#FFF'
         }
       }}
     >
