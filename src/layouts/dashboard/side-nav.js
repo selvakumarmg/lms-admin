@@ -106,7 +106,7 @@ export const SideNav = (props) => {
               m: 0
             }}
           >
-            {window.sessionStorage.getItem('uAuth') === "1" ?
+            {window.sessionStorage.getItem('uAuth') === "3" ?
               items1.map((item) => {
                 const active = item.path ? (pathname === item.path) : false;
 
@@ -148,7 +148,7 @@ export const SideNav = (props) => {
             px: 2,
             py: 3
           }}
-        >{window.sessionStorage?.getItem("uAuth") === 2 ? <>
+        >{window.sessionStorage?.getItem("uAuth") === "2" ? <>
           <Typography
             color="neutral.100"
             variant="subtitle2"
@@ -182,7 +182,7 @@ export const SideNav = (props) => {
           >
             <img
               alt="Go to pro"
-              src={window.sessionStorage?.getItem("uAuth") == 2 ? "/assets/devias-kit-pro.png" : "/assets/telecaller.png"}
+              src={window.sessionStorage?.getItem("uAuth") == "2" ? "/assets/devias-kit-pro.png" : "/assets/telecaller.png"}
             />
           </Box>
         </Box>
