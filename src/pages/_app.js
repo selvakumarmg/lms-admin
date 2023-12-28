@@ -27,6 +27,9 @@ const App = (props) => {
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
+
+
+
   const theme = createTheme();
 
   return (

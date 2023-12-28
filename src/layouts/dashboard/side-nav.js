@@ -15,13 +15,15 @@ import {
 } from '@mui/material';
 import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
-import { items } from './config';
+import { items, items1 } from './config';
 import { SideNavItem } from './side-nav-item';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+
+
 
   const content = (
     <Scrollbar
@@ -104,21 +106,40 @@ export const SideNav = (props) => {
               m: 0
             }}
           >
-            {items.map((item) => {
-              const active = item.path ? (pathname === item.path) : false;
+            {window.sessionStorage.getItem('uAuth') === "1" ?
+              items1.map((item) => {
+                const active = item.path ? (pathname === item.path) : false;
 
-              return (
-                <SideNavItem
-                  active={active}
-                  disabled={item.disabled}
-                  external={item.external}
-                  icon={item.icon}
-                  key={item.title}
-                  path={item.path}
-                  title={item.title}
-                />
-              );
-            })}
+                return (
+                  <SideNavItem
+                    active={active}
+                    disabled={item.disabled}
+                    external={item.external}
+                    icon={item.icon}
+                    key={item.title}
+                    path={item.path}
+                    title={item.title}
+                  />
+                );
+              })
+              :
+              items.map((item) => {
+                const active = item.path ? (pathname === item.path) : false;
+
+                return (
+                  <SideNavItem
+                    active={active}
+                    disabled={item.disabled}
+                    external={item.external}
+                    icon={item.icon}
+                    key={item.title}
+                    path={item.path}
+                    title={item.title}
+                  />
+                );
+              })
+            }
+
           </Stack>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />
@@ -127,7 +148,7 @@ export const SideNav = (props) => {
             px: 2,
             py: 3
           }}
-        >
+        >{window.sessionStorage?.getItem("uAuth") === 2 ? <>
           <Typography
             color="neutral.100"
             variant="subtitle2"
@@ -140,6 +161,14 @@ export const SideNav = (props) => {
           >
             Upgrade to premium partner.
           </Typography>
+        </> : <Typography
+          color="neutral.100"
+          variant="subtitle2"
+          style={{ textAlign: "center" }}
+        >
+          Focus on the solution, Not a problem
+        </Typography>}
+
           <Box
             sx={{
               display: 'flex',
@@ -153,9 +182,9 @@ export const SideNav = (props) => {
           >
             <img
               alt="Go to pro"
-              src="/assets/devias-kit-pro.png"
+              src={window.sessionStorage?.getItem("uAuth") == 2 ? "/assets/devias-kit-pro.png" : "/assets/telecaller.png"}
             />
-          </Box>  
+          </Box>
         </Box>
       </Box>
     </Scrollbar>

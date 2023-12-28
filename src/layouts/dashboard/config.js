@@ -54,7 +54,93 @@ export const items = [
       </SvgIcon>
     )
   },
-  
+
+  // {
+  //   title: 'Settings',
+  //   path: '/settings',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <CogIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Login',
+  //   path: '/auth/login',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <LockClosedIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Register',
+  //   path: '/auth/register',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UserPlusIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Error',
+  //   path: '/404',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <XCircleIcon />
+  //     </SvgIcon>
+  //   )
+  // }
+];
+
+
+export const items1 = [
+  {
+    title: 'Overview',
+    path: '/',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ChartBarIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Customers',
+    path: '/customers',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UsersIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Leads',
+    path: '/leads',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ShoppingBagIcon />
+      </SvgIcon>
+    )
+  },
+  // {
+  //   title: 'Remainder',
+  //   path: '/account',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UserIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'ToDo',
+  //   path: '/account',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UserIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+
   // {
   //   title: 'Settings',
   //   path: '/settings',

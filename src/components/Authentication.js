@@ -30,7 +30,7 @@ const PersonalInfoStep = () => {
             fullWidth
             margin="normal"
           />
-          <ErrorMessage style={{ color: "red" }} name="password" component="div" />
+          <ErrorMessage style={{ color: "red", fontSize: "smaller" }} name="password" component="div" />
         </Grid>
 
         <Grid item xs={12}>
@@ -43,7 +43,7 @@ const PersonalInfoStep = () => {
             fullWidth
             margin="normal"
           />
-          <ErrorMessage style={{ color: "red" }} name="confirmPassword" component="div" />
+          <ErrorMessage style={{ color: "red", fontSize: "smaller" }} name="confirmPassword" component="div" />
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel
@@ -56,7 +56,7 @@ const PersonalInfoStep = () => {
             }
             label="I agree to the terms and conditions"
           />
-          <ErrorMessage style={{ color: "red" }} name="agreedToTerms" component="div" />
+          <ErrorMessage style={{ color: "red", fontSize: "smaller" }} name="agreedToTerms" component="div" />
         </Grid>
       </Grid>
     </div>

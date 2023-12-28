@@ -10,7 +10,9 @@ import PersonalInfoStep from '../../components/createBasicInfo';
 import ContactInfoStep from '../../components/verificationInfo';
 import Authentication from '../../components/Authentication';
 
-
+import {
+  partnerSingUp
+} from '../../action/apiActions';
 
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
@@ -33,6 +35,12 @@ const Page = () => {
   const [activeFlag, setActiveFlag] = useState(false);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false)
+  const [sendOtpFlag, setSendOtpFlag] = useState(false)
+  const [imgString, setImageString] = useState("")
+  const [flag, setFlag] = useState(false)
+
+
+
 
 
 
@@ -58,7 +66,7 @@ const Page = () => {
     // console.log("formikProps", formikProps)
     switch (step) {
       case 0:
-        return <PersonalInfoStep formikProps={formikProps} setActiveFlag={setActiveFlag} setLoading={setLoading} />;
+        return <PersonalInfoStep formikProps={formikProps} setActiveFlag={setActiveFlag} setLoading={setLoading} setSendOtpFlag={setSendOtpFlag} sendOtpFlag={sendOtpFlag} />;
       case 1:
         return <ContactInfoStep formikProps={formikProps} />;
       default:
@@ -70,68 +78,22 @@ const Page = () => {
 
 
 
+  const convertImageToBase64 = (file, callback) => {
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      // `event.target.result` contains the Base64-encoded string
+      const base64String = event?.target?.result?.split(',')[1];
+      callback(base64String);
+    };
+
+    // Read the file as Data URL (Base64)
+    reader.readAsDataURL(file);
+  }
 
 
-  const validate = (values) => {
+  const validateVerificationInfo = (values) => {
     const errors = {};
-
-
-    console.log("activeStep", activeStep)
-
-    if (activeStep == 0) {
-
-      setActiveFlag(false)
-
-
-
-      if (!values.firstName) {
-        errors.firstName = 'First Name is Required';
-      }
-
-      if (!values.lastName) {
-        errors.lastName = 'Last Name is Required';
-      }
-
-
-      if (!values.email) {
-        errors.email = 'Email Address isRequired';
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address';
-      }
-
-      if (!values.phoneNumber) {
-        errors.phoneNumber = 'Phone Number Required';
-      } else if (!/^[0-9]{10}$/g.test(values.phoneNumber)) {
-        errors.phoneNumber = 'Phone Number';
-
-      }
-
-      if (!values.otp) {
-        errors.otp = 'OTP Required';
-      } else if (values.otp && loading === false) {
-        console.log("values.otqqqqqqqp", values.otp)
-        alert("OTP Verified")
-
-      }
-
-
-
-
-      if ((values.firstName && values.lastName && values.phoneNumber && values.email && values.otp)) {
-        setActiveStepFlag(true)
-      } else {
-        setActiveStepFlag(false)
-      }
-
-      // else if (activeStepFlag === true) {
-      //   console.log("1111111")
-      //   setActiveStep((prevStep) => prevStep + 1);
-      // }
-
-
-
-
-    }
 
     if (activeStep === 1) {
       setActiveStepFlag(false)
@@ -155,16 +117,36 @@ const Page = () => {
         errors.Street = 'Street is Required';
       }
 
-      if ((values.doorNumber && values.PAN && values.PinCode && values.State && values.City && values.Street)) {
+      if (!values.panNumber) {
+        errors.panNumber = 'PAN Card is Required';
+      }
+
+      if ((values.doorNumber && values.PAN && values.PinCode && values.State && values.City && values.Street && values.panNumber)) {
         setActiveStepFlag(true)
         setActiveFlag(true)
+        if (values.panNumber) {
+          convertImageToBase64(values.panNumber, (base64String) => {
+            setImageString(base64String)
+            // You can use the base64String as needed (e.g., send it to the server)
+          });
+        }
       } else {
         setActiveStepFlag(false)
       }
 
 
-    }
 
+
+
+    }
+    return errors;
+
+  }
+
+
+  const validateAuthInfo = (values) => {
+
+    const errors = {};
     if (activeStep === 2) {
 
       setActiveStepFlag(false)
@@ -195,6 +177,75 @@ const Page = () => {
 
 
     }
+
+    return errors;
+  }
+
+  const validateBasicInfo = (values) => {
+    const errors = {};
+
+
+
+
+    if (activeStep == 0) {
+
+      // setActiveFlag(false)
+
+
+
+      if (!values.firstName) {
+        errors.firstName = 'First Name is Required';
+      }
+
+      if (!values.lastName) {
+        errors.lastName = 'Last Name is Required';
+      }
+
+
+      if (!values.email) {
+        errors.email = 'Email Address isRequired';
+      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Invalid email address';
+      }
+
+      if (!values.phoneNumber) {
+        errors.phoneNumber = 'Phone Number Required';
+      } else if (!/^[0-9]{10}$/g.test(values.phoneNumber)) {
+        errors.phoneNumber = 'InValid Phone Number';
+
+      } else {
+        setSendOtpFlag(values.phoneNumber)
+      }
+
+      if (!values.otp) {
+        errors.otp = 'OTP Required';
+      } else if (values.otp && loading === false) {
+        console.log("values.otqqqqqqqp", values.otp)
+
+      }
+
+
+
+
+      if ((values.firstName && values.lastName && values.phoneNumber && values.email && values.otp)) {
+
+        setActiveStepFlag(true)
+      } else {
+        setActiveStepFlag(false)
+      }
+
+      // else if (activeStepFlag === true) {
+      //   console.log("1111111")
+      //   setActiveStep((prevStep) => prevStep + 1);
+      // }
+
+
+
+
+    }
+
+
+
 
     return errors;
   };
@@ -264,12 +315,44 @@ const Page = () => {
                 Street: "",
                 password: '',
                 confirmPassword: '',
-                agreedToTerms: ""
+                agreedToTerms: "",
+                panNumber: null
               }}
-              validate={validate}
+              validate={activeStep === 0 ? validateBasicInfo : activeStep === 1 ? validateVerificationInfo : validateAuthInfo}
               onSubmit={(values) => {
+                console.log("values", values)
+
+                var data = {
+                  "Email_Id": values.email,
+                  "First_Name": values.firstName,
+                  "Id_Proof_Image": imgString,
+                  "Last_Name": values.lastName,
+                  "Mobile_Number": values.phoneNumber,
+                  "PAN_Number": values.PAN,
+                  "Password": values.password,
+                  "Profile_Status_Id": 1,
+                  "Referral_Code": values.Referral,
+                  "Subscribtion_Id": 0,
+                  "Terms_and_Condition_Status": values.agreedToTerms,
+                  "User_Id": 0,
+                  "User_Role_Id": 2,
+                  "State": values.State,
+                  "Street": values.Street,
+                  "City": values.City,
+                  "Pincode": values.PinCode,
+                  "Door_no": values.doorNumber
+                }
+
+                partnerSingUp(data, setLoading).then(res => {
+                  if (res?.status === "success") {
+                    router.push('/pending');
+                  }
+                })
+
+
+
                 // Handle form submission here
-                handleOpen()
+                // handleOpen()
               }}
             >
               {({ isSubmitting }) => (

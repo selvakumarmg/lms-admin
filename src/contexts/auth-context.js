@@ -130,14 +130,13 @@ export const AuthProvider = (props) => {
     });
   };
 
-  const signIn = async (email, password) => {
+  const signIn = async (data) => {
 
-    if (email !== 'demo@devias.io' || password !== 'Password123!') {
-      throw new Error('Please check your email and password');
-    }
+
 
     try {
       window.sessionStorage.setItem('authenticated', 'true');
+      window.sessionStorage.setItem('uAuth', data);
     } catch (err) {
       console.error(err);
     }
@@ -163,6 +162,7 @@ export const AuthProvider = (props) => {
     dispatch({
       type: HANDLERS.SIGN_OUT
     });
+    window.sessionStorage.setItem('authenticated', 'false');
   };
 
   return (
