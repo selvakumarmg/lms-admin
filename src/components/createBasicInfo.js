@@ -89,8 +89,10 @@ const PersonalInfoStep = ({
 
   return (
     <div>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
+      <Grid container
+spacing={2}>
+        <Grid item
+xs={6}>
           <Field
             as={TextField}
             label="First Name"
@@ -105,7 +107,8 @@ const PersonalInfoStep = ({
             component="div"
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item
+xs={6}>
           <Field
             as={TextField}
             label="Last Name"
@@ -121,7 +124,8 @@ const PersonalInfoStep = ({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item
+xs={12}>
           <Field
             as={TextField}
             label="Email"
@@ -137,7 +141,8 @@ const PersonalInfoStep = ({
             component="div"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item
+xs={12}>
           <Field
             as={TextField}
             label="Phone Number"
@@ -172,7 +177,9 @@ const PersonalInfoStep = ({
           />
         </Grid>
         {otpSent && (
-          <Grid item xs={12} style={{ textAlign: 'right', color: 'blue' }}>
+          <Grid item
+xs={12}
+style={{ textAlign: 'right', color: 'blue' }}>
             {seconds > 0 || minutes > 0 ? (
               <div>
                 Time Remaining:{' '}
@@ -194,7 +201,8 @@ const PersonalInfoStep = ({
             )}
           </Grid>
         )}
-        <Grid item xs={12}>
+        <Grid item
+xs={12}>
           {otpSent && (
             <div>
               <Field
@@ -207,7 +215,8 @@ const PersonalInfoStep = ({
                 InputProps={{
                   endAdornment: (
                     <div>
-                      <Grid item xs={3}>
+                      <Grid item
+xs={3}>
                         <Button
                           variant="text"
                           // color={"success"}

@@ -138,12 +138,15 @@ const CreateCustomer = ({ open, onClose, onSubmit }) => {
   }
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open}
+onClose={onClose}>
       <DialogTitle>Add Customer</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
+          <Grid container
+spacing={2}>
+            <Grid item
+xs={6}>
               <Controller
                 name="firstName"
                 control={control}
@@ -158,7 +161,8 @@ const CreateCustomer = ({ open, onClose, onSubmit }) => {
                 )}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item
+xs={6}>
               <Controller
                 name="lastName"
                 control={control}
@@ -173,7 +177,8 @@ const CreateCustomer = ({ open, onClose, onSubmit }) => {
                 )}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item
+xs={6}>
               <Controller
                 name="mobileNo"
                 control={control}
@@ -188,7 +193,8 @@ const CreateCustomer = ({ open, onClose, onSubmit }) => {
                 )}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item
+xs={6}>
               <Controller
                 name="companyName"
                 control={control}
@@ -203,7 +209,8 @@ const CreateCustomer = ({ open, onClose, onSubmit }) => {
                 )}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item
+xs={6}>
               <Controller
                 name="salary"
                 control={control}
@@ -218,7 +225,8 @@ const CreateCustomer = ({ open, onClose, onSubmit }) => {
                 )}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item
+xs={6}>
               <Controller
                 name="AAdhar"
                 control={control}
@@ -233,7 +241,8 @@ const CreateCustomer = ({ open, onClose, onSubmit }) => {
                 )}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item
+xs={6}>
               <Controller
                 name="pan"
                 control={control}
@@ -251,7 +260,9 @@ const CreateCustomer = ({ open, onClose, onSubmit }) => {
           </Grid>
           <DialogActions>
             <Button onClick={onClose}>Cancel</Button>
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit"
+variant="contained"
+color="primary">
               Save
             </Button>
           </DialogActions>

@@ -16,7 +16,8 @@ export const Layout = props => {
         flex: '1 1 auto',
       }}
     >
-      <Grid container sx={{ flex: '1 1 auto' }}>
+      <Grid container
+sx={{ flex: '1 1 auto' }}>
         <Grid
           xs={12}
           lg={6}
@@ -46,7 +47,8 @@ export const Layout = props => {
                 width: 32,
               }}
             >
-              <img alt="" src="/favicon-16x16.png" />
+              <img alt=""
+src="/favicon-16x16.png" />
             </Box>
           </Box>
           {children}
@@ -77,14 +79,19 @@ export const Layout = props => {
               variant="h1"
             >
               Welcome to{' '}
-              <Box component="a" sx={{ color: '#15B79E' }} target="_blank">
+              <Box component="a"
+sx={{ color: '#15B79E' }}
+target="_blank">
                 SP Finnacle
               </Box>
             </Typography>
-            <Typography align="center" sx={{ mb: 3 }} variant="subtitle1">
+            <Typography align="center"
+sx={{ mb: 3 }}
+variant="subtitle1">
               A professional partners comes ready-to-use loan progress with us.
             </Typography>
-            <img alt="" src="/assets/auth-illustration.svg" />
+            <img alt=""
+src="/assets/auth-illustration.svg" />
           </Box>
         </Grid>
       </Grid>

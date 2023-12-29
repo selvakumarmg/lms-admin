@@ -27,8 +27,12 @@ export const SettingsNotifications = () => {
         />
         <Divider />
         <CardContent>
-          <Grid container spacing={6} wrap="wrap">
-            <Grid xs={12} sm={6} md={4}>
+          <Grid container
+spacing={6}
+wrap="wrap">
+            <Grid xs={12}
+sm={6}
+md={4}>
               <Stack spacing={1}>
                 <Typography variant="h6">Notifications</Typography>
                 <Stack>
@@ -51,7 +55,10 @@ export const SettingsNotifications = () => {
                 </Stack>
               </Stack>
             </Grid>
-            <Grid item md={4} sm={6} xs={12}>
+            <Grid item
+md={4}
+sm={6}
+xs={12}>
               <Stack spacing={1}>
                 <Typography variant="h6">Messages</Typography>
                 <Stack>

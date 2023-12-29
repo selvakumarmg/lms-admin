@@ -54,7 +54,9 @@ export const TopNav = props => {
             px: 2,
           }}
         >
-          <Stack alignItems="center" direction="row" spacing={2}>
+          <Stack alignItems="center"
+direction="row"
+spacing={2}>
             {!lgUp && (
               <IconButton onClick={onNavOpen}>
                 <SvgIcon fontSize="small">
@@ -70,7 +72,9 @@ export const TopNav = props => {
               </IconButton>
             </Tooltip> */}
           </Stack>
-          <Stack alignItems="center" direction="row" spacing={2}>
+          <Stack alignItems="center"
+direction="row"
+spacing={2}>
             {/* <Tooltip title="Contacts">
               <IconButton>
                 <SvgIcon fontSize="small">
@@ -80,7 +84,9 @@ export const TopNav = props => {
             </Tooltip> */}
             <Tooltip title="Notifications">
               <IconButton>
-                <Badge badgeContent={4} color="success" variant="dot">
+                <Badge badgeContent={4}
+color="success"
+variant="dot">
                   <SvgIcon fontSize="small">
                     <BellIcon />
                   </SvgIcon>

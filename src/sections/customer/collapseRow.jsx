@@ -36,9 +36,13 @@ const GridView = ({ data }) => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
+      <Grid container
+spacing={1}>
         {Object.entries(data).map(([key, value]) => (
-          <Grid item key={key} xs={12} md={3}>
+          <Grid item
+key={key}
+xs={12}
+md={3}>
             <div className={classes.paper}>
               <Typography
                 style={{
@@ -75,7 +79,8 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
+        <TableCell component="th"
+scope="row">
           {row.firstName + ' ' + row.lastName}
         </TableCell>
         <TableCell>{row.companyName}</TableCell>
@@ -85,14 +90,19 @@ function Row(props) {
         <TableCell>{row.salary}</TableCell>
         <TableCell>{row.loanProcessStatus}</TableCell>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => {}}>
+          <IconButton aria-label="expand row"
+size="small"
+onClick={() => {}}>
             <MoreVertIcon />
           </IconButton>
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }}
+colSpan={12}>
+          <Collapse in={open}
+timeout="auto"
+unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography
                 style={{ amrgin: 10 }}
@@ -143,7 +153,8 @@ export default function CollapsibleTable(props) {
         </TableHead>
         <TableBody>
           {leadData.map(row => (
-            <Row key={row.name} row={row} />
+            <Row key={row.name}
+row={row} />
           ))}
         </TableBody>
       </Table>

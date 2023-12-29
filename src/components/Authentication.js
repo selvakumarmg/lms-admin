@@ -21,8 +21,10 @@ const PersonalInfoStep = () => {
 
   return (
     <div>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
+      <Grid container
+spacing={2}>
+        <Grid item
+xs={12}>
           <Field
             as={TextField}
             type="password"
@@ -39,7 +41,8 @@ const PersonalInfoStep = () => {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item
+xs={12}>
           <Field
             as={TextField}
             type="password"
@@ -55,13 +58,17 @@ const PersonalInfoStep = () => {
             component="div"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item
+xs={12}>
           <FormControlLabel
             control={
-              <Field as={Checkbox} name="agreedToTerms" color="primary" />
+              <Field as={Checkbox}
+name="agreedToTerms"
+color="primary" />
             }
             label={
-              <span style={{ color: 'blue' }} onClick={handleTermsClick}>
+              <span style={{ color: 'blue' }}
+onClick={handleTermsClick}>
                 I agree to the terms and conditions
               </span>
             }

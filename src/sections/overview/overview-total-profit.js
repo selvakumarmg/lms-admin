@@ -22,7 +22,8 @@ export const OverviewTotalProfit = props => {
           spacing={3}
         >
           <Stack spacing={1}>
-            <Typography color="text.secondary" variant="overline">
+            <Typography color="text.secondary"
+variant="overline">
               Total Profit
             </Typography>
             <Typography variant="h4">{value}</Typography>

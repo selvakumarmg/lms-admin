@@ -164,7 +164,8 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
   }
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open}
+onClose={onClose}>
       <DialogTitle>Create Lead</DialogTitle>
       <DialogContent>
         <Formik
@@ -181,9 +182,13 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
             handleSubmit,
             setFieldValue,
           }) => (
-            <Form style={{ marginTop: 20 }} onSubmit={handleSubmit}>
-              <Grid style={{ marginTop: 10 }} container spacing={2}>
-                <Grid item xs={6}>
+            <Form style={{ marginTop: 20 }}
+onSubmit={handleSubmit}>
+              <Grid style={{ marginTop: 10 }}
+container
+spacing={2}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="firstName"
@@ -193,7 +198,8 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   />
                   <FormHelperText error>{errors.firstName}</FormHelperText>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="lastName"
@@ -204,8 +210,11 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   <FormHelperText error>{errors.lastName}</FormHelperText>
                 </Grid>
               </Grid>
-              <Grid style={{ marginTop: 10 }} container spacing={2}>
-                <Grid item xs={6}>
+              <Grid style={{ marginTop: 10 }}
+container
+spacing={2}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="email"
@@ -215,7 +224,8 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   />
                   <FormHelperText error>{errors.email}</FormHelperText>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="mobileNo"
@@ -226,8 +236,11 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   <FormHelperText error>{errors.mobileNo}</FormHelperText>
                 </Grid>
               </Grid>
-              <Grid style={{ marginTop: 10 }} container spacing={2}>
-                <Grid item xs={6}>
+              <Grid style={{ marginTop: 10 }}
+container
+spacing={2}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="companyName"
@@ -237,7 +250,8 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   />
                   <FormHelperText error>{errors.companyName}</FormHelperText>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="salary"
@@ -248,8 +262,11 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   <FormHelperText error>{errors.salary}</FormHelperText>
                 </Grid>
               </Grid>
-              <Grid style={{ marginTop: 10 }} container spacing={2}>
-                <Grid item xs={6}>
+              <Grid style={{ marginTop: 10 }}
+container
+spacing={2}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="doorNumber"
@@ -259,7 +276,8 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   />
                   <FormHelperText error>{errors.doorNumber}</FormHelperText>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="street"
@@ -270,8 +288,11 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   <FormHelperText error>{errors.street}</FormHelperText>
                 </Grid>
               </Grid>
-              <Grid style={{ marginTop: 10 }} container spacing={2}>
-                <Grid item xs={6}>
+              <Grid style={{ marginTop: 10 }}
+container
+spacing={2}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="state"
@@ -281,7 +302,8 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   />
                   <FormHelperText error>{errors.state}</FormHelperText>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="pincode"
@@ -292,8 +314,11 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   <FormHelperText error>{errors.pincode}</FormHelperText>
                 </Grid>
               </Grid>
-              <Grid style={{ marginTop: 10 }} container spacing={2}>
-                <Grid item xs={6}>
+              <Grid style={{ marginTop: 10 }}
+container
+spacing={2}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="loanAmount"
@@ -303,7 +328,8 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   />
                   <FormHelperText error>{errors.loanAmount}</FormHelperText>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item
+xs={6}>
                   <Field
                     type="text"
                     name="bankName"
@@ -314,8 +340,11 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   <FormHelperText error>{errors.bankName}</FormHelperText>
                 </Grid>
               </Grid>
-              <Grid style={{ marginTop: 10 }} container spacing={2}>
-                <Grid item xs={6}>
+              <Grid style={{ marginTop: 10 }}
+container
+spacing={2}>
+                <Grid item
+xs={6}>
                   <FormControl
                     fullWidth
                     error={touched.loanType && !!errors.loanType}
@@ -330,7 +359,8 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                     >
                       <MenuItem value="">Select</MenuItem>
                       {loanType.map(option => (
-                        <MenuItem key={option.value} value={option.value}>
+                        <MenuItem key={option.value}
+value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
@@ -340,7 +370,8 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                     )}
                   </FormControl>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item
+xs={6}>
                   <FormControl
                     fullWidth
                     error={touched.loanStatus && !!errors.loanStatus}
@@ -355,7 +386,8 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                     >
                       <MenuItem value="">Select</MenuItem>
                       {loanStatusOptions.map(option => (
-                        <MenuItem key={option.value} value={option.value}>
+                        <MenuItem key={option.value}
+value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
@@ -368,8 +400,11 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   </FormControl>
                 </Grid>
               </Grid>
-              <Grid style={{ marginTop: 10 }} container spacing={2}>
-                <Grid item xs={12}>
+              <Grid style={{ marginTop: 10 }}
+container
+spacing={2}>
+                <Grid item
+xs={12}>
                   <AntForm.Item
                     validateStatus={
                       touched.payslips && errors.payslips ? 'error' : ''
@@ -403,8 +438,11 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   </AntForm.Item>
                 </Grid>
               </Grid>
-              <Grid style={{ marginTop: 10 }} container spacing={2}>
-                <Grid item xs={12}>
+              <Grid style={{ marginTop: 10 }}
+container
+spacing={2}>
+                <Grid item
+xs={12}>
                   <AntForm.Item
                     validateStatus={
                       touched.aadharCard && errors.aadharCard ? 'error' : ''
@@ -440,8 +478,11 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   </AntForm.Item>
                 </Grid>
               </Grid>
-              <Grid style={{ marginTop: 10 }} container spacing={2}>
-                <Grid item xs={12}>
+              <Grid style={{ marginTop: 10 }}
+container
+spacing={2}>
+                <Grid item
+xs={12}>
                   <AntForm.Item
                     validateStatus={
                       touched.panCard && errors.panCard ? 'error' : ''
@@ -475,8 +516,11 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   </AntForm.Item>
                 </Grid>
               </Grid>
-              <Grid style={{ marginTop: 10 }} container spacing={2}>
-                <Grid item xs={12}>
+              <Grid style={{ marginTop: 10 }}
+container
+spacing={2}>
+                <Grid item
+xs={12}>
                   <AntForm.Item
                     validateStatus={
                       touched.bankStatement && errors.bankStatement
@@ -517,7 +561,9 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
               </Grid>
               <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
-                <Button type="submit" variant="contained" color="primary">
+                <Button type="submit"
+variant="contained"
+color="primary">
                   Save
                 </Button>
               </DialogActions>

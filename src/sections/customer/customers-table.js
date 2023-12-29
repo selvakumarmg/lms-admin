@@ -70,7 +70,9 @@ export const CustomersTable = props => {
                 const createdAt = "format(customer?.createdAt, 'dd/MM/yyyy')"
 
                 return (
-                  <TableRow hover key={customer?.id} selected={isSelected}>
+                  <TableRow hover
+key={customer?.id}
+selected={isSelected}>
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
@@ -84,7 +86,9 @@ export const CustomersTable = props => {
                       />
                     </TableCell>
                     <TableCell>
-                      <Stack alignItems="center" direction="row" spacing={2}>
+                      <Stack alignItems="center"
+direction="row"
+spacing={2}>
                         <Avatar src={customer.avatar}>
                           {getInitials(customer?.firstName)}
                         </Avatar>

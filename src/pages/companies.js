@@ -87,10 +87,14 @@ const Page = () => (
     >
       <Container maxWidth="xl">
         <Stack spacing={3}>
-          <Stack direction="row" justifyContent="space-between" spacing={4}>
+          <Stack direction="row"
+justifyContent="space-between"
+spacing={4}>
             <Stack spacing={1}>
               <Typography variant="h4">Companies</Typography>
-              <Stack alignItems="center" direction="row" spacing={1}>
+              <Stack alignItems="center"
+direction="row"
+spacing={1}>
                 <Button
                   color="inherit"
                   startIcon={
@@ -127,9 +131,13 @@ const Page = () => (
             </div>
           </Stack>
           <CompaniesSearch />
-          <Grid container spacing={3}>
+          <Grid container
+spacing={3}>
             {companies.map(company => (
-              <Grid xs={12} md={6} lg={4} key={company.id}>
+              <Grid xs={12}
+md={6}
+lg={4}
+key={company.id}>
                 <CompanyCard company={company} />
               </Grid>
             ))}
@@ -140,7 +148,8 @@ const Page = () => (
               justifyContent: 'center',
             }}
           >
-            <Pagination count={3} size="small" />
+            <Pagination count={3}
+size="small" />
           </Box>
         </Stack>
       </Container>

@@ -26,8 +26,11 @@ const Page = () => (
       }}
     >
       <Container maxWidth="xl">
-        <Grid container spacing={3}>
-          <Grid xs={12} sm={9} lg={4}>
+        <Grid container
+spacing={3}>
+          <Grid xs={12}
+sm={9}
+lg={4}>
             <OverviewBudget
               difference={12}
               positive
@@ -35,7 +38,9 @@ const Page = () => (
               value="₹ 2,50,000"
             />
           </Grid>
-          <Grid xs={12} sm={6} lg={4}>
+          <Grid xs={12}
+sm={6}
+lg={4}>
             <OverviewTotalCustomers
               difference={16}
               positive={false}
@@ -43,11 +48,15 @@ const Page = () => (
               value="100"
             />
           </Grid>
-          <Grid xs={12} sm={6} lg={4}>
-            <OverviewTasksProgress sx={{ height: '100%' }} value={75.5} />
+          <Grid xs={12}
+sm={6}
+lg={4}>
+            <OverviewTasksProgress sx={{ height: '100%' }}
+value={75.5} />
           </Grid>
 
-          <Grid xs={12} lg={8}>
+          <Grid xs={12}
+lg={8}>
             <OverviewSales
               chartSeries={[
                 {
@@ -62,7 +71,9 @@ const Page = () => (
               sx={{ height: '100%' }}
             />
           </Grid>
-          <Grid xs={12} md={6} lg={4}>
+          <Grid xs={12}
+md={6}
+lg={4}>
             <OverviewTraffic
               chartSeries={[63, 15, 22]}
               labels={['Approved', 'Progress', 'Decline']}

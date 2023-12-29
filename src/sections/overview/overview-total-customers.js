@@ -24,7 +24,8 @@ export const OverviewTotalCustomers = props => {
           spacing={3}
         >
           <Stack spacing={1}>
-            <Typography color="text.secondary" variant="overline">
+            <Typography color="text.secondary"
+variant="overline">
               Approved Leads
             </Typography>
             <Typography variant="h4">{value}</Typography>
@@ -42,9 +43,15 @@ export const OverviewTotalCustomers = props => {
           </Avatar>
         </Stack>
         {difference && (
-          <Stack alignItems="center" direction="row" spacing={2} sx={{ mt: 2 }}>
-            <Stack alignItems="center" direction="row" spacing={0.5}>
-              <SvgIcon color={positive ? 'success' : 'error'} fontSize="small">
+          <Stack alignItems="center"
+direction="row"
+spacing={2}
+sx={{ mt: 2 }}>
+            <Stack alignItems="center"
+direction="row"
+spacing={0.5}>
+              <SvgIcon color={positive ? 'success' : 'error'}
+fontSize="small">
                 {positive ? <ArrowUpIcon /> : <ArrowDownIcon />}
               </SvgIcon>
               <Typography
@@ -54,7 +61,8 @@ export const OverviewTotalCustomers = props => {
                 {difference}%
               </Typography>
             </Stack>
-            <Typography color="text.secondary" variant="caption">
+            <Typography color="text.secondary"
+variant="caption">
               Since last month
             </Typography>
           </Stack>

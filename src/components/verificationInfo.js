@@ -7,8 +7,10 @@ import { TextField, Button, Grid } from '@mui/material'
 const VerificationInfoStep = () => {
   return (
     <div>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
+      <Grid container
+spacing={2}>
+        <Grid item
+xs={6}>
           <Field
             as={TextField}
             label="Door number"
@@ -23,7 +25,8 @@ const VerificationInfoStep = () => {
             component="div"
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item
+xs={6}>
           <Field
             as={TextField}
             label="Street"
@@ -39,7 +42,8 @@ const VerificationInfoStep = () => {
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item
+xs={6}>
           <Field
             as={TextField}
             label="City"
@@ -54,7 +58,8 @@ const VerificationInfoStep = () => {
             component="div"
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item
+xs={6}>
           <Field
             as={TextField}
             label="State"
@@ -69,7 +74,8 @@ const VerificationInfoStep = () => {
             component="div"
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item
+xs={6}>
           <Field
             as={TextField}
             label="Pin code"
@@ -84,7 +90,8 @@ const VerificationInfoStep = () => {
             component="div"
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item
+xs={6}>
           <Field
             as={TextField}
             label="Referral Code (Optional)"
@@ -100,7 +107,8 @@ const VerificationInfoStep = () => {
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item
+xs={6}>
           <Field
             as={TextField}
             label="PAN Number"
@@ -116,7 +124,8 @@ const VerificationInfoStep = () => {
             component="div"
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item
+xs={6}>
           <div
             style={{
               color: '#6C737F',
@@ -127,7 +136,8 @@ const VerificationInfoStep = () => {
           >
             pan Number
           </div>
-          <Field name="panNumber" type="file">
+          <Field name="panNumber"
+type="file">
             {({ field, form }) => (
               <div>
                 <input

@@ -29,7 +29,8 @@ export const OverviewLatestProducts = props => {
           const ago = formatDistanceToNow(product.updatedAt)
 
           return (
-            <ListItem divider={hasDivider} key={product.id}>
+            <ListItem divider={hasDivider}
+key={product.id}>
               <ListItemAvatar>
                 {product.image ? (
                   <Box

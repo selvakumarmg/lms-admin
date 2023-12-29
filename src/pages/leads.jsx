@@ -17,7 +17,6 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout'
 import { CustomersTable } from 'src/sections/customer/customers-table'
 import { CustomersSearch } from 'src/sections/customer/customers-search'
 import { applyPagination } from 'src/utils/apply-pagination'
-import { LeadsTable } from 'src/sections/customer/leads-table'
 import CreateLead from 'src/components/createLead'
 
 import { useLead } from 'src/hooks/use-lead'
@@ -114,10 +113,14 @@ const Page = () => {
       >
         <Container maxWidth="xl">
           <Stack spacing={3}>
-            <Stack direction="row" justifyContent="space-between" spacing={4}>
+            <Stack direction="row"
+justifyContent="space-between"
+spacing={4}>
               <Stack spacing={1}>
                 <Typography variant="h4">Leads</Typography>
-                <Stack alignItems="center" direction="row" spacing={1}>
+                <Stack alignItems="center"
+direction="row"
+spacing={1}>
                   <Button
                     color="inherit"
                     startIcon={

@@ -9,7 +9,8 @@ export const CompaniesSearch = () => (
       placeholder="Search company"
       startAdornment={
         <InputAdornment position="start">
-          <SvgIcon color="action" fontSize="small">
+          <SvgIcon color="action"
+fontSize="small">
             <MagnifyingGlassIcon />
           </SvgIcon>
         </InputAdornment>

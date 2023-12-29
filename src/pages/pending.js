@@ -40,7 +40,9 @@ const Page = () => (
               }}
             />
           </Box>
-          <Typography align="center" sx={{ mb: 3 }} variant="h3">
+          <Typography align="center"
+sx={{ mb: 3 }}
+variant="h3">
             Waiting for admin approval
           </Typography>
           {/* <Typography

@@ -257,9 +257,11 @@ const Page = () => {
           }}
         >
           <div>
-            <Stack spacing={1} sx={{ mb: 3 }}>
+            <Stack spacing={1}
+sx={{ mb: 3 }}>
               <Typography variant="h4">Register</Typography>
-              <Typography color="text.secondary" variant="body2">
+              <Typography color="text.secondary"
+variant="body2">
                 Already have an account? &nbsp;
                 <Link
                   component={NextLink}
@@ -375,13 +377,16 @@ const Page = () => {
                 </Form>
               )}
             </Formik>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open}
+onClose={handleClose}>
               <DialogTitle>Success</DialogTitle>
               <DialogContent>
                 <p>Please wait for admin approval.</p>
               </DialogContent>
               <DialogActions style={{ textAlign: 'center' }}>
-                <Button href="/" onClick={handleClose} color="primary">
+                <Button href="/"
+onClick={handleClose}
+color="primary">
                   Ok
                 </Button>
               </DialogActions>

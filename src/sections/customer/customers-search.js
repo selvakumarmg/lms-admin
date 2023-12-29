@@ -20,7 +20,8 @@ export const CustomersSearch = ({ data, onSearch, placeholder }) => {
         placeholder={placeholder ?? 'Search customer'}
         startAdornment={
           <InputAdornment position="start">
-            <SvgIcon color="action" fontSize="small">
+            <SvgIcon color="action"
+fontSize="small">
               <MagnifyingGlassIcon />
             </SvgIcon>
           </InputAdornment>

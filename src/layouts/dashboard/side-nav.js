@@ -52,7 +52,8 @@ export const SideNav = props => {
               width: 32,
             }}
           >
-            <img alt="" src="/favicon-16x16.png" />
+            <img alt=""
+src="/favicon-16x16.png" />
           </Box>
           <Box
             sx={{
@@ -67,7 +68,8 @@ export const SideNav = props => {
             }}
           >
             <div>
-              <Typography color="inherit" variant="subtitle1">
+              <Typography color="inherit"
+variant="subtitle1">
                 {window.sessionStorage?.getItem('uAuth') === '2'
                   ? 'Partner Portal'
                   : 'Telecaller Portal'}
@@ -141,10 +143,12 @@ export const SideNav = props => {
         >
           {window.sessionStorage?.getItem('uAuth') === '2' ? (
             <div>
-              <Typography color="neutral.100" variant="subtitle2">
+              <Typography color="neutral.100"
+variant="subtitle2">
                 Need more features?
               </Typography>
-              <Typography color="neutral.500" variant="body2">
+              <Typography color="neutral.500"
+variant="body2">
                 Upgrade to premium partner.
               </Typography>
             </div>

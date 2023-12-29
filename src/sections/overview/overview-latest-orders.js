@@ -46,7 +46,8 @@ export const OverviewLatestOrders = props => {
                 const createdAt = format(order.createdAt, 'dd/MM/yyyy')
 
                 return (
-                  <TableRow hover key={order.id}>
+                  <TableRow hover
+key={order.id}>
                     <TableCell>{order.ref}</TableCell>
                     <TableCell>{order.customer.name}</TableCell>
                     <TableCell>{createdAt}</TableCell>
