@@ -19,7 +19,7 @@ import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 
 
-const steps = ['Personal Information', 'Verification', "Authentication"];
+const steps = ['Basic Info', 'Aditional Info', "Authentication"];
 
 const Page = () => {
   const router = useRouter();
@@ -338,7 +338,7 @@ const Page = () => {
                   <div>
 
                   </div>
-                  <Stepper activeStep={activeStep} alternativeLabel style={{ marginBottom: "1.5rem" }}>
+                  <Stepper activeStep={activeStep} alternativeLabel style={{ marginBottom: "2.5rem" }}>
                     {steps.map((label) => (
                       <Step key={label}>
                         <StepLabel>{label}</StepLabel>
