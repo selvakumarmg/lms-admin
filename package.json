@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "author": "Devias",
   "licence": "MIT",
-  "homepage": "https://selvakumarmg.github.io/spfinnacle/",
+  "homepage": "https://selvakumarmg.github.io/lms-admin/",
   "private": true,
   "scripts": {
     "dev": "next",
