@@ -20,13 +20,10 @@ import {
   StepLabel,
 } from '@mui/material'
 import { message } from 'antd'
-
 import PersonalInfoStep from '../../components/createBasicInfo'
 import ContactInfoStep from '../../components/verificationInfo'
 import Authentication from '../../components/Authentication'
-
 import { partnerSingUp } from '../../action/apiActions'
-
 import { useAuth } from 'src/hooks/use-auth'
 import { Layout as AuthLayout } from 'src/layouts/auth/layout'
 
@@ -300,9 +297,7 @@ variant="body2">
                     : validateAuthInfo
               }
               onSubmit={(values, helpers) => {
-                console.log('values', values)
-
-                var data = {
+                let data = {
                   Email_Id: values.email,
                   First_Name: values.firstName,
                   Id_Proof_Image: imgString,
@@ -323,13 +318,17 @@ variant="body2">
                   Door_no: values.doorNumber,
                 }
 
-                partnerSingUp(data, setLoading).then(res => {
-                  if (res?.Profile_Status === 'Pending') {
-                    router.push('/pending')
-                  } else {
-                    message.error('something went wrong please try again')
-                  }
-                })
+                partnerSingUp(data, setLoading)
+                  .then(res => {
+                    if (res?.Profile_Status === 'Pending') {
+                      router.push('/pending');
+                    } else {
+                      message.error('Something went wrong. Please try again.');
+                    }
+                  })
+                  .catch(error => {
+                    message.error('An error occurred. Please try again later.');
+                  });
               }}
             >
               {({ isSubmitting }) => (

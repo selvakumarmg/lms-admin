@@ -11,11 +11,7 @@ export async function partnerSingUp(apiData, setLoader) {
 
     return data
   } catch (error) {
-    console.log('error', error)
     setLoader(false)
-    if (JSON.stringify(error.message) === '"Network Error"') {
-    } else {
-    }
   }
 }
 
@@ -25,9 +21,6 @@ export async function LoginApi(apiData) {
 
     return data
   } catch (error) {
-    if (JSON.stringify(error.message) === '"Network Error"') {
-    } else {
-    }
     return error
   }
 }
