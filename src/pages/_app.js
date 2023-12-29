@@ -10,12 +10,13 @@ import {
   CustomerConsumer,
 } from 'src/contexts/customers-context'
 import { LeadProvider, LeadConsumer } from 'src/contexts/lead-context'
-
+import { Provider } from 'react-redux';
 import { useNProgress } from 'src/hooks/use-nprogress'
 import { createTheme } from 'src/theme'
 import { createEmotionCache } from 'src/utils/create-emotion-cache'
 import 'simplebar-react/dist/simplebar.min.css'
 import './index.css'
+import { store } from 'src/redux/store'
 
 const clientSideEmotionCache = createEmotionCache()
 
@@ -38,6 +39,7 @@ const App = props => {
 content="initial-scale=1, width=device-width" />
       </Head>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Provider store={store}>
         <AuthProvider>
           <CustomerProvider>
             <LeadProvider>
@@ -56,6 +58,7 @@ content="initial-scale=1, width=device-width" />
             </LeadProvider>
           </CustomerProvider>
         </AuthProvider>
+        </Provider>
       </LocalizationProvider>
     </CacheProvider>
   )
