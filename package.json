@@ -5,7 +5,6 @@
   "licence": "MIT",
   "homepage": "https://selvakumarmg.github.io/spfinnacle/",
   "private": false,
-  "type": "module",
   "scripts": {
     "dev": "next",
     "build": "next build",
