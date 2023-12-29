@@ -25,6 +25,8 @@ import ContactInfoStep from '../../components/verificationInfo'
 import Authentication from '../../components/Authentication'
 import { useAuth } from 'src/hooks/use-auth'
 import { Layout as AuthLayout } from 'src/layouts/auth/layout'
+import { partnerSingUp } from '../../action/apiActions'
+
 
 const steps = ['Basic Info', 'Aditional Info', 'Authentication']
 
@@ -296,6 +298,7 @@ const Page = () => {
                     : validateAuthInfo
               }
               onSubmit={(values, helpers) => {
+                console.log("partnerSingUp", values)
                 let data = {
                   Email_Id: values.email,
                   First_Name: values.firstName,
@@ -316,6 +319,17 @@ const Page = () => {
                   Pincode: values.PinCode,
                   Door_no: values.doorNumber,
                 }
+
+
+                partnerSingUp(data, setLoading).then(res => {
+
+                  if (res?.Profile_Status === "Pending") {
+                    // auth.signIn(res[0]?.user_role)
+                    router.push('/pending')
+                  } else {
+                    message.error('something went wrong please try again after sometime')
+                  }
+                })
               }}
             >
               {({ isSubmitting }) => (
