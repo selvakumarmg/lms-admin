@@ -23,7 +23,6 @@ import { message } from 'antd'
 import PersonalInfoStep from '../../components/createBasicInfo'
 import ContactInfoStep from '../../components/verificationInfo'
 import Authentication from '../../components/Authentication'
-import { partnerSingUp } from '../../action/apiActions'
 import { useAuth } from 'src/hooks/use-auth'
 import { Layout as AuthLayout } from 'src/layouts/auth/layout'
 
@@ -255,10 +254,10 @@ const Page = () => {
         >
           <div>
             <Stack spacing={1}
-sx={{ mb: 3 }}>
+              sx={{ mb: 3 }}>
               <Typography variant="h4">Register</Typography>
               <Typography color="text.secondary"
-variant="body2">
+                variant="body2">
                 Already have an account? &nbsp;
                 <Link
                   component={NextLink}
@@ -317,18 +316,6 @@ variant="body2">
                   Pincode: values.PinCode,
                   Door_no: values.doorNumber,
                 }
-
-                partnerSingUp(data, setLoading)
-                  .then(res => {
-                    if (res?.Profile_Status === 'Pending') {
-                      router.push('/pending');
-                    } else {
-                      message.error('Something went wrong. Please try again.');
-                    }
-                  })
-                  .catch(error => {
-                    message.error('An error occurred. Please try again later.');
-                  });
               }}
             >
               {({ isSubmitting }) => (
@@ -377,15 +364,15 @@ variant="body2">
               )}
             </Formik>
             <Dialog open={open}
-onClose={handleClose}>
+              onClose={handleClose}>
               <DialogTitle>Success</DialogTitle>
               <DialogContent>
                 <p>Please wait for admin approval.</p>
               </DialogContent>
               <DialogActions style={{ textAlign: 'center' }}>
                 <Button href="/"
-onClick={handleClose}
-color="primary">
+                  onClick={handleClose}
+                  color="primary">
                   Ok
                 </Button>
               </DialogActions>
