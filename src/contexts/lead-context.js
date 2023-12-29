@@ -1,76 +1,61 @@
-import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
-import PropTypes from 'prop-types';
+import { createContext, useContext, useEffect, useReducer, useRef } from 'react'
+import PropTypes from 'prop-types'
 
 const HANDLERS = {
   LeadData: 'LeadData',
-};
+}
 
 const initialState = {
-  data: null
-};
+  data: null,
+}
 
 const handlers = {
-
   [HANDLERS.LeadData]: (state, action) => {
-    const data = action.payload;
+    const data = action.payload
 
     return {
       ...state,
-      data
-    };
+      data,
+    }
   },
+}
 
-};
-
-const reducer = (state, action) => (
-
+const reducer = (state, action) =>
   handlers[action.type] ? handlers[action.type](state, action) : state
-);
-
-
 
 // The role of this context is to propagate Lead state through the App tree.
 
-export const LeadContext = createContext();
+export const LeadContext = createContext()
 
+export const LeadProvider = props => {
+  const { children } = props
+  const [state, dispatch] = useReducer(reducer, initialState)
 
-
-export const LeadProvider = (props) => {
-  const { children } = props;
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  const LeadList = async (data) => {
-
-    console.log("dataListLeads", data)
+  const LeadList = async data => {
+    console.log('dataListLeads', data)
 
     dispatch({
       type: HANDLERS.LeadData,
-      payload: data
-    });
-  };
-
-
+      payload: data,
+    })
+  }
 
   return (
-
     <LeadContext.Provider
       value={{
         ...state,
         LeadList,
-
       }}
     >
       {children}
     </LeadContext.Provider>
-  );
-};
+  )
+}
 
 LeadProvider.propTypes = {
-  children: PropTypes.node
-};
+  children: PropTypes.node,
+}
 
+export const LeadConsumer = LeadContext.Consumer
 
-
-export const LeadConsumer = LeadContext.Consumer;
-
-export const useLeadContext = () => useContext(LeadContext);
+export const useLeadContext = () => useContext(LeadContext)

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Formik, Field, Form, ErrorMessage, } from 'formik';
+import React, { useState } from 'react'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
 import {
   Dialog,
   DialogTitle,
@@ -13,15 +13,15 @@ import {
   FormControl,
   InputLabel,
   FormHelperText,
-} from '@mui/material';
-import { Upload, message, Form as AntForm, } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
-import * as Yup from 'yup';
-import { loanStatusOptions, loanType } from 'src/mockdata';
+} from '@mui/material'
+import { Upload, message, Form as AntForm } from 'antd'
+import { InboxOutlined } from '@ant-design/icons'
+import * as Yup from 'yup'
+import { loanStatusOptions, loanType } from 'src/mockdata'
 
-const { Dragger } = Upload;
+const { Dragger } = Upload
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
@@ -33,13 +33,17 @@ const validationSchema = Yup.object().shape({
     .matches(emailRegex, 'Invalid email address')
     .required('Email is required'),
   companyName: Yup.string().required('Company Name is required'),
-  salary: Yup.number().positive('Salary must be a positive number').required('Salary is required'),
+  salary: Yup.number()
+    .positive('Salary must be a positive number')
+    .required('Salary is required'),
   doorNumber: Yup.string().required('Door number is required'),
   street: Yup.string().required('Street is required'),
   city: Yup.string().required('City is required'),
   state: Yup.string().required('State is required'),
   pincode: Yup.string().required('Pin Code is required'),
-  loanAmount: Yup.number().positive('Loan Amount must be a positive number').required('Loan Amount is required'),
+  loanAmount: Yup.number()
+    .positive('Loan Amount must be a positive number')
+    .required('Loan Amount is required'),
   bankName: Yup.string().required('Bank Name is required'),
   loanType: Yup.string().required('Loan Type is required'),
   loanTypeOther: Yup.string().when('loanType', {
@@ -49,21 +53,50 @@ const validationSchema = Yup.object().shape({
   loanProcessStatus: Yup.string().required('Loan Process Status is required'),
   payslips: Yup.mixed().required('Payslip Upload is required'),
   aadharCard: Yup.mixed()
-    .test('fileSize', 'File size is too large', (value) => value && value.size <= 2 * 1024 * 1024) // 2MB limit
-    .test('fileType', 'Unsupported file type', (value) => value && ['image/jpeg', 'image/png', 'application/pdf'].includes(value.type))
+    .test(
+      'fileSize',
+      'File size is too large',
+      value => value && value.size <= 2 * 1024 * 1024
+    ) // 2MB limit
+    .test(
+      'fileType',
+      'Unsupported file type',
+      value =>
+        value &&
+        ['image/jpeg', 'image/png', 'application/pdf'].includes(value.type)
+    )
     .required('Aadhar Card is required'),
   panCard: Yup.mixed()
-    .test('fileSize', 'File size is too large', (value) => value && value.size <= 5 * 1024 * 1024) // 5MB limit
-    .test('fileType', 'Unsupported file type', (value) => value && ['application/pdf', 'image/jpeg', 'image/png'].includes(value.type))
+    .test(
+      'fileSize',
+      'File size is too large',
+      value => value && value.size <= 5 * 1024 * 1024
+    ) // 5MB limit
+    .test(
+      'fileType',
+      'Unsupported file type',
+      value =>
+        value &&
+        ['application/pdf', 'image/jpeg', 'image/png'].includes(value.type)
+    )
     .required('PAN Card is required'),
   bankStatement: Yup.mixed()
-    .test('fileSize', 'File size is too large', (value) => value && value.size <= 5 * 1024 * 1024) // 5MB limit
-    .test('fileType', 'Unsupported file type', (value) => value && ['application/pdf', 'image/jpeg', 'image/png'].includes(value.type))
+    .test(
+      'fileSize',
+      'File size is too large',
+      value => value && value.size <= 5 * 1024 * 1024
+    ) // 5MB limit
+    .test(
+      'fileType',
+      'Unsupported file type',
+      value =>
+        value &&
+        ['application/pdf', 'image/jpeg', 'image/png'].includes(value.type)
+    )
     .required('Bank Statement is required'),
-});
+})
 
 const CreateLead = ({ open, onClose, onSubmit }) => {
-
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -84,51 +117,51 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
     aadharCard: [],
     panCard: [],
     bankStatement: [],
-  };
+  }
 
   const handlePayslipUpload = (info, setFieldValue) => {
-    const { fileList } = info;
+    const { fileList } = info
 
     if (fileList.length > 3) {
-      fileList.splice(-1, 1);
-      message.error('You can only upload up to 3 files');
+      fileList.splice(-1, 1)
+      message.error('You can only upload up to 3 files')
     }
 
-    setFieldValue('payslips', fileList);
-  };
+    setFieldValue('payslips', fileList)
+  }
 
   const handleAadharCardUpload = (info, setFieldValue) => {
-    const { fileList } = info;
+    const { fileList } = info
 
     if (fileList.length > 1) {
-      fileList.splice(-1, 1);
-      message.error('You can only upload one file');
+      fileList.splice(-1, 1)
+      message.error('You can only upload one file')
     }
 
-    setFieldValue('aadharCard', fileList[0]);
-  };
+    setFieldValue('aadharCard', fileList[0])
+  }
 
   const handleBankStatementUpload = (info, setFieldValue) => {
-    const { fileList } = info;
+    const { fileList } = info
 
     if (fileList.length > 1) {
-      fileList.splice(-1, 1);
-      message.error('You can only upload one file');
+      fileList.splice(-1, 1)
+      message.error('You can only upload one file')
     }
 
-    setFieldValue('bankStatement', fileList[0]);
-  };
+    setFieldValue('bankStatement', fileList[0])
+  }
 
   const handlePancardUpload = (info, setFieldValue) => {
-    const { fileList } = info;
+    const { fileList } = info
 
     if (fileList.length > 1) {
-      fileList.splice(-1, 1);
-      message.error('You can only upload one file');
+      fileList.splice(-1, 1)
+      message.error('You can only upload one file')
     }
 
-    setFieldValue('panCard', fileList[0]);
-  };
+    setFieldValue('panCard', fileList[0])
+  }
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -139,7 +172,15 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            setFieldValue,
+          }) => (
             <Form style={{ marginTop: 20 }} onSubmit={handleSubmit}>
               <Grid style={{ marginTop: 10 }} container spacing={2}>
                 <Grid item xs={6}>
@@ -275,7 +316,10 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
               </Grid>
               <Grid style={{ marginTop: 10 }} container spacing={2}>
                 <Grid item xs={6}>
-                  <FormControl fullWidth error={touched.loanType && !!errors.loanType}>
+                  <FormControl
+                    fullWidth
+                    error={touched.loanType && !!errors.loanType}
+                  >
                     <InputLabel>Loan Type</InputLabel>
                     <Field
                       as={Select}
@@ -285,7 +329,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                       onBlur={handleBlur}
                     >
                       <MenuItem value="">Select</MenuItem>
-                      {loanType.map((option) => (
+                      {loanType.map(option => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
@@ -297,7 +341,10 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <FormControl fullWidth error={touched.loanStatus && !!errors.loanStatus}>
+                  <FormControl
+                    fullWidth
+                    error={touched.loanStatus && !!errors.loanStatus}
+                  >
                     <InputLabel>Loan Process Status</InputLabel>
                     <Field
                       as={Select}
@@ -307,14 +354,16 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                       onBlur={handleBlur}
                     >
                       <MenuItem value="">Select</MenuItem>
-                      {loanStatusOptions.map((option) => (
+                      {loanStatusOptions.map(option => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
                     </Field>
                     {touched.loanStatus && errors.loanStatus && (
-                      <FormHelperText error>{errors.loanStatus?.message}</FormHelperText>
+                      <FormHelperText error>
+                        {errors.loanStatus?.message}
+                      </FormHelperText>
                     )}
                   </FormControl>
                 </Grid>
@@ -322,7 +371,9 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
               <Grid style={{ marginTop: 10 }} container spacing={2}>
                 <Grid item xs={12}>
                   <AntForm.Item
-                    validateStatus={touched.payslips && errors.payslips ? 'error' : ''}
+                    validateStatus={
+                      touched.payslips && errors.payslips ? 'error' : ''
+                    }
                     help={touched.payslips && errors.payslips}
                   >
                     <Field
@@ -331,15 +382,21 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                         <Dragger
                           {...field}
                           beforeUpload={() => false} // Prevent default upload behavior
-                          onChange={(info) => handlePayslipUpload(info, setFieldValue)}
+                          onChange={info =>
+                            handlePayslipUpload(info, setFieldValue)
+                          }
                           fileList={values.payslips}
                           multiple
                         >
                           <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                           </p>
-                          <p className="ant-upload-text">Click or drag files to upload Payslips</p>
-                          <p className="ant-upload-hint">Support for multiple file uploads (PDF, JPEG, PNG).</p>
+                          <p className="ant-upload-text">
+                            Click or drag files to upload Payslips
+                          </p>
+                          <p className="ant-upload-hint">
+                            Support for multiple file uploads (PDF, JPEG, PNG).
+                          </p>
                         </Dragger>
                       )}
                     />
@@ -349,7 +406,9 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
               <Grid style={{ marginTop: 10 }} container spacing={2}>
                 <Grid item xs={12}>
                   <AntForm.Item
-                    validateStatus={touched.aadharCard && errors.aadharCard ? 'error' : ''}
+                    validateStatus={
+                      touched.aadharCard && errors.aadharCard ? 'error' : ''
+                    }
                     help={touched.aadharCard && errors.aadharCard}
                   >
                     <Field
@@ -358,15 +417,23 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                         <Dragger
                           {...field}
                           beforeUpload={() => false} // Prevent default upload behavior
-                          onChange={(info) => handleAadharCardUpload(info, setFieldValue)}
-                          fileList={values.aadharCard ? [values.aadharCard] : []}
+                          onChange={info =>
+                            handleAadharCardUpload(info, setFieldValue)
+                          }
+                          fileList={
+                            values.aadharCard ? [values.aadharCard] : []
+                          }
                           showUploadList={{ showDownloadIcon: false }}
                         >
                           <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                           </p>
-                          <p className="ant-upload-text">Click or drag file to upload Aadhar Card</p>
-                          <p className="ant-upload-hint">Support for a single file upload (PDF, JPEG, PNG).</p>
+                          <p className="ant-upload-text">
+                            Click or drag file to upload Aadhar Card
+                          </p>
+                          <p className="ant-upload-hint">
+                            Support for a single file upload (PDF, JPEG, PNG).
+                          </p>
                         </Dragger>
                       )}
                     />
@@ -376,7 +443,9 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
               <Grid style={{ marginTop: 10 }} container spacing={2}>
                 <Grid item xs={12}>
                   <AntForm.Item
-                    validateStatus={touched.panCard && errors.panCard ? 'error' : ''}
+                    validateStatus={
+                      touched.panCard && errors.panCard ? 'error' : ''
+                    }
                     help={touched.panCard && errors.panCard}
                   >
                     <Field
@@ -385,15 +454,21 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                         <Dragger
                           {...field}
                           beforeUpload={() => false} // Prevent default upload behavior
-                          onChange={(info) => handlePancardUpload(info, setFieldValue)}
+                          onChange={info =>
+                            handlePancardUpload(info, setFieldValue)
+                          }
                           fileList={values.panCard ? [values.panCard] : []}
                           showUploadList={{ showDownloadIcon: false }}
                         >
                           <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                           </p>
-                          <p className="ant-upload-text">Click or drag file to upload PAN Card</p>
-                          <p className="ant-upload-hint">Support for a single file upload (PDF, JPEG, PNG).</p>
+                          <p className="ant-upload-text">
+                            Click or drag file to upload PAN Card
+                          </p>
+                          <p className="ant-upload-hint">
+                            Support for a single file upload (PDF, JPEG, PNG).
+                          </p>
                         </Dragger>
                       )}
                     />
@@ -403,7 +478,11 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
               <Grid style={{ marginTop: 10 }} container spacing={2}>
                 <Grid item xs={12}>
                   <AntForm.Item
-                    validateStatus={touched.bankStatement && errors.bankStatement ? 'error' : ''}
+                    validateStatus={
+                      touched.bankStatement && errors.bankStatement
+                        ? 'error'
+                        : ''
+                    }
                     help={touched.bankStatement && errors.bankStatement}
                   >
                     <Field
@@ -412,15 +491,24 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                         <Dragger
                           {...field}
                           beforeUpload={() => false} // Prevent default upload behavior
-                          onChange={(info) => handleBankStatementUpload(info, setFieldValue)}
-                          fileList={values.bankStatement ? [values.bankStatement] : []}
+                          onChange={info =>
+                            handleBankStatementUpload(info, setFieldValue)
+                          }
+                          fileList={
+                            values.bankStatement ? [values.bankStatement] : []
+                          }
                           showUploadList={{ showDownloadIcon: false }}
                         >
                           <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                           </p>
-                          <p className="ant-upload-text">Click or drag file to upload Bank Statement (last 6 months)</p>
-                          <p className="ant-upload-hint">Support for a single file upload (PDF, JPEG, PNG).</p>
+                          <p className="ant-upload-text">
+                            Click or drag file to upload Bank Statement (last 6
+                            months)
+                          </p>
+                          <p className="ant-upload-hint">
+                            Support for a single file upload (PDF, JPEG, PNG).
+                          </p>
                         </Dragger>
                       )}
                     />
@@ -433,13 +521,12 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
                   Save
                 </Button>
               </DialogActions>
-            </Form >
+            </Form>
           )}
         </Formik>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default CreateLead;
-
+export default CreateLead

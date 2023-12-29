@@ -1,4 +1,4 @@
-import { useContext } from 'react';
-import { CustomerContext } from 'src/contexts/customers-context';
+import { useContext } from 'react'
+import { CustomerContext } from 'src/contexts/customers-context'
 
-export const useCustomer = () => useContext(CustomerContext);
+export const useCustomer = () => useContext(CustomerContext)

@@ -1,20 +1,18 @@
-import Head from 'next/head';
-import NextLink from 'next/link';
-import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon';
-import { Box, Button, Container, SvgIcon, Typography } from '@mui/material';
+import Head from 'next/head'
+import NextLink from 'next/link'
+import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon'
+import { Box, Button, Container, SvgIcon, Typography } from '@mui/material'
 
 const Page = () => (
   <>
-    <Head>
-
-    </Head>
+    <Head></Head>
     <Box
       component="main"
       sx={{
         alignItems: 'center',
         display: 'flex',
         flexGrow: 1,
-        minHeight: '100%'
+        minHeight: '100%',
       }}
     >
       <Container maxWidth="md">
@@ -22,13 +20,13 @@ const Page = () => (
           sx={{
             alignItems: 'center',
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
           }}
         >
           <Box
             sx={{
               mb: 3,
-              textAlign: 'center'
+              textAlign: 'center',
             }}
           >
             <img
@@ -38,15 +36,11 @@ const Page = () => (
               style={{
                 display: 'inline-block',
                 maxWidth: '100%',
-                width: 400
+                width: 400,
               }}
             />
           </Box>
-          <Typography
-            align="center"
-            sx={{ mb: 3 }}
-            variant="h3"
-          >
+          <Typography align="center" sx={{ mb: 3 }} variant="h3">
             Waiting for admin approval
           </Typography>
           {/* <Typography
@@ -60,11 +54,11 @@ const Page = () => (
           <Button
             component={NextLink}
             href="/"
-            startIcon={(
+            startIcon={
               <SvgIcon fontSize="small">
                 <ArrowLeftIcon />
               </SvgIcon>
-            )}
+            }
             sx={{ mt: 3 }}
             variant="contained"
           >
@@ -74,6 +68,6 @@ const Page = () => (
       </Container>
     </Box>
   </>
-);
+)
 
-export default Page;
+export default Page

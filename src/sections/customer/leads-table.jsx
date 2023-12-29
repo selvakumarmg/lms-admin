@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import * as React from 'react';
+import PropTypes from 'prop-types'
+import * as React from 'react'
 import {
   Avatar,
   Box,
@@ -15,37 +15,36 @@ import {
   Typography,
   SvgIcon,
   Collapse,
-  IconButton
-} from "@mui/material";
-import { Scrollbar } from "src/components/scrollbar";
-import { SeverityPill } from "src/components/severity-pill";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
-
+  IconButton,
+} from '@mui/material'
+import { Scrollbar } from 'src/components/scrollbar'
+import { SeverityPill } from 'src/components/severity-pill'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 
 const statusMap = {
-  Procesing: "warning",
-  Pending: "warning",
-  Approved: "success",
-  Decline: "error",
-};
+  Procesing: 'warning',
+  Pending: 'warning',
+  Approved: 'success',
+  Decline: 'error',
+}
 
-export const LeadsTable = (props) => {
+export const LeadsTable = props => {
   const {
     count = 0,
     leads = [],
     onDeselectAll,
     onDeselectOne,
-    onPageChange = () => { },
+    onPageChange = () => {},
     onRowsPerPageChange,
     onSelectAll,
     onSelectOne,
     page = 0,
     rowsPerPage = 0,
     selected = [],
-  } = props;
-  const [open, setOpen] = React.useState(false);
+  } = props
+  const [open, setOpen] = React.useState(false)
 
   // const selectedSome = selected.length > 0 && selected.length < leads.length;
   // const selectedAll = leads.length > 0 && selected.length === leads.length;
@@ -67,7 +66,7 @@ export const LeadsTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {leads?.map((lead) => {
+              {leads?.map(lead => {
                 // const createdAt = format(lead.createdAt, "dd/MM/yyyy");
 
                 return (
@@ -79,10 +78,16 @@ export const LeadsTable = (props) => {
                           size="small"
                           onClick={() => setOpen(!open)}
                         >
-                          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                          {open ? (
+                            <KeyboardArrowUpIcon />
+                          ) : (
+                            <KeyboardArrowDownIcon />
+                          )}
                         </IconButton>
                       </TableCell>
-                      <TableCell>{lead.firstName + " " + lead.lastName}</TableCell>
+                      <TableCell>
+                        {lead.firstName + ' ' + lead.lastName}
+                      </TableCell>
                       <TableCell>{lead.companyName}</TableCell>
                       <TableCell>{lead?.city}</TableCell>
                       <TableCell>{lead.mobileNo}</TableCell>
@@ -95,10 +100,17 @@ export const LeadsTable = (props) => {
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                      <TableCell
+                        style={{ paddingBottom: 0, paddingTop: 0 }}
+                        colSpan={6}
+                      >
                         <Collapse in={open} timeout="auto" unmountOnExit>
                           <Box sx={{ margin: 1 }}>
-                            <Typography variant="h6" gutterBottom component="div">
+                            <Typography
+                              variant="h6"
+                              gutterBottom
+                              component="div"
+                            >
                               History
                             </Typography>
                             <Table size="small" aria-label="purchases">
@@ -107,17 +119,18 @@ export const LeadsTable = (props) => {
                                   <TableCell>Date</TableCell>
                                   <TableCell>Customer</TableCell>
                                   <TableCell align="right">Amount</TableCell>
-                                  <TableCell align="right">Total price ($)</TableCell>
+                                  <TableCell align="right">
+                                    Total price ($)
+                                  </TableCell>
                                 </TableRow>
                               </TableHead>
-
                             </Table>
                           </Box>
                         </Collapse>
                       </TableCell>
                     </TableRow>
                   </React.Fragment>
-                );
+                )
               })}
             </TableBody>
           </Table>
@@ -133,8 +146,8 @@ export const LeadsTable = (props) => {
         rowsPerPageOptions={[5, 10, 25]}
       />
     </Card>
-  );
-};
+  )
+}
 
 LeadsTable.propTypes = {
   count: PropTypes.number,
@@ -148,4 +161,4 @@ LeadsTable.propTypes = {
   page: PropTypes.number,
   rowsPerPage: PropTypes.number,
   selected: PropTypes.array,
-};
+}

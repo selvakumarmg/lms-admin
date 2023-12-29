@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+import PropTypes from 'prop-types'
+import { format } from 'date-fns'
 import {
   Avatar,
   Box,
@@ -12,31 +12,30 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
-} from '@mui/material';
-import { Scrollbar } from 'src/components/scrollbar';
-import { getInitials } from 'src/utils/get-initials';
+  Typography,
+} from '@mui/material'
+import { Scrollbar } from 'src/components/scrollbar'
+import { getInitials } from 'src/utils/get-initials'
 
-export const CustomersTable = (props) => {
+export const CustomersTable = props => {
   const {
     count = 0,
     items = [],
     onDeselectAll,
     onDeselectOne,
-    onPageChange = () => { },
+    onPageChange = () => {},
     onRowsPerPageChange,
     onSelectAll,
     onSelectOne,
     page = 0,
     rowsPerPage = 0,
-    selected = []
-  } = props;
+    selected = [],
+  } = props
 
   // const selectedSome = (selected.length > 0) && (selected.length < items.length);
   // const selectedAll = (items.length > 0) && (selected.length === items.length);
 
-
-  console.log("items", items)
+  console.log('items', items)
 
   return (
     <Card>
@@ -58,52 +57,34 @@ export const CustomersTable = (props) => {
                     }}
                   /> */}
                 </TableCell>
-                <TableCell>
-                  Name
-                </TableCell>
-                <TableCell>
-                  Email
-                </TableCell>
-                <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Signed Up
-                </TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Location</TableCell>
+                <TableCell>Phone</TableCell>
+                <TableCell>Signed Up</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
-                const isSelected = selected.includes(customer.id);
-                const createdAt = "format(customer?.createdAt, 'dd/MM/yyyy')";
+              {items.map(customer => {
+                const isSelected = selected.includes(customer.id)
+                const createdAt = "format(customer?.createdAt, 'dd/MM/yyyy')"
 
                 return (
-                  <TableRow
-                    hover
-                    key={customer?.id}
-                    selected={isSelected}
-                  >
+                  <TableRow hover key={customer?.id} selected={isSelected}>
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
-                        onChange={(event) => {
+                        onChange={event => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer?.id);
+                            onSelectOne?.(customer?.id)
                           } else {
-                            onDeselectOne?.(customer?.id);
+                            onDeselectOne?.(customer?.id)
                           }
                         }}
                       />
                     </TableCell>
                     <TableCell>
-                      <Stack
-                        alignItems="center"
-                        direction="row"
-                        spacing={2}
-                      >
+                      <Stack alignItems="center" direction="row" spacing={2}>
                         <Avatar src={customer.avatar}>
                           {getInitials(customer?.firstName)}
                         </Avatar>
@@ -112,20 +93,12 @@ export const CustomersTable = (props) => {
                         </Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell>
-                      {customer?.companyName}
-                    </TableCell>
-                    <TableCell>
-                      {customer?.mobileNo}
-                    </TableCell>
-                    <TableCell>
-                      {customer?.salary}
-                    </TableCell>
-                    <TableCell>
-                      {customer?.AAdhar}
-                    </TableCell>
+                    <TableCell>{customer?.companyName}</TableCell>
+                    <TableCell>{customer?.mobileNo}</TableCell>
+                    <TableCell>{customer?.salary}</TableCell>
+                    <TableCell>{customer?.AAdhar}</TableCell>
                   </TableRow>
-                );
+                )
               })}
             </TableBody>
           </Table>
@@ -141,8 +114,8 @@ export const CustomersTable = (props) => {
         rowsPerPageOptions={[5, 10, 25]}
       />
     </Card>
-  );
-};
+  )
+}
 
 CustomersTable.propTypes = {
   count: PropTypes.number,
@@ -155,5 +128,5 @@ CustomersTable.propTypes = {
   onSelectOne: PropTypes.func,
   page: PropTypes.number,
   rowsPerPage: PropTypes.number,
-  selected: PropTypes.array
-};
+  selected: PropTypes.array,
+}

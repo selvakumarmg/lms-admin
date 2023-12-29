@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import ComputerDesktopIcon from '@heroicons/react/24/solid/ComputerDesktopIcon';
-import DeviceTabletIcon from '@heroicons/react/24/solid/DeviceTabletIcon';
-import PhoneIcon from '@heroicons/react/24/solid/PhoneIcon';
+import PropTypes from 'prop-types'
+import ComputerDesktopIcon from '@heroicons/react/24/solid/ComputerDesktopIcon'
+import DeviceTabletIcon from '@heroicons/react/24/solid/DeviceTabletIcon'
+import PhoneIcon from '@heroicons/react/24/solid/PhoneIcon'
 import {
   Box,
   Card,
@@ -10,57 +10,57 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  useTheme
-} from '@mui/material';
-import { Chart } from 'src/components/chart';
+  useTheme,
+} from '@mui/material'
+import { Chart } from 'src/components/chart'
 
-const useChartOptions = (labels) => {
-  const theme = useTheme();
+const useChartOptions = labels => {
+  const theme = useTheme()
 
   return {
     chart: {
-      background: 'transparent'
+      background: 'transparent',
     },
     colors: [
       theme.palette.primary.main,
       theme.palette.success.main,
-      theme.palette.warning.main
+      theme.palette.warning.main,
     ],
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     labels,
     legend: {
-      show: false
+      show: false,
     },
     plotOptions: {
       pie: {
-        expandOnClick: false
-      }
+        expandOnClick: false,
+      },
     },
     states: {
       active: {
         filter: {
-          type: 'none'
-        }
+          type: 'none',
+        },
       },
       hover: {
         filter: {
-          type: 'none'
-        }
-      }
+          type: 'none',
+        },
+      },
     },
     stroke: {
-      width: 0
+      width: 0,
     },
     theme: {
-      mode: theme.palette.mode
+      mode: theme.palette.mode,
     },
     tooltip: {
-      fillSeriesColor: false
-    }
-  };
-};
+      fillSeriesColor: false,
+    },
+  }
+}
 
 const iconMap = {
   Desktop: (
@@ -77,12 +77,12 @@ const iconMap = {
     <SvgIcon>
       <PhoneIcon />
     </SvgIcon>
-  )
-};
+  ),
+}
 
-export const OverviewTraffic = (props) => {
-  const { chartSeries, labels, sx } = props;
-  const chartOptions = useChartOptions(labels);
+export const OverviewTraffic = props => {
+  const { chartSeries, labels, sx } = props
+  const chartOptions = useChartOptions(labels)
 
   return (
     <Card sx={sx}>
@@ -103,7 +103,7 @@ export const OverviewTraffic = (props) => {
           sx={{ mt: 2 }}
         >
           {chartSeries.map((item, index) => {
-            const label = labels[index];
+            const label = labels[index]
 
             return (
               <Box
@@ -111,33 +111,27 @@ export const OverviewTraffic = (props) => {
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
-                  alignItems: 'center'
+                  alignItems: 'center',
                 }}
               >
                 {iconMap[label]}
-                <Typography
-                  sx={{ my: 1 }}
-                  variant="h6"
-                >
+                <Typography sx={{ my: 1 }} variant="h6">
                   {label}
                 </Typography>
-                <Typography
-                  color="text.secondary"
-                  variant="subtitle2"
-                >
+                <Typography color="text.secondary" variant="subtitle2">
                   {item}%
                 </Typography>
               </Box>
-            );
+            )
           })}
         </Stack>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
 OverviewTraffic.propTypes = {
   chartSeries: PropTypes.array.isRequired,
   labels: PropTypes.array.isRequired,
-  sx: PropTypes.object
-};
+  sx: PropTypes.object,
+}

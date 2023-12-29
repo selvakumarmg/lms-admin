@@ -1,95 +1,104 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import Head from "next/head";
-import { subDays, subHours } from "date-fns";
-import ArrowDownOnSquareIcon from "@heroicons/react/24/solid/ArrowDownOnSquareIcon";
-import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
-import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
-import { Box, Button, Container, Stack, SvgIcon, Typography } from "@mui/material";
-import { useSelection } from "src/hooks/use-selection";
-import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { CustomersTable } from "src/sections/customer/customers-table";
-import { CustomersSearch } from "src/sections/customer/customers-search";
-import { applyPagination } from "src/utils/apply-pagination";
-import { LeadsTable } from "src/sections/customer/leads-table";
-import CreateLead from "src/components/createLead";
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import Head from 'next/head'
+import { subDays, subHours } from 'date-fns'
+import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon'
+import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon'
+import PlusIcon from '@heroicons/react/24/solid/PlusIcon'
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  SvgIcon,
+  Typography,
+} from '@mui/material'
+import { useSelection } from 'src/hooks/use-selection'
+import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout'
+import { CustomersTable } from 'src/sections/customer/customers-table'
+import { CustomersSearch } from 'src/sections/customer/customers-search'
+import { applyPagination } from 'src/utils/apply-pagination'
+import { LeadsTable } from 'src/sections/customer/leads-table'
+import CreateLead from 'src/components/createLead'
 
-import { useLead } from "src/hooks/use-lead";
-import { useLeadContext } from "src/contexts/lead-context";
-import { data } from "src/mockdata";
-import CollapsibleTable from "src/sections/customer/collapseRow";
+import { useLead } from 'src/hooks/use-lead'
+import { useLeadContext } from 'src/contexts/lead-context'
+import { data } from 'src/mockdata'
+import CollapsibleTable from 'src/sections/customer/collapseRow'
 
-const now = new Date();
+const now = new Date()
 
 const Page = () => {
   // const { data } = useLeadContext();
 
-  const [page, setPage] = useState(0);
-  const [openModal, setOpenModal] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(0)
+  const [openModal, setOpenModal] = useState(false)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState(data)
 
-  const LeadData = useLead();
+  const LeadData = useLead()
 
   const handlePageChange = useCallback((event, value) => {
-    setPage(value);
-  }, []);
+    setPage(value)
+  }, [])
 
-  const handleRowsPerPageChange = useCallback((event) => {
-    setRowsPerPage(event.target.value);
-  }, []);
+  const handleRowsPerPageChange = useCallback(event => {
+    setRowsPerPage(event.target.value)
+  }, [])
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-  };
+  const handleSearch = query => {
+    setSearchQuery(query)
+  }
 
-  const createLeadsData = (leadData) => {
-    console.log("Leads", leadData)
+  const createLeadsData = leadData => {
+    console.log('Leads', leadData)
     // data.push(leadData);
     // LeadData.LeadList(data.reverse());
-  };
+  }
 
   const useCustomers = (page, rowsPerPage) => {
     return useMemo(() => {
       if (data) {
-        return applyPagination(data, page, rowsPerPage);
+        return applyPagination(data, page, rowsPerPage)
       }
-    }, [page, rowsPerPage, data]);
-  };
+    }, [page, rowsPerPage, data])
+  }
 
-  const useCustomerIds = (customers) => {
+  const useCustomerIds = customers => {
     return useMemo(() => {
       if (data) {
-        return customers.map((customer) => customer.id);
+        return customers.map(customer => customer.id)
       }
-    }, [customers]);
-  };
+    }, [customers])
+  }
 
-  const customers = useCustomers(page, rowsPerPage);
-  const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
+  const customers = useCustomers(page, rowsPerPage)
+  const customersIds = useCustomerIds(customers)
+  const customersSelection = useSelection(customersIds)
 
-  console.log("customers", customers);
+  console.log('customers', customers)
 
   useEffect(() => {
     if (searchQuery) {
       setFilteredData(
-        data?.filter((customer) =>
-          customer?.mobileNo?.toLowerCase()?.includes(searchQuery?.toLowerCase())
+        data?.filter(customer =>
+          customer?.mobileNo
+            ?.toLowerCase()
+            ?.includes(searchQuery?.toLowerCase())
         )
-      );
+      )
     } else {
-      setFilteredData([]);
+      setFilteredData([])
     }
-  }, [searchQuery]);
+  }, [searchQuery])
 
   useEffect(() => {
-    const data = [];
-    LeadData.LeadList(data);
-  }, []);
+    const data = []
+    LeadData.LeadList(data)
+  }, [])
 
-  console.log("filteredData", filteredData);
+  console.log('filteredData', filteredData)
 
   return (
     <>
@@ -153,7 +162,9 @@ const Page = () => {
             <CreateLead
               open={openModal}
               onClose={() => setOpenModal(!openModal)}
-              onSubmit={(el) =>{ console.log("datas", el)}}
+              onSubmit={el => {
+                console.log('datas', el)
+              }}
             />
             <CollapsibleTable
               count={data?.length}
@@ -185,9 +196,9 @@ const Page = () => {
         </Container>
       </Box>
     </>
-  );
-};
+  )
+}
 
-Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+Page.getLayout = page => <DashboardLayout>{page}</DashboardLayout>
 
-export default Page;
+export default Page
