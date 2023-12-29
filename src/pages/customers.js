@@ -19,27 +19,14 @@ import { CustomersSearch } from 'src/sections/customer/customers-search'
 import { applyPagination } from 'src/utils/apply-pagination'
 import { useCustomer } from 'src/hooks/use-customer'
 import { useCustomerContext } from 'src/contexts/customers-context'
+import { useSelector } from 'react-redux'
 
 const Page = () => {
-  const { data } = useCustomerContext()
-
-  const CustomerData = useCustomer()
-
+  const customerList = useSelector((state) => state.customer.customerList);
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [searchQuery, setSearchQuery] = useState('')
   const [openModal, setOpenModal] = useState(false)
-
-  useEffect(() => {
-    const data = []
-    CustomerData.CustomerList(data)
-  }, [])
-
-  const createCustomerData = customerData => {
-    // console.log("customerDatacustomerDatacustomerData", customerData)
-    data.push(customerData)
-    CustomerData.CustomerList(data.reverse())
-  }
 
   const handleSearch = query => {
     // console.log("query", query)
@@ -48,15 +35,15 @@ const Page = () => {
 
   const useCustomers = (page, rowsPerPage) => {
     return useMemo(() => {
-      if (data) {
-        return applyPagination(data, page, rowsPerPage)
+      if (customerList) {
+        return applyPagination(customerList, page, rowsPerPage)
       }
-    }, [page, rowsPerPage, data])
+    }, [page, rowsPerPage, customerList])
   }
 
   const useCustomerIds = customers => {
     return useMemo(() => {
-      if (data) {
+      if (customerList) {
         return customers.map(customer => customer?.id)
       }
     }, [customers])
@@ -89,13 +76,13 @@ const Page = () => {
         <Container maxWidth="xl">
           <Stack spacing={3}>
             <Stack direction="row"
-justifyContent="space-between"
-spacing={4}>
+              justifyContent="space-between"
+              spacing={4}>
               <Stack spacing={1}>
                 <Typography variant="h4">Customers</Typography>
                 <Stack alignItems="center"
-direction="row"
-spacing={1}>
+                  direction="row"
+                  spacing={1}>
                   <Button
                     color="inherit"
                     startIcon={
@@ -132,16 +119,16 @@ spacing={1}>
                 </Button>
               </div>
             </Stack>
-            <CustomersSearch data={data}
-onSearch={handleSearch} />
+            <CustomersSearch data={customerList}
+              onSearch={handleSearch} />
             <CreateCustomer
               open={openModal}
               onClose={() => setOpenModal(!openModal)}
               onSubmit={el => createCustomerData(el)}
             />
             <CustomersTable
-              count={data?.length}
-              items={customers}
+              count={customerList?.length}
+              items={customerList}
               onDeselectAll={customersSelection?.handleDeselectAll}
               onDeselectOne={customersSelection?.handleDeselectOne}
               onPageChange={handlePageChange}
