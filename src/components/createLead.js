@@ -138,7 +138,9 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
       message.error('You can only upload one file')
     }
 
-    setFieldValue('aadharCard', fileList[0])
+    console.log("fileList", fileList)
+
+    setFieldValue('aadharCard', fileList)
   }
 
   const handleBankStatementUpload = (info, setFieldValue) => {
@@ -149,7 +151,7 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
       message.error('You can only upload one file')
     }
 
-    setFieldValue('bankStatement', fileList[0])
+    setFieldValue('bankStatement', fileList)
   }
 
   const handlePancardUpload = (info, setFieldValue) => {
@@ -160,12 +162,12 @@ const CreateLead = ({ open, onClose, onSubmit }) => {
       message.error('You can only upload one file')
     }
 
-    setFieldValue('panCard', fileList[0])
+    setFieldValue('panCard', fileList)
   }
 
   return (
     <Dialog open={open}
-onClose={onClose}>
+      onClose={onClose}>
       <DialogTitle>Create Lead</DialogTitle>
       <DialogContent>
         <Formik
@@ -183,12 +185,12 @@ onClose={onClose}>
             setFieldValue,
           }) => (
             <Form style={{ marginTop: 20 }}
-onSubmit={handleSubmit}>
+              onSubmit={handleSubmit}>
               <Grid style={{ marginTop: 10 }}
-container
-spacing={2}>
+                container
+                spacing={2}>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="firstName"
@@ -199,7 +201,7 @@ xs={6}>
                   <FormHelperText error>{errors.firstName}</FormHelperText>
                 </Grid>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="lastName"
@@ -211,10 +213,10 @@ xs={6}>
                 </Grid>
               </Grid>
               <Grid style={{ marginTop: 10 }}
-container
-spacing={2}>
+                container
+                spacing={2}>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="email"
@@ -225,7 +227,7 @@ xs={6}>
                   <FormHelperText error>{errors.email}</FormHelperText>
                 </Grid>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="mobileNo"
@@ -237,10 +239,10 @@ xs={6}>
                 </Grid>
               </Grid>
               <Grid style={{ marginTop: 10 }}
-container
-spacing={2}>
+                container
+                spacing={2}>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="companyName"
@@ -251,7 +253,7 @@ xs={6}>
                   <FormHelperText error>{errors.companyName}</FormHelperText>
                 </Grid>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="salary"
@@ -263,10 +265,10 @@ xs={6}>
                 </Grid>
               </Grid>
               <Grid style={{ marginTop: 10 }}
-container
-spacing={2}>
+                container
+                spacing={2}>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="doorNumber"
@@ -277,7 +279,7 @@ xs={6}>
                   <FormHelperText error>{errors.doorNumber}</FormHelperText>
                 </Grid>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="street"
@@ -289,10 +291,10 @@ xs={6}>
                 </Grid>
               </Grid>
               <Grid style={{ marginTop: 10 }}
-container
-spacing={2}>
+                container
+                spacing={2}>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="state"
@@ -303,7 +305,7 @@ xs={6}>
                   <FormHelperText error>{errors.state}</FormHelperText>
                 </Grid>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="pincode"
@@ -315,10 +317,10 @@ xs={6}>
                 </Grid>
               </Grid>
               <Grid style={{ marginTop: 10 }}
-container
-spacing={2}>
+                container
+                spacing={2}>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="loanAmount"
@@ -329,7 +331,7 @@ xs={6}>
                   <FormHelperText error>{errors.loanAmount}</FormHelperText>
                 </Grid>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <Field
                     type="text"
                     name="bankName"
@@ -341,10 +343,10 @@ xs={6}>
                 </Grid>
               </Grid>
               <Grid style={{ marginTop: 10 }}
-container
-spacing={2}>
+                container
+                spacing={2}>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <FormControl
                     fullWidth
                     error={touched.loanType && !!errors.loanType}
@@ -360,7 +362,7 @@ xs={6}>
                       <MenuItem value="">Select</MenuItem>
                       {loanType.map(option => (
                         <MenuItem key={option.value}
-value={option.value}>
+                          value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
@@ -371,7 +373,7 @@ value={option.value}>
                   </FormControl>
                 </Grid>
                 <Grid item
-xs={6}>
+                  xs={6}>
                   <FormControl
                     fullWidth
                     error={touched.loanStatus && !!errors.loanStatus}
@@ -387,7 +389,7 @@ xs={6}>
                       <MenuItem value="">Select</MenuItem>
                       {loanStatusOptions.map(option => (
                         <MenuItem key={option.value}
-value={option.value}>
+                          value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
@@ -401,10 +403,10 @@ value={option.value}>
                 </Grid>
               </Grid>
               <Grid style={{ marginTop: 10 }}
-container
-spacing={2}>
+                container
+                spacing={2}>
                 <Grid item
-xs={12}>
+                  xs={12}>
                   <AntForm.Item
                     validateStatus={
                       touched.payslips && errors.payslips ? 'error' : ''
@@ -439,10 +441,10 @@ xs={12}>
                 </Grid>
               </Grid>
               <Grid style={{ marginTop: 10 }}
-container
-spacing={2}>
+                container
+                spacing={2}>
                 <Grid item
-xs={12}>
+                  xs={12}>
                   <AntForm.Item
                     validateStatus={
                       touched.aadharCard && errors.aadharCard ? 'error' : ''
@@ -458,9 +460,9 @@ xs={12}>
                           onChange={info =>
                             handleAadharCardUpload(info, setFieldValue)
                           }
-                          fileList={
-                            values.aadharCard ? [values.aadharCard] : []
-                          }
+                          fileList={values.aadharCard}
+
+
                           showUploadList={{ showDownloadIcon: false }}
                         >
                           <p className="ant-upload-drag-icon">
@@ -479,10 +481,10 @@ xs={12}>
                 </Grid>
               </Grid>
               <Grid style={{ marginTop: 10 }}
-container
-spacing={2}>
+                container
+                spacing={2}>
                 <Grid item
-xs={12}>
+                  xs={12}>
                   <AntForm.Item
                     validateStatus={
                       touched.panCard && errors.panCard ? 'error' : ''
@@ -498,8 +500,9 @@ xs={12}>
                           onChange={info =>
                             handlePancardUpload(info, setFieldValue)
                           }
-                          fileList={values.panCard ? [values.panCard] : []}
-                          showUploadList={{ showDownloadIcon: false }}
+                          fileList={values.panCard}
+
+                        // showUploadList={{ showDownloadIcon: false }}
                         >
                           <p className="ant-upload-drag-icon">
                             <InboxOutlined />
@@ -517,10 +520,10 @@ xs={12}>
                 </Grid>
               </Grid>
               <Grid style={{ marginTop: 10 }}
-container
-spacing={2}>
+                container
+                spacing={2}>
                 <Grid item
-xs={12}>
+                  xs={12}>
                   <AntForm.Item
                     validateStatus={
                       touched.bankStatement && errors.bankStatement
@@ -539,9 +542,9 @@ xs={12}>
                             handleBankStatementUpload(info, setFieldValue)
                           }
                           fileList={
-                            values.bankStatement ? [values.bankStatement] : []
+                            values.bankStatement
                           }
-                          showUploadList={{ showDownloadIcon: false }}
+                        // showUploadList={{ showDownloadIcon: false }}
                         >
                           <p className="ant-upload-drag-icon">
                             <InboxOutlined />
@@ -562,8 +565,8 @@ xs={12}>
               <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
                 <Button type="submit"
-variant="contained"
-color="primary">
+                  variant="contained"
+                  color="primary">
                   Save
                 </Button>
               </DialogActions>
