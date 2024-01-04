@@ -13,6 +13,13 @@ export const loanStatusOptions = [
   // Add more options as needed
 ]
 
+export const bankNameList = [
+  { value: '1', label: 'IOB' },
+  { value: '2', label: 'CUB' },
+  { value: '3', label: 'HDC' },
+  // Add more options as needed
+]
+
 export const data = [
   {
     id: 1,

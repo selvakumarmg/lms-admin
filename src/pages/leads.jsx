@@ -11,6 +11,7 @@ import {
   Stack,
   SvgIcon,
   Typography,
+  CircularProgress,
 } from '@mui/material'
 import { useSelection } from 'src/hooks/use-selection'
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout'
@@ -18,11 +19,13 @@ import { CustomersTable } from 'src/sections/customer/customers-table'
 import { CustomersSearch } from 'src/sections/customer/customers-search'
 import { applyPagination } from 'src/utils/apply-pagination'
 import CreateLead from 'src/components/createLead'
+import { CreateLeadApi, CreateAssetApi } from '../action/apiActions'
 
 import { useLead } from 'src/hooks/use-lead'
 import { useLeadContext } from 'src/contexts/lead-context'
 import { data } from 'src/mockdata'
 import CollapsibleTable from 'src/sections/customer/collapseRow'
+import { message } from 'antd'
 
 const now = new Date()
 
@@ -33,6 +36,7 @@ const Page = () => {
   const [openModal, setOpenModal] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [searchQuery, setSearchQuery] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const [filteredData, setFilteredData] = useState(data)
 
@@ -76,8 +80,6 @@ const Page = () => {
   const customersIds = useCustomerIds(customers)
   const customersSelection = useSelection(customersIds)
 
-  console.log('customers', customers)
-
   useEffect(() => {
     if (searchQuery) {
       setFilteredData(
@@ -97,7 +99,143 @@ const Page = () => {
     LeadData.LeadList(data)
   }, [])
 
-  console.log('filteredData', filteredData)
+  const convertImageToBase64 = (file, callback) => {
+    const reader = new FileReader()
+
+    reader.onload = function (event) {
+      // `event.target.result` contains the Base64-encoded string
+      const base64String = event?.target?.result?.split(',')[1]
+      callback(base64String)
+    }
+
+    // Read the file as Data URL (Base64)
+    reader.readAsDataURL(file)
+  }
+
+  const createLeadApiFn = LeadData => {
+    setLoading(true)
+    const apiData = {
+      Bank_Id: LeadData?.bankName,
+      City: LeadData?.city,
+      Email: LeadData?.email,
+      Company_Name: LeadData?.companyName,
+      Company_Type_Id: 1,
+      Door_no: LeadData?.doorNumber,
+      First_Name: LeadData?.firstName,
+      Generated_By: 'LeadData?',
+      Generated_On: 'LeadData?',
+      Generated_Partner: 36,
+      Last_Name: LeadData?.lastName,
+      Lead_Details_Id: 0,
+      Lead_Status: 1,
+      Loan_Amount: LeadData?.loanAmount,
+      Loan_Process_Status_Id: LeadData?.loanProcessStatus,
+      Loan_Type_Id: LeadData?.loanType,
+      Mobile_No: LeadData?.mobileNo,
+      Payslip_Image_Path: 'remove this',
+      Pincode: LeadData?.pincode,
+      Salary: LeadData?.salary,
+      State: LeadData?.state,
+      Street: LeadData?.street,
+    }
+
+    CreateLeadApi(apiData, setLoading).then(res => {
+      console.log('ressss', res)
+      if (res?.statusCode === 200) {
+        message.success(res?.responseMessage)
+        LeadData?.payslips.map((data, index) => {
+          convertImageToBase64(data?.originFileObj, base64String => {
+            const assetData = {
+              Lead_detail_id: res?.lead_detail_id,
+              Leads_asset_id: 0,
+              asset_name: 'payslips',
+              asset_path: 'test/image',
+              asset_status: 1,
+              leads_Image: base64String,
+            }
+            CreateAssetApi(assetData, setLoading).then(res => {
+              if (index === 2) {
+                if (res?.status === 'success') {
+                  // message.success('Successfully Uploaded payslips')
+                } else {
+                  message.error('Failed Upload payslips')
+                }
+              }
+            })
+          })
+        })
+
+        convertImageToBase64(
+          LeadData?.aadharCard[0]?.originFileObj,
+          base64String => {
+            const assetData = {
+              Lead_detail_id: res?.lead_detail_id,
+              Leads_asset_id: 0,
+              asset_name: 'aadharCard',
+              asset_path: 'test/image',
+              asset_status: 1,
+              leads_Image: base64String,
+            }
+            CreateAssetApi(assetData, setLoading).then(res => {
+              if (res?.status === 'success') {
+                // message.success('Successfully Uploaded Aadhar Card')
+              } else {
+                message.error('Failed Upload Aadhar Card')
+              }
+            })
+          }
+        )
+
+        convertImageToBase64(
+          LeadData?.bankStatement[0]?.originFileObj,
+          base64String => {
+            const assetData = {
+              Lead_detail_id: res?.lead_detail_id,
+              Leads_asset_id: 0,
+              asset_name: 'bankStatement',
+              asset_path: 'test/image',
+              asset_status: 1,
+              leads_Image: base64String,
+            }
+            CreateAssetApi(assetData, setLoading).then(res => {
+              if (res?.status === 'success') {
+                // message.success('Successfully Uploaded bank statement')
+              } else {
+                message.error('Failed Upload bank statement')
+              }
+            })
+          }
+        )
+
+        convertImageToBase64(
+          LeadData?.panCard[0]?.originFileObj,
+          base64String => {
+            const assetData = {
+              Lead_detail_id: res?.lead_detail_id,
+              Leads_asset_id: 0,
+              asset_name: 'panCard',
+              asset_path: 'test/image',
+              asset_status: 1,
+              leads_Image: base64String,
+            }
+            CreateAssetApi(assetData, setLoading).then(res => {
+              if (res?.status === 'success') {
+                message.success('Successfully Uploaded Required files')
+                setOpenModal(false)
+              } else {
+                message.error('Failed Upload pan Card')
+              }
+              setLoading(false)
+            })
+          }
+        )
+
+        // CreateAssetApi(assetData, setLoading).then(res => {})
+      } else {
+        message.error('something went wrong please try again after sometime')
+      }
+    })
+  }
 
   return (
     <>
@@ -113,14 +251,10 @@ const Page = () => {
       >
         <Container maxWidth="xl">
           <Stack spacing={3}>
-            <Stack direction="row"
-justifyContent="space-between"
-spacing={4}>
+            <Stack direction="row" justifyContent="space-between" spacing={4}>
               <Stack spacing={1}>
                 <Typography variant="h4">Leads</Typography>
-                <Stack alignItems="center"
-direction="row"
-spacing={1}>
+                <Stack alignItems="center" direction="row" spacing={1}>
                   <Button
                     color="inherit"
                     startIcon={
@@ -165,8 +299,9 @@ spacing={1}>
             <CreateLead
               open={openModal}
               onClose={() => setOpenModal(!openModal)}
+              loading={loading}
               onSubmit={el => {
-                console.log('datas', el)
+                createLeadApiFn(el)
               }}
             />
             <CollapsibleTable

@@ -24,3 +24,28 @@ export async function LoginApi(apiData) {
     return error
   }
 }
+
+
+export async function CreateLeadApi(apiData, setLoader) {
+  setLoader(true)
+  try {
+    const { data } = await axios.post(api.addLead, apiData)
+    setLoader(false)
+    return data
+  } catch (error) {
+    setLoader(false)
+  }
+}
+
+export async function CreateAssetApi(assetData, setLoader) {
+  setLoader(true)
+  try {
+    const { data } = await axios.post(api.assetApi, assetData)
+    setLoader(false)
+    return data
+  } catch (error) {
+    setLoader(false)
+  }
+}
+
+
