@@ -20,6 +20,7 @@ import { CustomersSearch } from 'src/sections/customer/customers-search'
 import { applyPagination } from 'src/utils/apply-pagination'
 import CreateLead from 'src/components/createLead'
 import { CreateLeadApi, CreateAssetApi } from '../action/apiActions'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { useLead } from 'src/hooks/use-lead'
 import { useLeadContext } from 'src/contexts/lead-context'
@@ -41,6 +42,8 @@ const Page = () => {
   const [filteredData, setFilteredData] = useState(data)
 
   const LeadData = useLead()
+
+  const profileData = useSelector(state => state.auth.authData)
 
   const handlePageChange = useCallback((event, value) => {
     setPage(value)
@@ -124,7 +127,7 @@ const Page = () => {
       First_Name: LeadData?.firstName,
       Generated_By: 'LeadData?',
       Generated_On: 'LeadData?',
-      Generated_Partner: 36,
+      Generated_Partner: profileData[0]?.User_Id,
       Last_Name: LeadData?.lastName,
       Lead_Details_Id: 0,
       Lead_Status: 1,

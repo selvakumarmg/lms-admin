@@ -37,16 +37,7 @@ export const items = [
     ),
   },
   {
-    title: 'Remainder',
-    path: '/account',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserIcon />
-      </SvgIcon>
-    ),
-  },
-  {
-    title: 'ToDo',
+    title: 'Account',
     path: '/account',
     icon: (
       <SvgIcon fontSize="small">
@@ -118,6 +109,15 @@ export const items1 = [
     icon: (
       <SvgIcon fontSize="small">
         <ShoppingBagIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: 'Account',
+    path: '/account',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserIcon />
       </SvgIcon>
     ),
   },

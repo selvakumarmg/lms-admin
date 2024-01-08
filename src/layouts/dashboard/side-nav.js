@@ -53,7 +53,7 @@ export const SideNav = props => {
             }}
           >
             <img alt=""
-src="/favicon-16x16.png" />
+              src="/favicon-16x16.png" />
           </Box>
           <Box
             sx={{
@@ -69,7 +69,7 @@ src="/favicon-16x16.png" />
           >
             <div>
               <Typography color="inherit"
-variant="subtitle1">
+                variant="subtitle1">
                 {window.sessionStorage?.getItem('uAuth') === '2'
                   ? 'Partner Portal'
                   : 'Telecaller Portal'}
@@ -103,35 +103,35 @@ variant="subtitle1">
           >
             {window.sessionStorage.getItem('uAuth') === '3'
               ? items1.map(item => {
-                  const active = item.path ? pathname === item.path : false
+                const active = item.path ? pathname === item.path : false
 
-                  return (
-                    <SideNavItem
-                      active={active}
-                      disabled={item.disabled}
-                      external={item.external}
-                      icon={item.icon}
-                      key={item.title}
-                      path={item.path}
-                      title={item.title}
-                    />
-                  )
-                })
+                return (
+                  <SideNavItem
+                    active={active}
+                    disabled={item.disabled}
+                    external={item.external}
+                    icon={item.icon}
+                    key={item.title}
+                    path={item.path}
+                    title={item.title}
+                  />
+                )
+              })
               : items.map(item => {
-                  const active = item.path ? pathname === item.path : false
+                const active = item.path ? pathname === item.path : false
 
-                  return (
-                    <SideNavItem
-                      active={active}
-                      disabled={item.disabled}
-                      external={item.external}
-                      icon={item.icon}
-                      key={item.title}
-                      path={item.path}
-                      title={item.title}
-                    />
-                  )
-                })}
+                return (
+                  <SideNavItem
+                    active={active}
+                    disabled={item.disabled}
+                    external={item.external}
+                    icon={item.icon}
+                    key={item.title}
+                    path={item.path}
+                    title={item.title}
+                  />
+                )
+              })}
           </Stack>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />
@@ -144,11 +144,11 @@ variant="subtitle1">
           {window.sessionStorage?.getItem('uAuth') === '2' ? (
             <div>
               <Typography color="neutral.100"
-variant="subtitle2">
+                variant="subtitle2">
                 Need more features?
               </Typography>
               <Typography color="neutral.500"
-variant="body2">
+                variant="body2">
                 Upgrade to premium partner.
               </Typography>
             </div>

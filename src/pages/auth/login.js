@@ -17,12 +17,18 @@ import {
   Typography,
 } from '@mui/material'
 import { useAuth } from 'src/hooks/use-auth'
+import { useSelector, useDispatch } from 'react-redux';
+import { setAuthList } from '../../redux/slices/authSlice';
+
+
 import { Layout as AuthLayout } from 'src/layouts/auth/layout'
 import { LoginApi } from '../../action/apiActions'
 
 const Page = () => {
   const router = useRouter()
   const auth = useAuth()
+  const dispatch = useDispatch();
+
   const [method, setMethod] = useState('email')
   const formik = useFormik({
     initialValues: {
@@ -48,6 +54,8 @@ const Page = () => {
           LoginApi(loginData).then(res => {
             if (res?.length > 0) {
               auth.signIn(res[0]?.user_role)
+              dispatch(setAuthList(res))
+
               router.push('/')
             } else {
               helpers.setErrors({ submit: 'User Not Found In Database' })
@@ -94,10 +102,10 @@ const Page = () => {
         >
           <div>
             <Stack spacing={1}
-sx={{ mb: 3 }}>
+              sx={{ mb: 3 }}>
               <Typography variant="h4">Login</Typography>
               <Typography color="text.secondary"
-variant="body2">
+                variant="body2">
                 Don&apos;t have an account? &nbsp;
                 <Link
                   component={NextLink}
@@ -110,7 +118,7 @@ variant="body2">
               </Typography>
             </Stack>
             <form noValidate
-onSubmit={formik.handleSubmit}>
+              onSubmit={formik.handleSubmit}>
               <Stack spacing={3}>
                 <TextField
                   error={!!(formik.touched.email && formik.errors.email)}
@@ -137,8 +145,8 @@ onSubmit={formik.handleSubmit}>
               </Stack>
               {formik.errors.submit && (
                 <Typography color="error"
-sx={{ mt: 3 }}
-variant="body2">
+                  sx={{ mt: 3 }}
+                  variant="body2">
                   {formik.errors.submit}
                 </Typography>
               )}
@@ -152,8 +160,8 @@ variant="body2">
                 Continue
               </Button>
               <Alert color="primary"
-severity="info"
-sx={{ mt: 3 }}>
+                severity="info"
+                sx={{ mt: 3 }}>
                 <div>
                   <span>
                     Partner - You can use <b>raj1@gmail.com</b> and password{' '}

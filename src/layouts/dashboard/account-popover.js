@@ -10,9 +10,16 @@ import {
   Typography,
 } from '@mui/material'
 import { useAuth } from 'src/hooks/use-auth'
+import { useSelector, useDispatch } from 'react-redux'
+
 
 export const AccountPopover = props => {
   const { anchorEl, onClose, open } = props
+
+  const profileData = useSelector(state => state.auth.authData)
+
+  console.log("profileData", profileData)
+
   const router = useRouter()
   const auth = useAuth()
 
@@ -41,8 +48,8 @@ export const AccountPopover = props => {
       >
         <Typography variant="overline">Account</Typography>
         <Typography color="text.secondary"
-variant="body2">
-          Anika Visser
+          variant="body2">
+          {profileData[0]?.First_Name + "  " + profileData[0]?.Last_Name}
         </Typography>
       </Box>
       <Divider />
