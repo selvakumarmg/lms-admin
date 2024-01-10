@@ -49,3 +49,17 @@ export async function CreateAssetApi(assetData, setLoader) {
 }
 
 
+export async function getLeadApi(Profile_Status_Id,
+  User_Id,
+  User_Role_Id, setLoader) {
+  setLoader(true)
+  try {
+    const { data } = await axios.get(api.addLead + `?user_role_id=1&user_id=1&status_id=1`)
+    setLoader(false)
+    return data
+  } catch (error) {
+    setLoader(false)
+  }
+}
+
+

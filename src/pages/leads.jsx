@@ -19,12 +19,12 @@ import { CustomersTable } from 'src/sections/customer/customers-table'
 import { CustomersSearch } from 'src/sections/customer/customers-search'
 import { applyPagination } from 'src/utils/apply-pagination'
 import CreateLead from 'src/components/createLead'
-import { CreateLeadApi, CreateAssetApi } from '../action/apiActions'
+import { CreateLeadApi, CreateAssetApi, getLeadApi } from '../action/apiActions'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { useLead } from 'src/hooks/use-lead'
 import { useLeadContext } from 'src/contexts/lead-context'
-import { data } from 'src/mockdata'
+// import { data } from 'src/mockdata'
 import CollapsibleTable from 'src/sections/customer/collapseRow'
 import { message } from 'antd'
 
@@ -38,6 +38,7 @@ const Page = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(false)
+  const [data, setData] = useState(false)
 
   const [filteredData, setFilteredData] = useState(data)
 
@@ -53,6 +54,67 @@ const Page = () => {
     setRowsPerPage(event.target.value)
   }, [])
 
+  useEffect(() => {
+    getLeadApi(
+      profileData[0]?.Profile_Status_Id,
+      profileData[0]?.User_Id,
+      profileData[0]?.User_Role_Id,
+      setLoading
+    ).then(res => {
+      getResult(res)
+    })
+  }, [profileData])
+
+  const getResult = res => {
+    if (res?.statusCode === 200) {
+      var resResult = res?.data?.map(data => {
+        return {
+          id: data?.Lead_Details_Id,
+          firstName: data?.First_Name,
+          lastName: data?.Last_Name,
+          mobileNo: data?.Mobile_No,
+          email: data?.Email,
+          companyName: data?.Company_Name,
+          salary: data?.Salary,
+          doorNumber: data?.Salary,
+          street: data?.Street,
+          city: data?.City,
+          state: data?.State,
+          pincode: data?.Pincode,
+          loanAmount: data?.Loan_Amount,
+          bankName: data?.Bank_Name,
+          loanType: data?.Loan_Type_Name,
+          loanProcessStatus: data?.Loan_Process_Name,
+          payslips:
+            data?.assets !== null
+              ? JSON.parse(data?.assets)
+                  .filter(dd => dd?.payslips)
+                  .map(payslips => payslips?.payslips)
+              : 'null',
+          aadharCard:
+            data?.assets !== null
+              ? JSON.parse(data?.assets)
+                  .filter(dd => dd?.aadharCard)
+                  .map(aadharCard => aadharCard?.aadharCard)
+              : 'null',
+          panCard:
+            data?.assets !== null
+              ? JSON.parse(data?.assets)
+                  .filter(dd => dd?.panCard)
+                  .map(panCard => panCard?.panCard)
+              : 'null',
+          bankStatement:
+            data?.assets !== null
+              ? JSON.parse(data?.assets)
+                  .filter(dd => dd?.bankStatement)
+                  .map(bankStatement => bankStatement?.bankStatement)
+              : 'null',
+        }
+      })
+    }
+
+    setData(resResult?.reverse())
+  }
   const handleSearch = query => {
     setSearchQuery(query)
   }
@@ -83,7 +145,13 @@ const Page = () => {
   const customersIds = useCustomerIds(customers)
   const customersSelection = useSelection(customersIds)
 
+  console.log('customers', customers)
+  console.log('customersIds', customersIds)
+
+  console.log('customersSelection', customersSelection)
+
   useEffect(() => {
+    console.log('searchQuery', searchQuery)
     if (searchQuery) {
       setFilteredData(
         data?.filter(customer =>
@@ -159,6 +227,14 @@ const Page = () => {
             CreateAssetApi(assetData, setLoading).then(res => {
               if (index === 2) {
                 if (res?.status === 'success') {
+                  getLeadApi(
+                    profileData[0]?.Profile_Status_Id,
+                    profileData[0]?.User_Id,
+                    profileData[0]?.User_Role_Id,
+                    setLoading
+                  ).then(res => {
+                    getResult(res)
+                  })
                   // message.success('Successfully Uploaded payslips')
                 } else {
                   message.error('Failed Upload payslips')
@@ -310,15 +386,15 @@ const Page = () => {
             <CollapsibleTable
               count={data?.length}
               leadData={filteredData?.length !== 0 ? filteredData : data}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
+              onDeselectAll={customersSelection?.handleDeselectAll}
+              onDeselectOne={customersSelection?.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
+              onSelectAll={customersSelection?.handleSelectAll}
+              onSelectOne={customersSelection?.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              selected={customersSelection?.selected}
             />
             {/* <LeadsTable
               count={data?.length}
@@ -336,6 +412,16 @@ const Page = () => {
           </Stack>
         </Container>
       </Box>
+      <div>
+        {loading ? (
+          <div style={{ position: 'absolute', top: '20rem', left: '15rem' }}>
+            <CircularProgress />
+          </div>
+        ) : (
+          // Your main content goes here once loading is complete
+          <div></div>
+        )}
+      </div>
     </>
   )
 }

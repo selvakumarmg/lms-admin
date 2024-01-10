@@ -36,13 +36,9 @@ const GridView = ({ data }) => {
 
   return (
     <div className={classes.root}>
-      <Grid container
-spacing={1}>
+      <Grid container spacing={1}>
         {Object.entries(data).map(([key, value]) => (
-          <Grid item
-key={key}
-xs={12}
-md={3}>
+          <Grid item key={key} xs={12} md={3}>
             <div className={classes.paper}>
               <Typography
                 style={{
@@ -53,7 +49,20 @@ md={3}>
                 }}
               >{`${key.charAt(0).toUpperCase()}${key.slice(1)}`}</Typography>
               <Typography style={{ fontSize: 14, margin: 5, color: '#2B547E' }}>
-                {Array.isArray(value) ? value.join(' ') : value}
+                {Array.isArray(value)
+                  ? value?.map((data, index) => (
+                      <div>
+                        <a
+                          target="_blank"
+                          href={`https://d6zg14cua4cuh.cloudfront.net/${
+                            data.split('#')[1]
+                          }`}
+                        >
+                          image {index + 1}
+                        </a>
+                      </div>
+                    ))
+                  : value}
               </Typography>
             </div>
           </Grid>
@@ -79,8 +88,7 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th"
-scope="row">
+        <TableCell component="th" scope="row">
           {row.firstName + ' ' + row.lastName}
         </TableCell>
         <TableCell>{row.companyName}</TableCell>
@@ -90,19 +98,20 @@ scope="row">
         <TableCell>{row.salary}</TableCell>
         <TableCell>{row.loanProcessStatus}</TableCell>
         <TableCell>
-          <IconButton aria-label="expand row"
-size="small"
-onClick={() => {}}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => {
+              console.log('roeeeeeee', row)
+            }}
+          >
             <MoreVertIcon />
           </IconButton>
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }}
-colSpan={12}>
-          <Collapse in={open}
-timeout="auto"
-unmountOnExit>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography
                 style={{ amrgin: 10 }}
@@ -152,10 +161,7 @@ export default function CollapsibleTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {leadData.map(row => (
-            <Row key={row.name}
-row={row} />
-          ))}
+          {leadData && leadData?.map(row => <Row key={row.id} row={row} />)}
         </TableBody>
       </Table>
       <TablePagination
