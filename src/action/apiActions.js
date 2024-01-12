@@ -26,10 +26,10 @@ export async function LoginApi(apiData) {
 }
 
 
-export async function CreateLeadApi(apiData, setLoader) {
+export async function CreateLeadApi(apiData, setLoader, method) {
   setLoader(true)
   try {
-    const { data } = await axios.post(api.addLead, apiData)
+    const { data } = await axios[method](api.addLead, apiData)
     setLoader(false)
     return data
   } catch (error) {

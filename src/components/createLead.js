@@ -51,7 +51,7 @@ const validationSchema = Yup.object().shape({
     is: 'Others',
     then: Yup.string().required('Please specify the loan type'),
   }),
-  loanStatus: Yup.string().required('Loan Process Status is required'),
+  loanProcessStatus: Yup.string().required('Loan Process Status is required'),
   payslips: Yup.mixed().required('Payslip Upload is required'),
   aadharCard: Yup.mixed().required('Payslip Upload is required'),
 
@@ -103,27 +103,29 @@ const validationSchema = Yup.object().shape({
   //   .required('Bank Statement is required'),
 })
 
-const CreateLead = ({ open, onClose, loading, onSubmit }) => {
+const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
+  console.log("leadEditdata", leadEditdata)
   const initialValues = {
-    firstName: '',
-    lastName: '',
-    mobileNo: '',
-    email: '',
-    companyName: '',
-    salary: '',
-    doorNumber: '',
-    street: '',
-    city: '',
-    state: '',
-    pincode: '',
-    loanAmount: '',
-    bankName: '',
-    loanType: '',
-    loanProcessStatus: '',
-    payslips: [],
-    aadharCard: [],
-    panCard: [],
-    bankStatement: [],
+    id: leadEditdata ? leadEditdata?.id : "",
+    firstName: leadEditdata ? leadEditdata?.firstName : "",
+    lastName: leadEditdata ? leadEditdata?.lastName : "",
+    mobileNo: leadEditdata ? leadEditdata?.mobileNo : "",
+    email: leadEditdata ? leadEditdata?.email : "",
+    companyName: leadEditdata ? leadEditdata?.companyName : "",
+    salary: leadEditdata ? leadEditdata?.salary : "",
+    doorNumber: leadEditdata ? leadEditdata?.doorNumber : "",
+    street: leadEditdata ? leadEditdata?.street : "",
+    city: leadEditdata ? leadEditdata?.city : "",
+    state: leadEditdata ? leadEditdata?.state : "",
+    pincode: leadEditdata ? leadEditdata?.pincode : "",
+    loanAmount: leadEditdata ? leadEditdata?.loanAmount : "",
+    bankName: leadEditdata ? leadEditdata?.BankId : "",
+    loanType: leadEditdata ? leadEditdata?.LoanTypeId : "",
+    loanProcessStatus: leadEditdata ? leadEditdata?.LoanProcessId : "",
+    payslips: leadEditdata?.payslips !== "null" ? leadEditdata?.payslips?.map((data, index) => { return { file: data.split("#")[1], name: "payslips" + index + 1 } }) : [],
+    aadharCard: leadEditdata?.aadharCard !== "null" ? leadEditdata?.aadharCard?.map((data, index) => { return { file: data.split("#")[1], name: "aadharCard" + index + 1 } }) : [],
+    panCard: leadEditdata?.panCard !== "null" ? leadEditdata?.panCard?.map((data, index) => { return { file: data.split("#")[1], name: "panCard" + index + 1 } }) : [],
+    bankStatement: leadEditdata?.bankStatement !== "null" ? leadEditdata?.bankStatement?.map((data, index) => { return { file: data.split("#")[1], name: "bankStatement" + index + 1 } }) : [],
   }
 
 
@@ -424,13 +426,13 @@ const CreateLead = ({ open, onClose, loading, onSubmit }) => {
                     xs={6}>
                     <FormControl
                       fullWidth
-                      error={touched.loanStatus && !!errors.loanStatus}
+                      error={touched.loanProcessStatus && !!errors.loanProcessStatus}
                     >
                       <InputLabel>Loan Process Status</InputLabel>
                       <Field
                         as={Select}
-                        name="loanStatus"
-                        value={values.loanStatus}
+                        name="loanProcessStatus"
+                        value={values.loanProcessStatus}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       >
@@ -442,9 +444,9 @@ const CreateLead = ({ open, onClose, loading, onSubmit }) => {
                           </MenuItem>
                         ))}
                       </Field>
-                      {touched.loanStatus && errors.loanStatus && (
+                      {touched.loanProcessStatus && errors.loanProcessStatus && (
                         <FormHelperText error>
-                          {errors.loanStatus?.message}
+                          {errors.loanProcessStatus?.message}
                         </FormHelperText>
                       )}
                     </FormControl>

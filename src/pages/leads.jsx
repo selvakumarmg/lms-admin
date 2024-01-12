@@ -39,6 +39,7 @@ const Page = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState(false)
+  const [leadEditdata, setLeadEditdata] = useState([])
 
   const [filteredData, setFilteredData] = useState(data)
 
@@ -73,6 +74,10 @@ const Page = () => {
           firstName: data?.First_Name,
           lastName: data?.Last_Name,
           mobileNo: data?.Mobile_No,
+          LoanProcessId: data?.Loan_Process_Status_Id,
+          LoanTypeId: data?.Loan_Type_Id,
+          BankId: data?.Bank_Id,
+
           email: data?.Email,
           companyName: data?.Company_Name,
           salary: data?.Salary,
@@ -182,22 +187,45 @@ const Page = () => {
     // Read the file as Data URL (Base64)
     reader.readAsDataURL(file)
   }
+  const imageUpload = (data, type, LeadId) => {
+    convertImageToBase64(data, base64String => {
+      const assetData = {
+        Lead_detail_id: LeadId,
+        Leads_asset_id: 0,
+        asset_name: type,
+        asset_path: 'test/image',
+        asset_status: 1,
+        leads_Image: base64String,
+      }
+      CreateAssetApi(assetData, setLoading).then(res => {
+        // if (index === 2) {
+        if (res?.status === 'success') {
+          // message.success('Successfully Uploaded payslips')
+        } else {
+          message.error('Failed Upload payslips')
+        }
+        // }
+      })
+    })
+  }
 
   const createLeadApiFn = LeadData => {
+    console.log('LeadDataqqqqqqqq', LeadData)
     setLoading(true)
     const apiData = {
       Bank_Id: LeadData?.bankName,
       City: LeadData?.city,
+      Lead_Details_Id: LeadData?.id,
       Email: LeadData?.email,
       Company_Name: LeadData?.companyName,
       Company_Type_Id: 1,
       Door_no: LeadData?.doorNumber,
       First_Name: LeadData?.firstName,
-      Generated_By: 'LeadData?',
+      Generated_By: profileData[0]?.User_Id,
       Generated_On: 'LeadData?',
       Generated_Partner: profileData[0]?.User_Id,
       Last_Name: LeadData?.lastName,
-      Lead_Details_Id: 0,
+
       Lead_Status: 1,
       Loan_Amount: LeadData?.loanAmount,
       Loan_Process_Status_Id: LeadData?.loanProcessStatus,
@@ -208,112 +236,61 @@ const Page = () => {
       Salary: LeadData?.salary,
       State: LeadData?.state,
       Street: LeadData?.street,
+      asset_name: '',
+      asset_path: '',
+      Leads_asset_id: '7',
     }
 
-    CreateLeadApi(apiData, setLoading).then(res => {
-      console.log('ressss', res)
-      if (res?.statusCode === 200) {
-        message.success(res?.responseMessage)
-        LeadData?.payslips.map((data, index) => {
-          convertImageToBase64(data?.originFileObj, base64String => {
-            const assetData = {
-              Lead_detail_id: res?.lead_detail_id,
-              Leads_asset_id: 0,
-              asset_name: 'payslips',
-              asset_path: 'test/image',
-              asset_status: 1,
-              leads_Image: base64String,
-            }
-            CreateAssetApi(assetData, setLoading).then(res => {
-              if (index === 2) {
-                if (res?.status === 'success') {
-                  getLeadApi(
-                    profileData[0]?.Profile_Status_Id,
-                    profileData[0]?.User_Id,
-                    profileData[0]?.User_Role_Id,
-                    setLoading
-                  ).then(res => {
-                    getResult(res)
-                  })
-                  // message.success('Successfully Uploaded payslips')
-                } else {
-                  message.error('Failed Upload payslips')
-                }
-              }
-            })
+    CreateLeadApi(apiData, setLoading, LeadData?.id ? 'put' : 'post').then(
+      res => {
+        console.log('ressss', res)
+        if (res?.status === 'success') {
+          message.success(res?.responseMessage)
+
+          LeadData?.payslips.map((data, index) => {
+            if (data?.originFileObj)
+              imageUpload(data?.originFileObj, 'payslips', res?.lead_detail_id)
           })
-        })
 
-        convertImageToBase64(
-          LeadData?.aadharCard[0]?.originFileObj,
-          base64String => {
-            const assetData = {
-              Lead_detail_id: res?.lead_detail_id,
-              Leads_asset_id: 0,
-              asset_name: 'aadharCard',
-              asset_path: 'test/image',
-              asset_status: 1,
-              leads_Image: base64String,
-            }
-            CreateAssetApi(assetData, setLoading).then(res => {
-              if (res?.status === 'success') {
-                // message.success('Successfully Uploaded Aadhar Card')
-              } else {
-                message.error('Failed Upload Aadhar Card')
-              }
-            })
-          }
-        )
+          if (LeadData?.aadharCard[0]?.originFileObj)
+            imageUpload(
+              LeadData?.aadharCard[0]?.originFileObj,
+              'aadharCard',
+              res?.lead_detail_id
+            )
+          if (LeadData?.bankStatement[0]?.originFileObj)
+            imageUpload(
+              LeadData?.bankStatement[0]?.originFileObj,
+              'bankStatement',
+              res?.lead_detail_id
+            )
+          if (LeadData?.panCard[0]?.originFileObj)
+            imageUpload(
+              LeadData?.panCard[0]?.originFileObj,
+              'panCard',
+              res?.lead_detail_id
+            )
 
-        convertImageToBase64(
-          LeadData?.bankStatement[0]?.originFileObj,
-          base64String => {
-            const assetData = {
-              Lead_detail_id: res?.lead_detail_id,
-              Leads_asset_id: 0,
-              asset_name: 'bankStatement',
-              asset_path: 'test/image',
-              asset_status: 1,
-              leads_Image: base64String,
-            }
-            CreateAssetApi(assetData, setLoading).then(res => {
-              if (res?.status === 'success') {
-                // message.success('Successfully Uploaded bank statement')
-              } else {
-                message.error('Failed Upload bank statement')
-              }
-            })
-          }
-        )
-
-        convertImageToBase64(
-          LeadData?.panCard[0]?.originFileObj,
-          base64String => {
-            const assetData = {
-              Lead_detail_id: res?.lead_detail_id,
-              Leads_asset_id: 0,
-              asset_name: 'panCard',
-              asset_path: 'test/image',
-              asset_status: 1,
-              leads_Image: base64String,
-            }
-            CreateAssetApi(assetData, setLoading).then(res => {
-              if (res?.status === 'success') {
-                message.success('Successfully Uploaded Required files')
-                setOpenModal(false)
-              } else {
-                message.error('Failed Upload pan Card')
-              }
-              setLoading(false)
-            })
-          }
-        )
-
-        // CreateAssetApi(assetData, setLoading).then(res => {})
-      } else {
-        message.error('something went wrong please try again after sometime')
+          getLeadApi(
+            profileData[0]?.Profile_Status_Id,
+            profileData[0]?.User_Id,
+            profileData[0]?.User_Role_Id,
+            setLoading
+          ).then(res => {
+            getResult(res)
+            setOpenModal(false)
+          })
+        } else {
+          message.error('something went wrong please try again after sometime')
+        }
       }
-    })
+    )
+  }
+
+  const editLeadDetails = data => {
+    setOpenModal(true)
+    setLeadEditdata(data)
+    console.log(data)
   }
 
   return (
@@ -377,11 +354,15 @@ const Page = () => {
             />
             <CreateLead
               open={openModal}
-              onClose={() => setOpenModal(!openModal)}
+              onClose={() => {
+                setOpenModal(!openModal)
+                setLeadEditdata([])
+              }}
               loading={loading}
               onSubmit={el => {
                 createLeadApiFn(el)
               }}
+              leadEditdata={leadEditdata}
             />
             <CollapsibleTable
               count={data?.length}
@@ -395,6 +376,7 @@ const Page = () => {
               page={page}
               rowsPerPage={rowsPerPage}
               selected={customersSelection?.selected}
+              editArea={editLeadDetails}
             />
             {/* <LeadsTable
               count={data?.length}

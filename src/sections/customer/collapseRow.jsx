@@ -2,6 +2,8 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
+import EditIcon from '@mui/icons-material/Edit'
+
 import {
   Grid,
   Paper,
@@ -73,7 +75,8 @@ const GridView = ({ data }) => {
 }
 
 function Row(props) {
-  const { row } = props
+  console.log('propspropspropsprops', props)
+  const { row, editArea } = props
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -102,10 +105,10 @@ function Row(props) {
             aria-label="expand row"
             size="small"
             onClick={() => {
-              console.log('roeeeeeee', row)
+              editArea(row)
             }}
           >
-            <MoreVertIcon />
+            <EditIcon />
           </IconButton>
         </TableCell>
       </TableRow>
@@ -143,6 +146,7 @@ export default function CollapsibleTable(props) {
     page = 0,
     rowsPerPage = 0,
     selected = [],
+    editArea,
   } = props
   return (
     <TableContainer component={Paper}>
@@ -161,7 +165,10 @@ export default function CollapsibleTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {leadData && leadData?.map(row => <Row key={row.id} row={row} />)}
+          {leadData &&
+            leadData?.map(row => (
+              <Row editArea={editArea} key={row.id} row={row} />
+            ))}
         </TableBody>
       </Table>
       <TablePagination

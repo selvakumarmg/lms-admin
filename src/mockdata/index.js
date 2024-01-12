@@ -1,15 +1,15 @@
 export const loanType = [
-  { value: 'Personal Loan', label: 'Personal Loan' },
-  { value: 'Business Loan', label: 'Business Loan' },
-  { value: 'House Loan', label: 'House Loan' },
-  { value: 'Loan Against Property', label: 'Loan Against Property' },
-  { value: 'Others', label: 'Others' },
+  { value: '1', label: 'Personal Loan' },
+  { value: '2', label: 'Business Loan' },
+  { value: '3', label: 'House Loan' },
+  { value: '4', label: 'Loan Against Property' },
+  { value: '5', label: 'Others' },
 ]
 
 export const loanStatusOptions = [
-  { value: 'Fresh', label: 'Fresh' },
-  { value: 'Top Up', label: 'Top Up' },
-  { value: 'Balance Transfer', label: 'Balance Transfer' },
+  { value: '1', label: 'Fresh' },
+  { value: '2', label: 'Top Up' },
+  { value: '3', label: 'Balance Transfer' },
   // Add more options as needed
 ]
 
