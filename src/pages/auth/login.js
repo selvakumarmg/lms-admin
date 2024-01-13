@@ -19,10 +19,12 @@ import {
 import { useAuth } from 'src/hooks/use-auth'
 import { useSelector, useDispatch } from 'react-redux';
 import { setAuthList } from '../../redux/slices/authSlice';
+import { setBankList, setLoanStatusList, setLoanTypeList, setProfileStatusList, setUserRoleList } from '../../redux/slices/lookup';
+
 
 
 import { Layout as AuthLayout } from 'src/layouts/auth/layout'
-import { LoginApi } from '../../action/apiActions'
+import { LoginApi, getLookupData } from '../../action/apiActions'
 
 const Page = () => {
   const router = useRouter()
@@ -55,6 +57,26 @@ const Page = () => {
             if (res?.length > 0) {
               auth.signIn(res[0]?.user_role)
               dispatch(setAuthList(res))
+
+              getLookupData("bank").then(res => {
+                dispatch(setBankList(res))
+              })
+
+              getLookupData("loan_process_status").then(res => {
+                dispatch(setLoanStatusList(res))
+              })
+
+              getLookupData("loan_type").then(res => {
+                dispatch(setLoanTypeList(res))
+              })
+
+              getLookupData("profile_status").then(res => {
+                dispatch(setProfileStatusList(res))
+              })
+
+              getLookupData("user_role").then(res => {
+                dispatch(setUserRoleList(res))
+              })
 
               router.push('/')
             } else {

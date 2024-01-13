@@ -18,93 +18,18 @@ import {
 import { Upload, message, Form as AntForm } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 import * as Yup from 'yup'
+import { useSelector, useDispatch } from 'react-redux'
+
 import { loanStatusOptions, loanType, bankNameList } from 'src/mockdata'
 
 const { Dragger } = Upload
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required('First Name is required'),
-  lastName: Yup.string().required('Last Name is required'),
-  mobileNo: Yup.string()
-    .matches(/^[0-9]{10}$/, 'Invalid mobile number')
-    .required('Mobile No is required'),
-  email: Yup.string()
-    .matches(emailRegex, 'Invalid email address')
-    .required('Email is required'),
-  companyName: Yup.string().required('Company Name is required'),
-  salary: Yup.number()
-    .positive('Salary must be a positive number')
-    .required('Salary is required'),
-  doorNumber: Yup.string().required('Door number is required'),
-  street: Yup.string().required('Street is required'),
-  city: Yup.string().required('City is required'),
-  state: Yup.string().required('State is required'),
-  pincode: Yup.string().required('Pin Code is required'),
-  loanAmount: Yup.number()
-    .positive('Loan Amount must be a positive number')
-    .required('Loan Amount is required'),
-  bankName: Yup.string().required('Bank Name is required'),
-  loanType: Yup.string().required('Loan Type is required'),
-  loanTypeOther: Yup.string().when('loanType', {
-    is: 'Others',
-    then: Yup.string().required('Please specify the loan type'),
-  }),
-  loanProcessStatus: Yup.string().required('Loan Process Status is required'),
-  payslips: Yup.mixed().required('Payslip Upload is required'),
-  aadharCard: Yup.mixed().required('Payslip Upload is required'),
 
-  panCard: Yup.mixed().required('Payslip Upload is required'),
-
-  bankStatement: Yup.mixed().required('Payslip Upload is required'),
-
-  // aadharCard: Yup.mixed()
-  //   .test(
-  //     'fileSize',
-  //     'File size is too large',
-  //     value => value && value.size <= 2 * 1024 * 1024
-  //   ) // 2MB limit
-  //   .test(
-  //     'fileType',
-  //     'Unsupported file type',
-  //     value =>
-  //       value &&
-  //       ['image/jpeg', 'image/png', 'application/pdf'].includes(value.type)
-  //   )
-  //   .required('Aadhar Card is required'),
-  // panCard: Yup.mixed()
-  //   .test(
-  //     'fileSize',
-  //     'File size is too large',
-  //     value => value && value.size <= 5 * 1024 * 1024
-  //   ) // 5MB limit
-  //   .test(
-  //     'fileType',
-  //     'Unsupported file type',
-  //     value =>
-  //       value &&
-  //       ['application/pdf', 'image/jpeg', 'image/png'].includes(value.type)
-  //   )
-  //   .required('PAN Card is required'),
-  // bankStatement: Yup.mixed()
-  //   .test(
-  //     'fileSize',
-  //     'File size is too large',
-  //     value => value && value.size <= 5 * 1024 * 1024
-  //   ) // 5MB limit
-  //   .test(
-  //     'fileType',
-  //     'Unsupported file type',
-  //     value =>
-  //       value &&
-  //       ['application/pdf', 'image/jpeg', 'image/png'].includes(value.type)
-  //   )
-  //   .required('Bank Statement is required'),
-})
 
 const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
-  console.log("leadEditdata", leadEditdata)
+
   const initialValues = {
     id: leadEditdata ? leadEditdata?.id : "",
     firstName: leadEditdata ? leadEditdata?.firstName : "",
@@ -128,6 +53,108 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
     bankStatement: leadEditdata?.bankStatement !== "null" ? leadEditdata?.bankStatement?.map((data, index) => { return { file: data.split("#")[1], name: "bankStatement" + index + 1 } }) : [],
   }
 
+
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required('First Name is required'),
+    lastName: Yup.string().required('Last Name is required'),
+    mobileNo: Yup.string()
+      .matches(/^[0-9]{10}$/, 'Invalid mobile number')
+      .required('Mobile No is required'),
+    email: Yup.string()
+      .matches(emailRegex, 'Invalid email address')
+      .required('Email is required'),
+    companyName: Yup.string().required('Company Name is required'),
+    salary: Yup.number()
+      .positive('Salary must be a positive number')
+      .required('Salary is required'),
+    doorNumber: Yup.string().required('Door number is required'),
+    street: Yup.string().required('Street is required'),
+    city: Yup.string().required('City is required'),
+    state: Yup.string().required('State is required'),
+    pincode: Yup.string().required('Pin Code is required'),
+    loanAmount: Yup.number()
+      .positive('Loan Amount must be a positive number')
+      .required('Loan Amount is required'),
+    bankName: Yup.string().required('Bank Name is required'),
+    loanType: Yup.string().required('Loan Type is required'),
+    loanTypeOther: Yup.string().when('loanType', {
+      is: 'Others',
+      then: Yup.string().required('Please specify the loan type'),
+    }),
+    loanProcessStatus: Yup.string().required('Loan Process Status is required'),
+    payslips: leadEditdata?.payslips !== "null" ? Yup.mixed().required('payslips is required') : Yup.mixed().required('payslips is required')
+      .test("filesize", "Max allowed size is 2MB", (value) => {
+        if (value && value.length > 0) {
+          for (let i = 0; i <= 2; i++) {
+            if (value[i]?.size > (2 * 1024 * 1024)) {
+              return false;
+            }
+          }
+        }
+        return true;
+      })
+      .test("filetype", "Unsupported file format / 3 image must be upload", (value) => {
+        if (value && value.length > 0) {
+          for (let i = 0; i <= 2; i++) {
+            if (
+              value[i]?.type !== "image/png" &&
+              value[i]?.type !== "image/jpg" &&
+              value[i]?.type !== "image/jpeg"
+            ) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }),
+
+    aadharCard: leadEditdata?.aadharCard !== "null" ? Yup.mixed().required('aadharCard is required') : Yup.mixed().required('Aadhar Card is required') // 2MB limit
+      .test(
+        'fileSize',
+        'Max allowed size is 2MB',
+        value => value && value[0]?.size <= 2 * 1024 * 1024
+      )
+      .test(
+        'fileType',
+        'Unsupported file type',
+        value =>
+          value &&
+          ['image/jpeg', 'image/png', 'application/pdf'].includes(value[0]?.type)
+      ),
+    panCard: leadEditdata?.panCard !== "null" ? Yup.mixed().required('panCard is required') : Yup.mixed().required('PAN Card is required')
+      .test(
+        'fileSize',
+        'Max allowed size is 2MB',
+        value => value && value[0]?.size <= 2 * 1024 * 1024
+      ) // 2MB limit
+      .test(
+        'fileType',
+        'Unsupported file type',
+        value =>
+          value &&
+          ['application/pdf', 'image/jpeg', 'image/png'].includes(value[0]?.type)
+      )
+    ,
+    bankStatement: leadEditdata?.bankStatement !== "null" ? Yup.mixed().required('bankStatement is required') : Yup.mixed().required('Bank Statement is required')
+      .test(
+        'fileSize',
+        'Max allowed size is 5MB',
+        value => value && value[0]?.size <= 5 * 1024 * 1024
+      ) // 5MB limit
+      .test(
+        'fileType',
+        'Unsupported file type',
+        value =>
+          value &&
+          ['application/pdf', 'image/jpeg', 'image/png'].includes(value[0]?.type)
+      )
+    ,
+  })
+
+
+  const BankData = useSelector(state => state.Lookup.bankData);
+  const LoanProcessStatusData = useSelector(state => state.Lookup.loanProcessStatusData);
+  const LoanTypeData = useSelector(state => state.Lookup.loanTypeData);
 
 
 
@@ -377,10 +404,10 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
                         onBlur={handleBlur}
                       >
                         <MenuItem value="">Select</MenuItem>
-                        {bankNameList.map(option => (
-                          <MenuItem key={option.value}
-                            value={option.value}>
-                            {option.label}
+                        {BankData.map(option => (
+                          <MenuItem key={option?.Bank_Id}
+                            value={option?.Bank_Id}>
+                            {option?.Bank_Name}
                           </MenuItem>
                         ))}
                       </Field>
@@ -405,10 +432,10 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
                         onBlur={handleBlur}
                       >
                         <MenuItem value="">Select</MenuItem>
-                        {loanType.map(option => (
-                          <MenuItem key={option.value}
-                            value={option.value}>
-                            {option.label}
+                        {LoanTypeData?.map(option => (
+                          <MenuItem key={option?.Loan_Type_Id}
+                            value={option?.Loan_Type_Id}>
+                            {option?.Loan_Type_Name}
                           </MenuItem>
                         ))}
                       </Field>
@@ -437,10 +464,10 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
                         onBlur={handleBlur}
                       >
                         <MenuItem value="">Select</MenuItem>
-                        {loanStatusOptions.map(option => (
-                          <MenuItem key={option.value}
-                            value={option.value}>
-                            {option.label}
+                        {LoanProcessStatusData?.map(option => (
+                          <MenuItem key={option?.Loan_Process_Status_Id}
+                            value={option?.Loan_Process_Status_Id}>
+                            {option?.Loan_Process_Name}
                           </MenuItem>
                         ))}
                       </Field>

@@ -40,6 +40,7 @@ const Page = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState(false)
   const [leadEditdata, setLeadEditdata] = useState([])
+  const [imageData, setImagedata] = useState([])
 
   const [filteredData, setFilteredData] = useState(data)
 
@@ -64,7 +65,7 @@ const Page = () => {
     ).then(res => {
       getResult(res)
     })
-  }, [profileData])
+  }, [])
 
   const getResult = res => {
     if (res?.statusCode === 200) {
@@ -116,9 +117,10 @@ const Page = () => {
               : 'null',
         }
       })
+      setData(resResult?.reverse())
+    } else {
+      setData([])
     }
-
-    setData(resResult?.reverse())
   }
   const handleSearch = query => {
     setSearchQuery(query)
@@ -150,13 +152,7 @@ const Page = () => {
   const customersIds = useCustomerIds(customers)
   const customersSelection = useSelection(customersIds)
 
-  console.log('customers', customers)
-  console.log('customersIds', customersIds)
-
-  console.log('customersSelection', customersSelection)
-
   useEffect(() => {
-    console.log('searchQuery', searchQuery)
     if (searchQuery) {
       setFilteredData(
         data?.filter(customer =>
@@ -187,29 +183,47 @@ const Page = () => {
     // Read the file as Data URL (Base64)
     reader.readAsDataURL(file)
   }
-  const imageUpload = (data, type, LeadId) => {
-    convertImageToBase64(data, base64String => {
+  const imageUpload = async (data, type, LeadId, flag, id) => {
+    await convertImageToBase64(data, base64String => {
       const assetData = {
         Lead_detail_id: LeadId,
+
         Leads_asset_id: 0,
         asset_name: type,
         asset_path: 'test/image',
         asset_status: 1,
         leads_Image: base64String,
       }
-      CreateAssetApi(assetData, setLoading).then(res => {
+      const updateData = {
+        Leads_asset_id: id,
+        asset_name: type,
+        asset_path: base64String,
+        Lead_detail_id: LeadId,
+      }
+      CreateAssetApi(
+        flag ? updateData : assetData,
+        setLoading,
+        flag ? 'put' : 'post'
+      ).then(res => {
         // if (index === 2) {
         if (res?.status === 'success') {
           // message.success('Successfully Uploaded payslips')
         } else {
-          message.error('Failed Upload payslips')
+          // message.error(`Failed Upload ${type}`)
         }
         // }
       })
     })
   }
 
-  const createLeadApiFn = LeadData => {
+  const getApiData = async (StatusId, UserId, RoleId, setLoading) => {
+    await getLeadApi(StatusId, UserId, RoleId, setLoading).then(res => {
+      getResult(res)
+      setOpenModal(false)
+    })
+  }
+
+  async function createLeadApiFn(LeadData) {
     console.log('LeadDataqqqqqqqq', LeadData)
     setLoading(true)
     const apiData = {
@@ -241,50 +255,61 @@ const Page = () => {
       Leads_asset_id: '7',
     }
 
-    CreateLeadApi(apiData, setLoading, LeadData?.id ? 'put' : 'post').then(
-      res => {
-        console.log('ressss', res)
-        if (res?.status === 'success') {
-          message.success(res?.responseMessage)
-
-          LeadData?.payslips.map((data, index) => {
-            if (data?.originFileObj)
-              imageUpload(data?.originFileObj, 'payslips', res?.lead_detail_id)
-          })
-
-          if (LeadData?.aadharCard[0]?.originFileObj)
+    await CreateLeadApi(
+      apiData,
+      setLoading,
+      LeadData?.id ? 'put' : 'post'
+    ).then(res => {
+      console.log('ressss', res)
+      setLoading(true)
+      if (res?.status === 'success') {
+        LeadData?.payslips.map((data, index) => {
+          if (data?.originFileObj)
             imageUpload(
-              LeadData?.aadharCard[0]?.originFileObj,
-              'aadharCard',
-              res?.lead_detail_id
+              data?.originFileObj,
+              'payslips',
+              res?.lead_detail_id,
+              LeadData?.id,
+              LeadData?.id ? imageData[0][index]?.split('#')[0] : 0
             )
-          if (LeadData?.bankStatement[0]?.originFileObj)
-            imageUpload(
-              LeadData?.bankStatement[0]?.originFileObj,
-              'bankStatement',
-              res?.lead_detail_id
-            )
-          if (LeadData?.panCard[0]?.originFileObj)
-            imageUpload(
-              LeadData?.panCard[0]?.originFileObj,
-              'panCard',
-              res?.lead_detail_id
-            )
+        })
 
-          getLeadApi(
+        if (LeadData?.aadharCard[0]?.originFileObj)
+          imageUpload(
+            LeadData?.aadharCard[0]?.originFileObj,
+            'aadharCard',
+            res?.lead_detail_id,
+            LeadData?.id,
+            LeadData?.id ? imageData[1][0]?.split('#')[0] : 0
+          )
+        if (LeadData?.bankStatement[0]?.originFileObj)
+          imageUpload(
+            LeadData?.bankStatement[0]?.originFileObj,
+            'bankStatement',
+            res?.lead_detail_id,
+            LeadData?.id,
+            LeadData?.id ? imageData[3][0]?.split('#')[0] : 0
+          )
+        if (LeadData?.panCard[0]?.originFileObj)
+          imageUpload(
+            LeadData?.panCard[0]?.originFileObj,
+            'panCard',
+            res?.lead_detail_id,
+            LeadData?.id,
+            LeadData?.id ? imageData[2][0]?.split('#')[0] : 0
+          )
+        setTimeout(() => {
+          getApiData(
             profileData[0]?.Profile_Status_Id,
             profileData[0]?.User_Id,
             profileData[0]?.User_Role_Id,
             setLoading
-          ).then(res => {
-            getResult(res)
-            setOpenModal(false)
-          })
-        } else {
-          message.error('something went wrong please try again after sometime')
-        }
+          )
+        }, [2000])
+      } else {
+        message.error('something went wrong please try again after sometime')
       }
-    )
+    })
   }
 
   const editLeadDetails = data => {
@@ -375,6 +400,7 @@ const Page = () => {
               onSelectOne={customersSelection?.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
+              setImagedata={setImagedata}
               selected={customersSelection?.selected}
               editArea={editLeadDetails}
             />

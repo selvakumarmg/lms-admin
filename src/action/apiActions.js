@@ -37,10 +37,10 @@ export async function CreateLeadApi(apiData, setLoader, method) {
   }
 }
 
-export async function CreateAssetApi(assetData, setLoader) {
+export async function CreateAssetApi(assetData, setLoader, method) {
   setLoader(true)
   try {
-    const { data } = await axios.post(api.assetApi, assetData)
+    const { data } = await axios[method](api.assetApi, assetData)
     setLoader(false)
     return data
   } catch (error) {
@@ -49,17 +49,33 @@ export async function CreateAssetApi(assetData, setLoader) {
 }
 
 
-export async function getLeadApi(Profile_Status_Id,
-  User_Id,
-  User_Role_Id, setLoader) {
+export async function getLeadApi(statusId,
+  userId,
+  roleId, setLoader) {
   setLoader(true)
   try {
-    const { data } = await axios.get(api.addLead + `?user_role_id=1&user_id=1&status_id=1`)
+    const { data } = await axios.get(api.addLead + `?user_role_id=${statusId}&user_id=${userId}&status_id=${roleId}`)
     setLoader(false)
     return data
   } catch (error) {
     setLoader(false)
   }
 }
+
+
+
+export async function getLookupData(type) {
+
+  try {
+    const { data } = await axios.get(api.lookupApi + `?type=${type}`)
+
+    return data
+  } catch (error) {
+
+  }
+}
+
+
+
 
 

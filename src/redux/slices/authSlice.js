@@ -8,7 +8,7 @@ const initialState = {
   error: null,
 };
 
-const authSlice = createSlice({
+const AuthSlice = createSlice({
   name: 'loginAuth',
   initialState,
   reducers: {
@@ -31,10 +31,10 @@ export const {
   setAuthList,
   setLoading,
   setError,
-} = authSlice.actions;
+} = AuthSlice.actions;
 
-export const loginAuthData = (state) => state.customer.authData;
-export const selectLoading = (state) => state.customer.loading;
-export const selectError = (state) => state.customer.error;
+// export const loginAuthData = (state) => state.auth.authData;
+// export const selectLoading = (state) => state.auth.loading;
+// export const selectError = (state) => state.auth.error;
 
-export default authSlice.reducer;
+export default AuthSlice.reducer;
