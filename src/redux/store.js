@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import customerSlice from './slices/customerSlice';
 import authScreen from './slices/authSlice';
 import LookupSlice from './slices/lookup';
+import OverViewSlice from './slices/overViewSlice';
+
 
 
 
@@ -44,6 +46,7 @@ const rootReducer = combineReducers({
   customer: customerSlice,
   auth: authScreen,
   Lookup: LookupSlice,
+  overView: OverViewSlice
 })
 
 const persitedReducer = persistReducer(persistConfig, rootReducer)

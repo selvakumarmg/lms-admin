@@ -7,55 +7,78 @@ import {
   CardContent,
   Divider,
   Typography,
+  TextField
 } from '@mui/material'
+import React, { useState } from "react"
+import { useSelector, useDispatch } from 'react-redux'
+import { setTargetVal } from '../../redux/slices/overViewSlice';
 
-const user = {
-  avatar: '/assets/avatars/avatar-anika-visser.png',
-  city: 'Los Angeles',
-  country: 'USA',
-  jobTitle: 'Senior Developer',
-  name: 'Anika Visser',
-  timezone: 'GTM-7',
-}
 
-export const AccountProfile = () => (
-  <Card>
-    <CardContent>
-      <Box
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Avatar
-          src={user.avatar}
+
+export const AccountProfile = () => {
+
+
+  const tragetVal = useSelector(state => state.overView.setTarget)
+
+  const [flag, setFlag] = useState(1)
+  const [target, setTarget] = useState(tragetVal ? tragetVal : 0)
+
+  const dispatch = useDispatch();
+
+
+
+
+
+
+  const targetSubmit = () => {
+    dispatch(setTargetVal(target))
+    setFlag(1)
+  }
+
+  return (
+    <Card>
+      <CardContent>
+        <Box
           sx={{
-            height: 80,
-            mb: 2,
-            width: 80,
+            display: 'flex',
+            flexDirection: 'column',
+            margin: "1rem"
           }}
-        />
-        <Typography gutterBottom
-variant="h5">
-          {user.name}
-        </Typography>
-        <Typography color="text.secondary"
-variant="body2">
-          {user.city} {user.country}
-        </Typography>
-        <Typography color="text.secondary"
-variant="body2">
-          {user.timezone}
-        </Typography>
-      </Box>
-    </CardContent>
-    <Divider />
-    <CardActions>
-      <Button fullWidth
-variant="text">
-        Upload picture
-      </Button>
-    </CardActions>
-  </Card>
-)
+        >
+
+          <Typography gutterBottom
+            variant="h6" >
+            TARGET LOAN AMOUNT
+          </Typography>
+
+          <div style={{ display: flag === 1 ? "flex" : "none" }}>
+            <Typography color="text.secondary"
+              variant="h5" style={{ flex: 3, marginBottom: "1rem", marginTop: "1rem" }}>
+              {tragetVal}
+            </Typography>
+            <Typography color="text.secondary" style={{ flex: 3, marginBottom: "1rem", marginTop: "1.5rem", cursor: "pointer" }}
+            >
+              <a style={{ color: "blue", fontSize: "small" }} onClick={() => setFlag(2)}>set Target</a>
+            </Typography>
+          </div>
+          <div style={{ display: flag === 1 ? "none" : "block" }}>
+            <div style={{ marginBottom: "1rem", marginTop: "1rem" }}>
+              <TextField
+                fullWidth
+                label="set Target"
+                name="Target"
+                onChange={(event) => setTarget(event.target.value)}
+                value={target}
+                required
+              />
+            </div>
+            <div>
+              <Button style={{ marginBottom: "1rem", width: "100%" }} disabled={target ? false : true} variant="contained" onClick={targetSubmit}>Submit</Button>
+            </div>
+          </div>
+        </Box>
+      </CardContent>
+
+    </Card>
+  )
+}
