@@ -55,8 +55,8 @@ export const TopNav = props => {
           }}
         >
           <Stack alignItems="center"
-direction="row"
-spacing={2}>
+            direction="row"
+            spacing={2}>
             {!lgUp && (
               <IconButton onClick={onNavOpen}>
                 <SvgIcon fontSize="small">
@@ -73,8 +73,8 @@ spacing={2}>
             </Tooltip> */}
           </Stack>
           <Stack alignItems="center"
-direction="row"
-spacing={2}>
+            direction="row"
+            spacing={2}>
             {/* <Tooltip title="Contacts">
               <IconButton>
                 <SvgIcon fontSize="small">
@@ -82,7 +82,7 @@ spacing={2}>
                 </SvgIcon>
               </IconButton>
             </Tooltip> */}
-            <Tooltip title="Notifications">
+            {/* <Tooltip title="Notifications">
               <IconButton>
                 <Badge badgeContent={4}
 color="success"
@@ -92,7 +92,7 @@ variant="dot">
                   </SvgIcon>
                 </Badge>
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
             <Avatar
               onClick={accountPopover.handleOpen}
               ref={accountPopover.anchorRef}

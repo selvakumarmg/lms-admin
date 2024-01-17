@@ -34,8 +34,8 @@ const Page = () => {
   const [method, setMethod] = useState('email')
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: 'raj1@gmail.com',
+      password: 'raj1@123',
       submit: null,
     },
     validationSchema: Yup.object({
@@ -80,7 +80,7 @@ const Page = () => {
 
               router.push('/')
             } else {
-              helpers.setErrors({ submit: 'User Not Found In Database' })
+              helpers.setErrors({ submit: 'Something wrong, please try again!!!' })
             }
           })
         } else {
