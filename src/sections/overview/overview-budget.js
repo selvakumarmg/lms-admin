@@ -11,8 +11,13 @@ import {
   Typography,
 } from '@mui/material'
 
+
+
 export const OverviewBudget = props => {
   const { difference, positive = false, sx, value } = props
+
+
+
 
   return (
     <Card sx={sx}>
@@ -25,7 +30,7 @@ export const OverviewBudget = props => {
         >
           <Stack spacing={1}>
             <Typography color="text.secondary"
-variant="overline">
+              variant="overline">
               Target Loan Amount
             </Typography>
             <Typography variant="h4">{value}</Typography>
@@ -42,16 +47,16 @@ variant="overline">
             </SvgIcon>
           </Avatar>
         </Stack>
-        {difference && (
+        {/* {difference && (
           <Stack alignItems="center"
-direction="row"
-spacing={2}
-sx={{ mt: 2 }}>
+            direction="row"
+            spacing={2}
+            sx={{ mt: 2 }}>
             <Stack alignItems="center"
-direction="row"
-spacing={0.5}>
+              direction="row"
+              spacing={0.5}>
               <SvgIcon color={positive ? 'success' : 'error'}
-fontSize="small">
+                fontSize="small">
                 {positive ? <ArrowUpIcon /> : <ArrowDownIcon />}
               </SvgIcon>
               <Typography
@@ -62,11 +67,11 @@ fontSize="small">
               </Typography>
             </Stack>
             <Typography color="text.secondary"
-variant="caption">
+              variant="caption">
               Since last month
             </Typography>
           </Stack>
-        )}
+        )} */}
       </CardContent>
     </Card>
   )

@@ -116,12 +116,12 @@ export const OverviewTraffic = props => {
               >
                 {iconMap[label]}
                 <Typography sx={{ my: 1 }}
-variant="h6">
+                  variant="h6">
                   {label}
                 </Typography>
                 <Typography color="text.secondary"
-variant="subtitle2">
-                  {item}%
+                  variant="subtitle2">
+                  {item}
                 </Typography>
               </Box>
             )

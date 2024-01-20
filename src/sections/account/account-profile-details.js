@@ -13,12 +13,18 @@ import {
 import { useSelector, useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { myprofileChanges } from '../../action/apiActions'
+import { message } from 'antd'
+
 
 export const AccountProfileDetails = () => {
 
   const profileData = useSelector(state => state.auth.authData)
 
+  const [loading, setLoading] = useState(false)
 
+
+  console.log("profileData", profileData)
 
   const formik = useFormik({
     initialValues: {
@@ -40,19 +46,34 @@ export const AccountProfileDetails = () => {
     onSubmit: (values) => {
 
 
-      console.log("values", values)
 
 
-      // try {
 
-      //   console.log("values", values)
 
-      // } catch (err) {
-      //   helpers.setStatus({ success: false })
-      //   helpers.setErrors({ submit: err.message })
-      //   helpers.setSubmitting(false)
 
-      // }
+
+      try {
+
+        const apiData =
+        {
+          "User_Id": profileData[0]?.User_Id,
+          "Password": values?.password
+        }
+
+        myprofileChanges(apiData).then((res) => {
+          if (res?.status === "success") {
+            message.success('Successfully Updated Password')
+          }
+        })
+
+
+
+      } catch (err) {
+        helpers.setStatus({ success: false })
+        helpers.setErrors({ submit: err.message })
+        helpers.setSubmitting(false)
+
+      }
     },
   })
 

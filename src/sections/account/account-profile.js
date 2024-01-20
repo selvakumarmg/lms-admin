@@ -12,6 +12,10 @@ import {
 import React, { useState } from "react"
 import { useSelector, useDispatch } from 'react-redux'
 import { setTargetVal } from '../../redux/slices/overViewSlice';
+import { targetChanges } from '../../action/apiActions'
+import { message } from 'antd'
+
+
 
 
 
@@ -19,6 +23,7 @@ export const AccountProfile = () => {
 
 
   const tragetVal = useSelector(state => state.overView.setTarget)
+  const profileData = useSelector(state => state.auth.authData)
 
   const [flag, setFlag] = useState(1)
   const [target, setTarget] = useState(tragetVal ? tragetVal : 0)
@@ -31,8 +36,20 @@ export const AccountProfile = () => {
 
 
   const targetSubmit = () => {
-    dispatch(setTargetVal(target))
-    setFlag(1)
+    const apiData =
+    {
+      "User_Id": profileData[0]?.User_Id,
+      "Target": target
+    }
+
+    targetChanges(apiData).then((res) => {
+      if (res?.status === "success") {
+        dispatch(setTargetVal(target))
+        setFlag(1)
+        message.success('Successfully Updated the Target')
+      }
+    })
+
   }
 
   return (

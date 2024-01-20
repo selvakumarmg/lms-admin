@@ -20,6 +20,7 @@ import { useAuth } from 'src/hooks/use-auth'
 import { useSelector, useDispatch } from 'react-redux';
 import { setAuthList } from '../../redux/slices/authSlice';
 import { setBankList, setLoanStatusList, setLoanTypeList, setProfileStatusList, setUserRoleList } from '../../redux/slices/lookup';
+import { setTargetVal } from '../../redux/slices/overViewSlice';
 
 
 
@@ -57,7 +58,7 @@ const Page = () => {
             if (res?.length > 0) {
               auth.signIn(res[0]?.user_role)
               dispatch(setAuthList(res))
-
+              dispatch(setTargetVal(res[0]?.Target))
               getLookupData("bank").then(res => {
                 dispatch(setBankList(res))
               })
