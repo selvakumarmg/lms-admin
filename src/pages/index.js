@@ -28,6 +28,8 @@ const Page = () => {
 
   const [targetComletion, settargetCompletion] = useState("")
   const [leadStausMonth, setLeadStatus] = useState([])
+  const [leadCountByMonth, setLeadCountByMonth] = useState([])
+
 
 
 
@@ -74,9 +76,37 @@ const Page = () => {
 
       }
 
+      const monthlyData = getDataByMonths(res.data);
+      setLeadCountByMonth(monthlyData)
+
+      // console.log("monthlyData", monthlyData)
+
+
     })
 
   }, [])
+
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+
+
+  // Function to filter data for a specific month
+  const filterDataByMonth = (month, data) => {
+    console.log(data[2]?.Generated_On.split("/")[2] + "-" + data[2]?.Generated_On.split("/")[1] + "-" + data[2]?.Generated_On.split("/")[0], new Date(data[2]?.Generated_On.replaceAll("/", "-"), "yyyy-mm-dd"))
+    return data.filter(item => Number(item.Generated_On.split("/")[1]) === Number(month));
+  };
+
+  // Function to get data for each month from January to December
+  const getDataByMonths = (data) => {
+    const monthlyData = [];
+
+    for (let month = 1; month <= 12; month++) {
+      const filteredData = filterDataByMonth(month, data);
+      monthlyData.push(filteredData?.length);
+    }
+
+    return monthlyData;
+  };
+
 
 
 
@@ -128,7 +158,7 @@ const Page = () => {
                 chartSeries={[
                   {
                     name: 'This year',
-                    data: [18, 16, 5, 8],
+                    data: leadCountByMonth,
                   },
                   // {
                   //   name: 'Last year',

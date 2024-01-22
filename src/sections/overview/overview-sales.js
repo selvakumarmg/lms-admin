@@ -97,7 +97,7 @@ const useChartOptions = () => {
     },
     yaxis: {
       labels: {
-        formatter: value => (value > 0 ? `${value}K` : `${value}`),
+        formatter: value => (value > 0 ? `${value}` : `${value}`),
         offsetX: -10,
         style: {
           colors: theme.palette.text.secondary,
@@ -114,19 +114,19 @@ export const OverviewSales = props => {
   return (
     <Card sx={sx}>
       <CardHeader
-        action={
-          <Button
-            color="inherit"
-            size="small"
-            startIcon={
-              <SvgIcon fontSize="small">
-                <ArrowPathIcon />
-              </SvgIcon>
-            }
-          >
-            Sync
-          </Button>
-        }
+        // action={
+        //   <Button
+        //     color="inherit"
+        //     size="small"
+        //     startIcon={
+        //       <SvgIcon fontSize="small">
+        //         <ArrowPathIcon />
+        //       </SvgIcon>
+        //     }
+        //   >
+        //     Sync
+        //   </Button>
+        // }
         title="Leads Ratio / Monthly"
       />
       <CardContent>

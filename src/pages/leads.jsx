@@ -236,7 +236,7 @@ const Page = () => {
       Door_no: LeadData?.doorNumber,
       First_Name: LeadData?.firstName,
       Generated_By: profileData[0]?.User_Id,
-      Generated_On: 'LeadData?',
+      Generated_On: '',
       Generated_Partner: profileData[0]?.User_Id,
       Last_Name: LeadData?.lastName,
 
