@@ -18,8 +18,6 @@ export const AccountProfileDetails = () => {
 
   const profileData = useSelector(state => state.auth.authData)
 
-
-
   const formik = useFormik({
     initialValues: {
       email: profileData[0]?.Email_Id,
@@ -38,21 +36,7 @@ export const AccountProfileDetails = () => {
         .required('Confirm Password is required'),
     }),
     onSubmit: (values) => {
-
-
       console.log("values", values)
-
-
-      // try {
-
-      //   console.log("values", values)
-
-      // } catch (err) {
-      //   helpers.setStatus({ success: false })
-      //   helpers.setErrors({ submit: err.message })
-      //   helpers.setSubmitting(false)
-
-      // }
     },
   })
 

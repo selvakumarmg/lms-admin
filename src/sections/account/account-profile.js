@@ -25,11 +25,6 @@ export const AccountProfile = () => {
 
   const dispatch = useDispatch();
 
-
-
-
-
-
   const targetSubmit = () => {
     dispatch(setTargetVal(target))
     setFlag(1)
@@ -54,18 +49,18 @@ export const AccountProfile = () => {
           <div style={{ display: flag === 1 ? "flex" : "none" }}>
             <Typography color="text.secondary"
               variant="h5" style={{ flex: 3, marginBottom: "1rem", marginTop: "1rem" }}>
-              {tragetVal}
+              ₹ {tragetVal}
             </Typography>
             <Typography color="text.secondary" style={{ flex: 3, marginBottom: "1rem", marginTop: "1.5rem", cursor: "pointer" }}
             >
-              <a style={{ color: "blue", fontSize: "small" }} onClick={() => setFlag(2)}>set Target</a>
+              <a style={{ color: "blue", fontSize: "small" }} onClick={() => setFlag(2)}>UPDATE TARGET</a>
             </Typography>
           </div>
           <div style={{ display: flag === 1 ? "none" : "block" }}>
             <div style={{ marginBottom: "1rem", marginTop: "1rem" }}>
               <TextField
                 fullWidth
-                label="set Target"
+                label="UPDATE TARGET"
                 name="Target"
                 onChange={(event) => setTarget(event.target.value)}
                 value={target}

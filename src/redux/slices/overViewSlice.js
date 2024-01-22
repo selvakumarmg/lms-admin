@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 const initialState = {
-  setTarget: "",
+  setTarget: "0",
   approvedLead: "",
   completeTarget: "",
   leadStatus: [],
