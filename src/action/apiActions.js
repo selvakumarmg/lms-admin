@@ -78,4 +78,30 @@ export async function getLookupData(type) {
 
 
 
+export async function myprofileChanges(apiData) {
+
+  try {
+    const { data } = await axios.put(api.password, apiData)
+
+    return data
+  } catch (error) {
+    console.log("error")
+  }
+}
+
+export async function targetChanges(apiData) {
+
+  try {
+    const { data } = await axios.put(api.setTarget, apiData)
+
+    return data
+  } catch (error) {
+    console.log("error")
+  }
+}
+
+
+
+
+
 

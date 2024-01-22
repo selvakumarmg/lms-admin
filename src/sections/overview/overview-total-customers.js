@@ -25,7 +25,7 @@ export const OverviewTotalCustomers = props => {
         >
           <Stack spacing={1}>
             <Typography color="text.secondary"
-variant="overline">
+              variant="overline">
               Approved Leads
             </Typography>
             <Typography variant="h4">{value}</Typography>
@@ -42,7 +42,7 @@ variant="overline">
             </SvgIcon>
           </Avatar>
         </Stack>
-        {difference && (
+        {/* {difference && (
           <Stack alignItems="center"
 direction="row"
 spacing={2}
@@ -66,7 +66,7 @@ variant="caption">
               Since last month
             </Typography>
           </Stack>
-        )}
+        )} */}
       </CardContent>
     </Card>
   )

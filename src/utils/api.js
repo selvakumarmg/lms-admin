@@ -7,6 +7,8 @@ export default {
   addLead: BASE_URL + '/api/lead_details',
   assetApi: BASE_URL + '/api/leads_asset',
   lookupApi: BASE_URL + '/api/lookup',
+  password: BASE_URL + "/api/partner/password",
+  setTarget: BASE_URL + "/api/partner/target",
 
 
 

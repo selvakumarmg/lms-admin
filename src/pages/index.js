@@ -11,6 +11,9 @@ import { OverviewTotalCustomers } from 'src/sections/overview/overview-total-cus
 import { OverviewTotalProfit } from 'src/sections/overview/overview-total-profit'
 import { OverviewTraffic } from 'src/sections/overview/overview-traffic'
 import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
+
+import { getLeadApi } from '../action/apiActions'
 
 
 const now = new Date()
@@ -18,6 +21,62 @@ const now = new Date()
 const Page = () => {
 
   const tragetVal = useSelector(state => state.overView.setTarget)
+  const profileData = useSelector(state => state.auth.authData)
+
+  const [loading, setLoading] = useState(false)
+  const [leadCount, setLeadCount] = useState("")
+
+  const [targetComletion, settargetCompletion] = useState("")
+  const [leadStausMonth, setLeadStatus] = useState([])
+
+
+
+
+
+
+
+  useEffect(() => {
+
+    getLeadApi(
+      profileData[0]?.Profile_Status_Id,
+      profileData[0]?.User_Id,
+      profileData[0]?.User_Role_Id,
+      setLoading
+    ).then(res => {
+      if (res?.statusCode === 200)
+        var sum = 0;
+      var leadProgress = res.data.filter(filData => filData?.Lead_Status === 1)
+      var leadApproved = res.data.filter(filData => filData?.Lead_Status === 2)
+      var leadDecline = res.data.filter(filData => filData?.Lead_Status === 3)
+
+      var leadCount = leadProgress?.length
+      var leadStatus = [leadApproved?.length, leadProgress?.length, leadDecline?.length]
+
+      setLeadStatus(leadStatus)
+
+      var leadDataAmount = res.data.filter(filData => filData?.Lead_Status === 1).map(data => {
+
+        sum = Number(sum) + Number(data?.Loan_Amount)
+        return sum
+      })
+
+
+      if (leadDataAmount.length > 0) {
+        try {
+          var completeTarget = (tragetVal / sum) / 10
+          settargetCompletion(completeTarget?.toFixed(2))
+          setLeadCount(leadCount)
+        } catch (err) {
+          settargetCompletion(0)
+          setLeadCount(leadCount)
+        }
+
+
+      }
+
+    })
+
+  }, [])
 
 
 
@@ -53,14 +112,14 @@ const Page = () => {
                 difference={16}
                 positive={false}
                 sx={{ height: '100%' }}
-                value="100"
+                value={leadCount}
               />
             </Grid>
             <Grid xs={12}
               sm={6}
               lg={4}>
               <OverviewTasksProgress sx={{ height: '100%' }}
-                value={75.5} />
+                value={targetComletion} />
             </Grid>
 
             <Grid xs={12}
@@ -69,12 +128,12 @@ const Page = () => {
                 chartSeries={[
                   {
                     name: 'This year',
-                    data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20],
+                    data: [18, 16, 5, 8],
                   },
-                  {
-                    name: 'Last year',
-                    data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13],
-                  },
+                  // {
+                  //   name: 'Last year',
+                  //   data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13],
+                  // },
                 ]}
                 sx={{ height: '100%' }}
               />
@@ -83,7 +142,7 @@ const Page = () => {
               md={6}
               lg={4}>
               <OverviewTraffic
-                chartSeries={[63, 15, 22]}
+                chartSeries={leadStausMonth}
                 labels={['Approved', 'Progress', 'Decline']}
                 sx={{ height: '100%' }}
               />
