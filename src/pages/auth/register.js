@@ -56,7 +56,13 @@ const Page = () => {
   }
 
   const handleNext = () => {
-    setActiveStep(prevStep => prevStep + 1)
+    console.log("activeStep", activeStep)
+    if (activeStep === 2) {
+
+    } else {
+      setActiveStep(prevStep => prevStep + 1)
+    }
+
   }
 
   const getStepContent = (step, formikProps) => {
@@ -295,10 +301,10 @@ const Page = () => {
                   ? validateBasicInfo
                   : activeStep === 1
                     ? validateVerificationInfo
-                    : validateAuthInfo
+                    : activeStep === 2 && validateAuthInfo
               }
               onSubmit={(values, helpers) => {
-                console.log("partnerSingUp", values)
+
                 let data = {
                   Email_Id: values.email,
                   First_Name: values.firstName,
@@ -319,8 +325,7 @@ const Page = () => {
                   Pincode: values.PinCode,
                   Door_no: values.doorNumber,
                 }
-
-
+                // if (activeStep === 2) {
                 partnerSingUp(data, setLoading).then(res => {
 
                   if (res?.Profile_Status === "Pending") {
@@ -330,6 +335,9 @@ const Page = () => {
                     message.error('something went wrong please try again after sometime')
                   }
                 })
+                // }
+
+
               }}
             >
               {({ isSubmitting }) => (
@@ -363,14 +371,14 @@ const Page = () => {
                       )}
 
                       <Button
-                        type="submit"
+                        type={"submit"}
                         variant="contained"
                         color="primary"
                         style={{ width: '7rem' }}
-                        onClick={activeStepFlag === true ? handleNext : null}
+                        onClick={activeStep !== 2 ? handleNext : null}
                         disabled={!activeFlag}
                       >
-                        {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+                        {activeStep === 2 ? 'Submit' : 'Next'}
                       </Button>
                     </div>
                   </div>

@@ -4,7 +4,10 @@ import { styled } from '@mui/material/styles'
 import { withAuthGuard } from 'src/hocs/with-auth-guard'
 import { SideNav } from './side-nav'
 import { TopNav } from './top-nav'
-
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+import { store } from '../../redux/store';
 const SIDE_NAV_WIDTH = 280
 
 const LayoutRoot = styled('div')(({ theme }) => ({
@@ -42,13 +45,19 @@ export const Layout = withAuthGuard(props => {
     [pathname]
   )
 
+  const persistor = persistStore(store);
+
   return (
     <>
       <TopNav onNavOpen={() => setOpenNav(true)} />
       <SideNav onClose={() => setOpenNav(false)}
-open={openNav} />
+        open={openNav} />
       <LayoutRoot>
-        <LayoutContainer>{children}</LayoutContainer>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <LayoutContainer>{children}</LayoutContainer>
+          </PersistGate>
+        </Provider>
       </LayoutRoot>
     </>
   )
