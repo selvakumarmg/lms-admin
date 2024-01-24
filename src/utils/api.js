@@ -1,5 +1,5 @@
 export const BASE_URL =
-  'https://p8g0meb7k0.execute-api.ap-south-1.amazonaws.com/Dev'
+  'https://efskorntxa.execute-api.ap-south-1.amazonaws.com/Dev'
 
 export default {
   partnerSingUp: BASE_URL + '/api/partner',
@@ -9,7 +9,4 @@ export default {
   lookupApi: BASE_URL + '/api/lookup',
   password: BASE_URL + "/api/partner/password",
   setTarget: BASE_URL + "/api/partner/target",
-
-
-
 }

@@ -197,7 +197,8 @@ const Page = () => {
       const updateData = {
         Leads_asset_id: id,
         asset_name: type,
-        asset_path: base64String,
+        leads_Image: base64String,
+        asset_path: 'test/image',
         Lead_detail_id: LeadId,
       }
       CreateAssetApi(
