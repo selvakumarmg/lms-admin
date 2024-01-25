@@ -29,7 +29,7 @@ gutterBottom
 variant="overline">
               Target Completion
             </Typography>
-            <Typography variant="h4">{value}%</Typography>
+            <Typography variant="h4">{value || 0}%</Typography>
           </Stack>
           <Avatar
             sx={{

@@ -68,6 +68,7 @@ const Page = () => {
   }, [])
 
   const getResult = res => {
+    console.log("Leads data", res)
     if (res?.statusCode === 200) {
       var resResult = res?.data?.map(data => {
         return {
@@ -166,10 +167,10 @@ const Page = () => {
     }
   }, [searchQuery])
 
-  useEffect(() => {
-    const data = []
-    LeadData.LeadList(data)
-  }, [])
+  // useEffect(() => {
+  //   const data = []
+  //   LeadData.LeadList(data)
+  // }, [])
 
   const convertImageToBase64 = (file, callback) => {
     const reader = new FileReader()
@@ -206,13 +207,11 @@ const Page = () => {
         setLoading,
         flag ? 'put' : 'post'
       ).then(res => {
-        // if (index === 2) {
         if (res?.status === 'success') {
           // message.success('Successfully Uploaded payslips')
         } else {
           // message.error(`Failed Upload ${type}`)
         }
-        // }
       })
     })
   }
@@ -225,7 +224,6 @@ const Page = () => {
   }
 
   async function createLeadApiFn(LeadData) {
-    console.log('LeadDataqqqqqqqq', LeadData)
     setLoading(true)
     const apiData = {
       Bank_Id: LeadData?.bankName,
@@ -336,7 +334,7 @@ const Page = () => {
             <Stack direction="row" justifyContent="space-between" spacing={4}>
               <Stack spacing={1}>
                 <Typography variant="h4">Leads</Typography>
-                <Stack alignItems="center" direction="row" spacing={1}>
+                {/* <Stack alignItems="center" direction="row" spacing={1}>
                   <Button
                     color="inherit"
                     startIcon={
@@ -357,7 +355,7 @@ const Page = () => {
                   >
                     Export
                   </Button>
-                </Stack>
+                </Stack> */}
               </Stack>
               <div>
                 <Button

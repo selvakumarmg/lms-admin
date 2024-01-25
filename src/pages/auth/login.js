@@ -21,9 +21,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setAuthList } from '../../redux/slices/authSlice';
 import { setBankList, setLoanStatusList, setLoanTypeList, setProfileStatusList, setUserRoleList } from '../../redux/slices/lookup';
 import { setTargetVal } from '../../redux/slices/overViewSlice';
-
-
-
 import { Layout as AuthLayout } from 'src/layouts/auth/layout'
 import { LoginApi, getLookupData } from '../../action/apiActions'
 
@@ -35,8 +32,8 @@ const Page = () => {
   const [method, setMethod] = useState('email')
   const formik = useFormik({
     initialValues: {
-      email: 'raj1@gmail.com',
-      password: 'raj1@123',
+      email: '',
+      password: '',
       submit: null,
     },
     validationSchema: Yup.object({
@@ -51,11 +48,11 @@ const Page = () => {
         if (values.email && values.password) {
           const loginData = {
             password: values.password,
-
             username: values.email,
           }
           LoginApi(loginData).then(res => {
             if (res?.length > 0) {
+             if(res[0].Profile_Status_Id === 6){
               auth.signIn(res[0]?.user_role)
               dispatch(setAuthList(res))
               dispatch(setTargetVal(res[0]?.Target))
@@ -80,6 +77,9 @@ const Page = () => {
               })
 
               router.push('/')
+             }else{
+              router.push('/pending')
+             }
             } else {
               helpers.setErrors({ submit: 'Something wrong, please try again!!!' })
             }

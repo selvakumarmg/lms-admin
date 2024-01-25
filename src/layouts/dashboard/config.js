@@ -18,15 +18,15 @@ export const items = [
       </SvgIcon>
     ),
   },
-  {
-    title: 'Customers',
-    path: '/customers',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UsersIcon />
-      </SvgIcon>
-    ),
-  },
+  // {
+  //   title: 'Customers',
+  //   path: '/customers',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UsersIcon />
+  //     </SvgIcon>
+  //   ),
+  // },
   {
     title: 'Leads',
     path: '/leads',
@@ -94,15 +94,15 @@ export const items1 = [
       </SvgIcon>
     ),
   },
-  {
-    title: 'Customers',
-    path: '/customers',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UsersIcon />
-      </SvgIcon>
-    ),
-  },
+  // {
+  //   title: 'Customers',
+  //   path: '/customers',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UsersIcon />
+  //     </SvgIcon>
+  //   ),
+  // },
   {
     title: 'Leads',
     path: '/leads',

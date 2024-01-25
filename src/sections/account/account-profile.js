@@ -66,7 +66,7 @@ export const AccountProfile = () => {
           <div style={{ display: flag === 1 ? "flex" : "none" }}>
             <Typography color="text.secondary"
               variant="h5" style={{ flex: 3, marginBottom: "1rem", marginTop: "1rem" }}>
-              ₹ {tragetVal}
+              ₹ {tragetVal || 0} 
             </Typography>
             <Typography color="text.secondary" style={{ flex: 3, marginBottom: "1rem", marginTop: "1.5rem", cursor: "pointer" }}
             >

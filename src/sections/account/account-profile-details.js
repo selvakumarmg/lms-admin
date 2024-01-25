@@ -43,7 +43,6 @@ export const AccountProfileDetails = () => {
     onSubmit: (values) => {
 
       try {
-
         const apiData =
         {
           "User_Id": profileData[0]?.User_Id,

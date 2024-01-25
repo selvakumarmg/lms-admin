@@ -176,9 +176,6 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
       fileList.splice(-1, 1)
       message.error('You can only upload one file')
     }
-
-    console.log("fileList", fileList)
-
     setFieldValue('aadharCard', fileList)
   }
 
@@ -208,7 +205,7 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
     <div>
       <Dialog open={open}
         onClose={onClose}>
-        <DialogTitle>Create Lead</DialogTitle>
+        <DialogTitle>{leadEditdata?.firstName ? 'Update Lead' : 'Create Lead'}</DialogTitle>
         <DialogContent>
           <Formik
             initialValues={initialValues}

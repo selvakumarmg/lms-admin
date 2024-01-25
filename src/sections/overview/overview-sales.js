@@ -108,9 +108,10 @@ const useChartOptions = () => {
 }
 
 export const OverviewSales = props => {
-  const { chartSeries, sx } = props
+  const { chartSeries, sx } = props;
+  const {data} = chartSeries[0];
   const chartOptions = useChartOptions()
-
+console.log("chartSeries", chartSeries, data)
   return (
     <Card sx={sx}>
       <CardHeader
@@ -130,13 +131,17 @@ export const OverviewSales = props => {
         title="Leads Ratio / Monthly"
       />
       <CardContent>
-        <Chart
-          height={350}
-          options={chartOptions}
-          series={chartSeries}
-          type="bar"
-          width="100%"
-        />
+       {
+        chartSeries[0].data.length > 0 ?  <Chart
+        height={350}
+        options={chartOptions}
+        series={chartSeries}
+        type="bar"
+        width="100%"
+      /> : 
+
+      <h2 style={{textAlign:'center', color:'#2B71B9'}}>Nodata</h2>
+       }
       </CardContent>
     </Card>
   )

@@ -75,7 +75,6 @@ const GridView = ({ data }) => {
 }
 
 function Row(props) {
-  // console.log('propspropspropsprops', props)
   const { row, editArea, setImagedata } = props
   const [open, setOpen] = React.useState(false)
 
@@ -114,7 +113,7 @@ function Row(props) {
               ])
             }}
           >
-            <EditIcon />
+            <EditIcon style={{height:18 ,width:18  }} />
           </IconButton>
         </TableCell>
       </TableRow>
@@ -155,6 +154,8 @@ export default function CollapsibleTable(props) {
     editArea,
     setImagedata,
   } = props
+
+  console.log("leadData", leadData)
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -172,15 +173,22 @@ export default function CollapsibleTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {leadData &&
-            leadData?.map(row => (
+        {leadData && leadData.length === 0 ? (
+            leadData?.map((row) => (
               <Row
                 editArea={editArea}
                 setImagedata={setImagedata}
                 key={row.id}
                 row={row}
               />
-            ))}
+            ))
+          ) :(
+            <TableRow>
+              <TableCell colSpan={9} align="center">
+                <Typography style={{marginTop:20,marginBottom:20, color:'grey'}} variant="h6">No Leads available.</Typography>
+              </TableCell>
+            </TableRow>
+          ) }
         </TableBody>
       </Table>
       <TablePagination

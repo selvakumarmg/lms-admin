@@ -55,14 +55,13 @@ export async function getLeadApi(statusId,
   setLoader(true)
   try {
     const { data } = await axios.get(api.addLead + `?user_role_id=${statusId}&user_id=${userId}&status_id=${roleId}`)
+    console.log("data", data)
     setLoader(false)
     return data
   } catch (error) {
     setLoader(false)
   }
 }
-
-
 
 export async function getLookupData(type) {
 

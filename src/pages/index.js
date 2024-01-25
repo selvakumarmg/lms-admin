@@ -30,13 +30,6 @@ const Page = () => {
   const [leadStausMonth, setLeadStatus] = useState([])
   const [leadCountByMonth, setLeadCountByMonth] = useState([])
 
-
-
-
-
-
-
-
   useEffect(() => {
 
     getLeadApi(
@@ -47,20 +40,20 @@ const Page = () => {
     ).then(res => {
       if (res?.statusCode === 200)
         var sum = 0;
-      var leadProgress = res.data.filter(filData => filData?.Lead_Status === 1)
-      var leadApproved = res.data.filter(filData => filData?.Lead_Status === 2)
-      var leadDecline = res.data.filter(filData => filData?.Lead_Status === 3)
+      var leadProgress = res?.data ? res.data.filter(filData => filData?.Lead_Status === 1) : []
+      var leadApproved = res?.data ? res.data.filter(filData => filData?.Lead_Status === 2) :[]
+      var leadDecline = res?.data ? res.data.filter(filData => filData?.Lead_Status === 3): []
 
       var leadCount = leadProgress?.length
       var leadStatus = [leadApproved?.length, leadProgress?.length, leadDecline?.length]
 
       setLeadStatus(leadStatus)
 
-      var leadDataAmount = res.data.filter(filData => filData?.Lead_Status === 1).map(data => {
+      var leadDataAmount = res?.data ? res.data.filter(filData => filData?.Lead_Status === 1).map(data => {
 
         sum = Number(sum) + Number(data?.Loan_Amount)
         return sum
-      })
+      }) : 0
 
 
       if (leadDataAmount.length > 0) {
@@ -75,30 +68,24 @@ const Page = () => {
 
 
       }
-
-      const monthlyData = getDataByMonths(res.data);
-      setLeadCountByMonth(monthlyData)
-
-      // console.log("monthlyData", monthlyData)
-
-
+      let monthlyData = [];
+      if(res?.data){
+        monthlyData = getDataByMonths(res?.data) || [];
+        monthlyData.length > 0 && setLeadCountByMonth(monthlyData);
+      }
     })
 
   }, [])
 
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
 
-
-  // Function to filter data for a specific month
-  const filterDataByMonth = (month, data) => {
-    console.log(data[2]?.Generated_On.split("/")[2] + "-" + data[2]?.Generated_On.split("/")[1] + "-" + data[2]?.Generated_On.split("/")[0], new Date(data[2]?.Generated_On.replaceAll("/", "-"), "yyyy-mm-dd"))
-    return data.filter(item => Number(item.Generated_On.split("/")[1]) === Number(month));
+  const filterDataByMonth = (month, data=[]) => {
+    return data?.filter(item => Number(item.Generated_On.split("/")[1]) === Number(month));
   };
 
-  // Function to get data for each month from January to December
   const getDataByMonths = (data) => {
     const monthlyData = [];
-
+    console.log("data")
     for (let month = 1; month <= 12; month++) {
       const filteredData = filterDataByMonth(month, data);
       monthlyData.push(filteredData?.length);
@@ -117,6 +104,7 @@ const Page = () => {
       </Head>
       <Box
         component="main"
+        style={{backgroundColor:'#EFEFEF'}}
         sx={{
           flexGrow: 1,
           py: 12,
@@ -132,7 +120,7 @@ const Page = () => {
                 difference={12}
                 positive
                 sx={{ height: '100%' }}
-                value={`₹ ${tragetVal}`}
+                value={`₹ ${tragetVal || 0}`}
               />
             </Grid>
             <Grid xs={12}
@@ -158,12 +146,8 @@ const Page = () => {
                 chartSeries={[
                   {
                     name: 'This year',
-                    data: leadCountByMonth,
+                    data: leadCountByMonth || [],
                   },
-                  // {
-                  //   name: 'Last year',
-                  //   data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13],
-                  // },
                 ]}
                 sx={{ height: '100%' }}
               />

@@ -8,7 +8,6 @@ const initialState = {
   completeTarget: "",
   leadStatus: [],
   leadRatio: []
-
 };
 
 const overViewSlice = createSlice({
@@ -30,7 +29,9 @@ const overViewSlice = createSlice({
     setLeadRatio: (state, action) => {
       state.leadRatio = action.payload;
     },
-
+    resetStates:(state)=>{
+      state = initialState;
+    }
 
   },
 });
@@ -41,6 +42,7 @@ export const {
   setCompleteTarget,
   setLeadStatus,
   setLeadRatio,
+  resetStates
 } = overViewSlice.actions;
 
 

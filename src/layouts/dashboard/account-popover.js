@@ -11,21 +11,21 @@ import {
 } from '@mui/material'
 import { useAuth } from 'src/hooks/use-auth'
 import { useSelector, useDispatch } from 'react-redux'
+import { resetStates } from 'src/redux/slices/overViewSlice'
 
 
 export const AccountPopover = props => {
+  const dispatch = useDispatch();
   const { anchorEl, onClose, open } = props
 
   const profileData = useSelector(state => state.auth.authData)
-
-  console.log("profileData", profileData)
-
   const router = useRouter()
   const auth = useAuth()
 
   const handleSignOut = useCallback(() => {
     onClose?.()
-    auth.signOut()
+    auth.signOut();
+    dispatch(resetStates())
     router.push('/auth/login')
   }, [onClose, auth, router])
 
