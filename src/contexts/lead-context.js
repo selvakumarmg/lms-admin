@@ -32,8 +32,6 @@ export const LeadProvider = props => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const LeadList = async data => {
-    console.log('dataListLeads', data)
-
     dispatch({
       type: HANDLERS.LeadData,
       payload: data,

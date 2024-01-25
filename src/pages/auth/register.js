@@ -56,7 +56,6 @@ const Page = () => {
   }
 
   const handleNext = () => {
-    console.log("activeStep", activeStep)
     if (activeStep === 2) {
 
     } else {
@@ -66,7 +65,6 @@ const Page = () => {
   }
 
   const getStepContent = (step, formikProps) => {
-    // console.log("formikProps", formikProps)
     switch (step) {
       case 0:
         return (
@@ -219,7 +217,7 @@ const Page = () => {
       if (!values.otp) {
         errors.otp = 'OTP Required'
       } else if (values.otp && loading === false) {
-        console.log('values.otqqqqqqqp', values.otp)
+        //
       }
 
       if (

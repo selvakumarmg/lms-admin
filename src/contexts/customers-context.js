@@ -32,8 +32,6 @@ export const CustomerProvider = props => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const CustomerList = async data => {
-    console.log('dataList', data)
-
     dispatch({
       type: HANDLERS.CustomerData,
       payload: data,

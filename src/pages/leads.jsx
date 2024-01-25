@@ -68,7 +68,6 @@ const Page = () => {
   }, [])
 
   const getResult = res => {
-    console.log("Leads data", res)
     if (res?.statusCode === 200) {
       var resResult = res?.data?.map(data => {
         return {
@@ -125,12 +124,6 @@ const Page = () => {
   }
   const handleSearch = query => {
     setSearchQuery(query)
-  }
-
-  const createLeadsData = leadData => {
-    console.log('Leads', leadData)
-    // data.push(leadData);
-    // LeadData.LeadList(data.reverse());
   }
 
   const useCustomers = (page, rowsPerPage) => {
@@ -259,7 +252,6 @@ const Page = () => {
       setLoading,
       LeadData?.id ? 'put' : 'post'
     ).then(res => {
-      console.log('ressss', res)
       setLoading(true)
       if (res?.status === 'success') {
         LeadData?.payslips.map((data, index) => {
@@ -314,7 +306,6 @@ const Page = () => {
   const editLeadDetails = data => {
     setOpenModal(true)
     setLeadEditdata(data)
-    console.log(data)
   }
 
   return (

@@ -83,7 +83,6 @@ const iconMap = {
 export const OverviewTraffic = props => {
   const { chartSeries, labels, sx } = props
   const chartOptions = useChartOptions(labels)
-  console.log("chartSeries", chartSeries)
   return (
     <Card sx={sx}>
       <CardHeader title="Leads Status (Monthly)" />

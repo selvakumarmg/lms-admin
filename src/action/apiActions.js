@@ -55,7 +55,6 @@ export async function getLeadApi(statusId,
   setLoader(true)
   try {
     const { data } = await axios.get(api.addLead + `?user_role_id=${statusId}&user_id=${userId}&status_id=${roleId}`)
-    console.log("data", data)
     setLoader(false)
     return data
   } catch (error) {
@@ -84,7 +83,7 @@ export async function myprofileChanges(apiData) {
 
     return data
   } catch (error) {
-    console.log("error")
+    console.error("error")
   }
 }
 
@@ -95,7 +94,7 @@ export async function targetChanges(apiData) {
 
     return data
   } catch (error) {
-    console.log("error")
+    console.error("error")
   }
 }
 

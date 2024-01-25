@@ -155,7 +155,6 @@ export default function CollapsibleTable(props) {
     setImagedata,
   } = props
 
-  console.log("leadData", leadData)
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">

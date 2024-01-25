@@ -32,7 +32,6 @@ export const CustomersTable = props => {
     selected = [],
   } = props
 
-  console.log('items', items)
 
   return (
     <Card>

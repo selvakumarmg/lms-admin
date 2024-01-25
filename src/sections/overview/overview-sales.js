@@ -111,7 +111,6 @@ export const OverviewSales = props => {
   const { chartSeries, sx } = props;
   const {data} = chartSeries[0];
   const chartOptions = useChartOptions()
-console.log("chartSeries", chartSeries, data)
   return (
     <Card sx={sx}>
       <CardHeader

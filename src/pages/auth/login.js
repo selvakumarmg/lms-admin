@@ -191,7 +191,6 @@ const Page = () => {
                   </span>
                   {'\n'}
                   <p> <b> IT@spfinnacle.com / +91 9876543210</b></p>
-                  
                 </div>
               </Alert>
             </form>

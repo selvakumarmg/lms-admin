@@ -20,38 +20,17 @@ const PersonalInfoStep = ({
   const [mobileNumber, setMobileNumber] = useState('')
   const [otpVerify, setOtpVerify] = useState('')
 
-  const getMobileNumber = data => {
-    console.log('data', data)
-  }
-
   const handleSendOtp = data => {
-    // TODO: Implement OTP sending logic here
-    // You can use a state variable to track if OTP has been sent successfully
-    // For demo purposes, we'll just toggle the state
     setOtpSent(prevOtpSent => !prevOtpSent)
     resendOTP()
   }
 
   const verifyFn = () => {
     setActiveFlag(true)
-    // setMessageApi(message?.useMessage())
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
       message.success('Otp verified Successfully')
-      // setActiveFlag(true);
-
-      // if (otpVerify === "1234") {
-      //   messageApi.open({
-      //     type: 'success',
-      //     content: 'OTP Verified',
-      //   });
-      // } else {
-      //   messageApi.open({
-      //     type: 'info',
-      //     content: 'Invalid OTP',
-      //   });
-      // }
     }, 3000)
   }
 
@@ -150,9 +129,7 @@ xs={12}>
             variant="outlined"
             fullWidth
             margin="normal"
-            // onChange={(e) => getMobileNumber(e)}
-            // onClick={(e) => { e?.target?.value?.length === 10 ? console.log(e?.target?.value?.length) : console.log("ss", e?.target?.value?.length) }}
-            InputProps={{
+           InputProps={{
               endAdornment: (
                 <Button
                   variant="text"

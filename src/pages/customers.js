@@ -29,7 +29,6 @@ const Page = () => {
   const [openModal, setOpenModal] = useState(false)
 
   const handleSearch = query => {
-    // console.log("query", query)
     setSearchQuery(query)
   }
 

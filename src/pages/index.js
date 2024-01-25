@@ -85,7 +85,6 @@ const Page = () => {
 
   const getDataByMonths = (data) => {
     const monthlyData = [];
-    console.log("data")
     for (let month = 1; month <= 12; month++) {
       const filteredData = filterDataByMonth(month, data);
       monthlyData.push(filteredData?.length);

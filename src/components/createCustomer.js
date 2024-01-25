@@ -111,15 +111,10 @@ const CreateCustomer = ({ open, onClose, onSubmit }) => {
   }
 
   const handleLoanTypeChange = event => {
-    // Handle loan type change logic here
-    console.log(event.target.dataset.value)
-
     setLoanType(event.target.dataset.value)
   }
 
   const handleFormSubmit = data => {
-    // Perform form submission logic here
-
     onSubmit(data)
     onClose()
   }
