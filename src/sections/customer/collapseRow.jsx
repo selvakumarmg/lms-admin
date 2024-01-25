@@ -154,7 +154,7 @@ export default function CollapsibleTable(props) {
     editArea,
     setImagedata,
   } = props
-
+console.log("leadData", leadData)
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -172,7 +172,7 @@ export default function CollapsibleTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-        {leadData && leadData.length === 0 ? (
+        {leadData && leadData.length > 0 ? (
             leadData?.map((row) => (
               <Row
                 editArea={editArea}

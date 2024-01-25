@@ -27,6 +27,7 @@ import { useLeadContext } from 'src/contexts/lead-context'
 // import { data } from 'src/mockdata'
 import CollapsibleTable from 'src/sections/customer/collapseRow'
 import { message } from 'antd'
+import { convertJsonToObject, convertJsonToObjectWithGrouping } from 'src/utils/helpers'
 
 const now = new Date()
 
@@ -78,7 +79,6 @@ const Page = () => {
           LoanProcessId: data?.Loan_Process_Status_Id,
           LoanTypeId: data?.Loan_Type_Id,
           BankId: data?.Bank_Id,
-
           email: data?.Email,
           companyName: data?.Company_Name,
           salary: data?.Salary,
@@ -91,32 +91,10 @@ const Page = () => {
           bankName: data?.Bank_Name,
           loanType: data?.Loan_Type_Name,
           loanProcessStatus: data?.Loan_Process_Name,
-          payslips:
-            data?.assets !== null
-              ? JSON.parse(data?.assets)
-                  .filter(dd => dd?.payslips)
-                  .map(payslips => payslips?.payslips)
-              : 'null',
-          aadharCard:
-            data?.assets !== null
-              ? JSON.parse(data?.assets)
-                  .filter(dd => dd?.aadharCard)
-                  .map(aadharCard => aadharCard?.aadharCard)
-              : 'null',
-          panCard:
-            data?.assets !== null
-              ? JSON.parse(data?.assets)
-                  .filter(dd => dd?.panCard)
-                  .map(panCard => panCard?.panCard)
-              : 'null',
-          bankStatement:
-            data?.assets !== null
-              ? JSON.parse(data?.assets)
-                  .filter(dd => dd?.bankStatement)
-                  .map(bankStatement => bankStatement?.bankStatement)
-              : 'null',
+          ...(data?.assets ? convertJsonToObject(data?.assets) : {})
         }
       })
+      console.log("resResult", data)
       setData(resResult?.reverse())
     } else {
       setData([])
