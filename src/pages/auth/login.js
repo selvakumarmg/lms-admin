@@ -185,18 +185,13 @@ const Page = () => {
               <Alert color="primary"
                 severity="info"
                 sx={{ mt: 3 }}>
-                <div>
+                <div style={{display:'flex', flexDirection:'column'}}>
                   <span>
-                    Partner - You can use <b>raj1@gmail.com</b> and password{' '}
-                    <b>raj1@123</b>
+                    If any registration queries pleas contact us at
                   </span>
                   {'\n'}
-                </div>
-                <div>
-                  <span>
-                    Telecaller - You can use <b>tellecaller@gmail.com</b> and
-                    password <b>tellecaller</b>
-                  </span>
+                  <p> <b> IT@spfinnacle.com / +91 9876543210</b></p>
+                  
                 </div>
               </Alert>
             </form>
