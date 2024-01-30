@@ -1,9 +1,8 @@
-import * as React from 'react'
-import Box from '@mui/material/Box'
-import Collapse from '@mui/material/Collapse'
-import IconButton from '@mui/material/IconButton'
-import EditIcon from '@mui/icons-material/Edit'
-
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Grid,
   Paper,
@@ -15,11 +14,11 @@ import {
   TableContainer,
   TableHead,
   TablePagination,
-} from '@mui/material'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { makeStyles } from '@mui/styles'
+} from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,7 +52,7 @@ const GridView = ({ data }) => {
               <Typography style={{ fontSize: 14, margin: 5, color: '#2B547E' }}>
                 {Array.isArray(value)
                   ? value?.map((data, index) => (
-                      <div>
+                      <div key={index}>
                         <a
                           target="_blank"
                           href={`https://d6zg14cua4cuh.cloudfront.net/${
