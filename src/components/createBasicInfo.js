@@ -69,9 +69,9 @@ const PersonalInfoStep = ({
   return (
     <div>
       <Grid container
-spacing={2}>
+        spacing={2}>
         <Grid item
-xs={6}>
+          xs={6}>
           <Field
             as={TextField}
             label="First Name"
@@ -87,7 +87,7 @@ xs={6}>
           />
         </Grid>
         <Grid item
-xs={6}>
+          xs={6}>
           <Field
             as={TextField}
             label="Last Name"
@@ -104,7 +104,7 @@ xs={6}>
         </Grid>
 
         <Grid item
-xs={12}>
+          xs={12}>
           <Field
             as={TextField}
             label="Email"
@@ -121,7 +121,7 @@ xs={12}>
           />
         </Grid>
         <Grid item
-xs={12}>
+          xs={12}>
           <Field
             as={TextField}
             label="Phone Number"
@@ -129,7 +129,7 @@ xs={12}>
             variant="outlined"
             fullWidth
             margin="normal"
-           InputProps={{
+            InputProps={{
               endAdornment: (
                 <Button
                   variant="text"
@@ -155,8 +155,8 @@ xs={12}>
         </Grid>
         {otpSent && (
           <Grid item
-xs={12}
-style={{ textAlign: 'right', color: 'blue' }}>
+            xs={12}
+            style={{ textAlign: 'right', color: 'blue' }}>
             {seconds > 0 || minutes > 0 ? (
               <div>
                 Time Remaining:{' '}
@@ -179,7 +179,7 @@ style={{ textAlign: 'right', color: 'blue' }}>
           </Grid>
         )}
         <Grid item
-xs={12}>
+          xs={12}>
           {otpSent && (
             <div>
               <Field
@@ -193,7 +193,7 @@ xs={12}>
                   endAdornment: (
                     <div>
                       <Grid item
-xs={3}>
+                        xs={3}>
                         <Button
                           variant="text"
                           // color={"success"}
@@ -207,7 +207,7 @@ xs={3}>
                           }}
                           disabled={
                             mobileNumber?.length === 10 &&
-                            otpVerify?.length === 4
+                              otpVerify?.length === 4
                               ? false
                               : true
                           }
@@ -250,7 +250,7 @@ xs={3}>
           }}
         </Field>
 
-        <Field name="PAN">{({ field }) => {}}</Field>
+        <Field name="PAN">{({ field }) => { }}</Field>
 
         <Field name="otp">{({ field }) => setOtpVerify(field.value)}</Field>
       </Grid>

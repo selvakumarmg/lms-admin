@@ -1,11 +1,13 @@
-import Head from 'next/head'
-import NextLink from 'next/link'
+import Head from 'next/head';
+import NextLink from 'next/link';
 import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon'
-import { Box, Button, Container, SvgIcon, Typography } from '@mui/material'
+import { Box, Button, Container, SvgIcon, Typography } from '@mui/material';
 
 const Page = () => (
   <>
-    <Head></Head>
+    <Head>
+      <title>Application Status - Pending</title>
+    </Head>
     <Box
       component="main"
       sx={{
@@ -30,30 +32,33 @@ const Page = () => (
             }}
           >
             <img
-              alt="Under development"
+              alt="Application Pending"
               src="/assets/errors/pending.png"
-              // src="/assets/errors/error-404.png"
               style={{
                 display: 'inline-block',
                 maxWidth: '100%',
-                width: 400,
+                width: 300,
               }}
             />
           </Box>
-          <Typography align="center"
-sx={{ mb: 3 }}
-variant="h3">
-            Waiting for admin approval
+          <Typography align="center" sx={{ mb: 3 }} variant="h4">
+            Your application is currently pending admin approval.
           </Typography>
-          {/* <Typography
-            align="center"
-            color="text.secondary"
-            variant="body1"
-          >
-            You either tried some shady route or you came here by mistake.
-            Whichever it is, try using the navigation
-          </Typography> */}
+          <Typography align="center" sx={{ mb: 3 }} variant="body1">
+            Please be patient while we review your submission. If you have any
+            queries, feel free to contact us using the information below:
+          </Typography>
+          <Typography align="center" variant="h6">
+            Contact Information for Queries:
+          </Typography>
+          <Typography align="center" variant="body1">
+            Email: <a href="mailto:lmsqueries@spfinnacle.com">lmsqueries@spfinnacle.com</a>
+          </Typography>
+          <Typography align="center" variant="body1">
+            Phone:  +91 9876543210
+          </Typography>
           <Button
+           style={{marginRight:30}}
             component={NextLink}
             href="/auth/login/"
             startIcon={
@@ -70,6 +75,6 @@ variant="h3">
       </Container>
     </Box>
   </>
-)
+);
 
-export default Page
+export default Page;

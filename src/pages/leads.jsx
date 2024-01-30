@@ -1,8 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Head from 'next/head'
-import { subDays, subHours } from 'date-fns'
-import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon'
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon'
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon'
 import {
   Box,
@@ -15,27 +12,17 @@ import {
 } from '@mui/material'
 import { useSelection } from 'src/hooks/use-selection'
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout'
-import { CustomersTable } from 'src/sections/customer/customers-table'
 import { CustomersSearch } from 'src/sections/customer/customers-search'
 import { applyPagination } from 'src/utils/apply-pagination'
 import CreateLead from 'src/components/createLead'
 import { CreateLeadApi, CreateAssetApi, getLeadApi } from '../action/apiActions'
-import { useSelector, useDispatch } from 'react-redux'
-
-import { useLead } from 'src/hooks/use-lead'
-import { useLeadContext } from 'src/contexts/lead-context'
-// import { data } from 'src/mockdata'
+import { useSelector } from 'react-redux'
 import CollapsibleTable from 'src/sections/customer/collapseRow'
 import { message } from 'antd'
-import {
-  convertJsonToObject,
-  convertJsonToObjectWithGrouping,
-} from 'src/utils/helpers'
 
 const now = new Date()
 
 const Page = () => {
-  // const { data } = useLeadContext();
 
   const [page, setPage] = useState(0)
   const [openModal, setOpenModal] = useState(false)
@@ -47,9 +34,6 @@ const Page = () => {
   const [imageData, setImagedata] = useState([])
 
   const [filteredData, setFilteredData] = useState(data)
-
-  const LeadData = useLead()
-
   const profileData = useSelector(state => state.auth.authData)
 
   const handlePageChange = useCallback((event, value) => {
@@ -67,22 +51,18 @@ const Page = () => {
       profileData[0]?.User_Role_Id,
       setLoading
     ).then(res => {
-      console.log("EffectData", res,profileData[0]?.User_Role_Id)
       getResult(res)
     })
   }, [])
 
   const getResult = res => {
     if (res?.statusCode === 200) {
-      var resResult = res?.data?.map(data => {
+      const resResult = res?.data?.map(data => {
         return {
           id: data?.Lead_Details_Id,
           firstName: data?.First_Name,
           lastName: data?.Last_Name,
           mobileNo: data?.Mobile_No,
-          LoanProcessId: data?.Loan_Process_Status_Id,
-          LoanTypeId: data?.Loan_Type_Id,
-          BankId: data?.Bank_Id,
           email: data?.Email,
           companyName: data?.Company_Name,
           salary: data?.Salary,
@@ -94,7 +74,7 @@ const Page = () => {
           loanAmount: data?.Loan_Amount,
           bankName: data?.Bank_Name,
           loanType: data?.Loan_Type_Name,
-          loanProcessStatus: data?.Loan_Process_Name,
+          loanProcessType: data?.Loan_Process_Name,
           bankStatement: data?.assets
             ? JSON.parse(data?.assets)
                 .filter(filData => filData?.bankStatement)
@@ -395,30 +375,14 @@ const Page = () => {
               selected={customersSelection?.selected}
               editArea={editLeadDetails}
             />
-            {/* <LeadsTable
-              count={data?.length}
-              leads={filteredData?.length !== 0 ? filteredData : data}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
-            /> */}
           </Stack>
         </Container>
       </Box>
       <div>
-        {loading ? (
+        {loading && (
           <div style={{ position: 'absolute', top: '20rem', left: '15rem' }}>
             <CircularProgress />
           </div>
-        ) : (
-          // Your main content goes here once loading is complete
-          <div></div>
         )}
       </div>
     </>

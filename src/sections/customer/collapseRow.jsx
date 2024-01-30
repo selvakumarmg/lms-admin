@@ -59,7 +59,7 @@ const GridView = ({ data }) => {
                             data.split('#')[1]
                           }`}
                         >
-                          image {index + 1}
+                          Document {index + 1}
                         </a>
                       </div>
                     ))
@@ -153,7 +153,6 @@ export default function CollapsibleTable(props) {
     editArea,
     setImagedata,
   } = props
-console.log("leadData", leadData)
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
