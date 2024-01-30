@@ -47,8 +47,8 @@ const Page = () => {
       try {
         if (values.email && values.password) {
           const loginData = {
-            password: values.password,
-            username: values.email,
+            user_password: values.password,
+            user_name: values.email,
           }
           LoginApi(loginData).then(res => {
             if (res?.length > 0) {
@@ -187,7 +187,7 @@ const Page = () => {
                 sx={{ mt: 3 }}>
                 <div style={{display:'flex', flexDirection:'column'}}>
                   <span>
-                    If any registration queries pleas contact us at
+                    If any registration queries please contact us at
                   </span>
                   {'\n'}
                   <p> <b> IT@spfinnacle.com / +91 9876543210</b></p>

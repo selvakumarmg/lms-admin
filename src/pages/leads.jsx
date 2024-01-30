@@ -27,7 +27,10 @@ import { useLeadContext } from 'src/contexts/lead-context'
 // import { data } from 'src/mockdata'
 import CollapsibleTable from 'src/sections/customer/collapseRow'
 import { message } from 'antd'
-import { convertJsonToObject, convertJsonToObjectWithGrouping } from 'src/utils/helpers'
+import {
+  convertJsonToObject,
+  convertJsonToObjectWithGrouping,
+} from 'src/utils/helpers'
 
 const now = new Date()
 
@@ -64,6 +67,7 @@ const Page = () => {
       profileData[0]?.User_Role_Id,
       setLoading
     ).then(res => {
+      console.log("EffectData", res,profileData[0]?.User_Role_Id)
       getResult(res)
     })
   }, [])
@@ -91,10 +95,29 @@ const Page = () => {
           bankName: data?.Bank_Name,
           loanType: data?.Loan_Type_Name,
           loanProcessStatus: data?.Loan_Process_Name,
-          ...(data?.assets ? convertJsonToObject(data?.assets) : {})
+          bankStatement: data?.assets
+            ? JSON.parse(data?.assets)
+                .filter(filData => filData?.bankStatement)
+                .map(data => data?.bankStatement)
+            : [],
+          panCard: data?.assets
+            ? JSON.parse(data?.assets)
+                .filter(filData => filData?.panCard)
+                .map(data => data?.panCard)
+            : [],
+          aadharCard: data?.assets
+            ? JSON.parse(data?.assets)
+                .filter(filData => filData?.aadharCard)
+                .map(data => data?.aadharCard)
+            : [],
+          payslips: data?.assets
+            ? JSON.parse(data?.assets)
+                .filter(filData => filData?.payslips)
+                .map(data => data?.payslips)
+            : [],
         }
       })
-      console.log("resResult", data)
+      console.log('resResult', data)
       setData(resResult?.reverse())
     } else {
       setData([])

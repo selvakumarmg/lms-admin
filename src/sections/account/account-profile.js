@@ -30,6 +30,11 @@ export const AccountProfile = () => {
 
   const dispatch = useDispatch();
 
+
+
+
+
+
   const targetSubmit = () => {
     const apiData =
     {
@@ -70,14 +75,14 @@ export const AccountProfile = () => {
             </Typography>
             <Typography color="text.secondary" style={{ flex: 3, marginBottom: "1rem", marginTop: "1.5rem", cursor: "pointer" }}
             >
-              <a style={{ color: "blue", fontSize: "small" }} onClick={() => setFlag(2)}>UPDATE TARGET</a>
+              <a style={{ color: "blue", fontSize: "small" }} onClick={() => setFlag(2)}>set Target</a>
             </Typography>
           </div>
           <div style={{ display: flag === 1 ? "none" : "block" }}>
             <div style={{ marginBottom: "1rem", marginTop: "1rem" }}>
               <TextField
                 fullWidth
-                label="UPDATE TARGET"
+                label="set Target"
                 name="Target"
                 onChange={(event) => setTarget(event.target.value)}
                 value={target}

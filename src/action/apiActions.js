@@ -54,7 +54,7 @@ export async function getLeadApi(statusId,
   roleId, setLoader) {
   setLoader(true)
   try {
-    const { data } = await axios.get(api.addLead + `?user_role_id=${statusId}&user_id=${userId}&status_id=${roleId}`)
+    const { data } = await axios.get(api.addLead + `?user_role_id=${roleId}&user_id=${userId}&status_id=0`)
     setLoader(false)
     return data
   } catch (error) {

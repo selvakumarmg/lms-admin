@@ -21,7 +21,6 @@ export const AccountProfileDetails = () => {
 
   const profileData = useSelector(state => state.auth.authData)
 
-  const [loading, setLoading] = useState(false)
 
   const formik = useFormik({
     initialValues: {
