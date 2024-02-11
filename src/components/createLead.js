@@ -47,6 +47,7 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
     loanAmount: leadEditdata ? leadEditdata?.loanAmount : "",
     bankName: leadEditdata ? leadEditdata?.Bank_Id : "",
     loanType: leadEditdata ? leadEditdata?.Loan_Type_Id : "",
+    Employee_Type: leadEditdata ? leadEditdata?.Employee_Type : "",
     loanProcessStatus: leadEditdata ? leadEditdata?.Loan_Process_Status_Id : "",
     payslips: leadEditdata?.payslips !== "null" ? leadEditdata?.payslips?.map((data, index) => { return { file: data.split("#")[1], name: "payslips" + index + 1 } }) : [],
     aadharCard: leadEditdata?.aadharCard !== "null" ? leadEditdata?.aadharCard?.map((data, index) => { return { file: data.split("#")[1], name: "aadharCard" + index + 1 } }) : [],
@@ -77,6 +78,7 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
       .positive('Loan Amount must be a positive number')
       .required('Loan Amount is required'),
     bankName: Yup.string().required('Bank Name is required'),
+    Employee_Type: Yup.string().required('Employee Type is required'),
     loanType: Yup.string().required('Loan Type is required'),
     loanTypeOther: Yup.string().when('loanType', {
       is: 'Others',
@@ -158,6 +160,14 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
   const BankData = useSelector(state => state.Lookup.bankData);
   const LoanProcessStatusData = useSelector(state => state.Lookup.loanProcessStatusData);
   const LoanTypeData = useSelector(state => state.Lookup.loanTypeData);
+
+  const Employee_Type_Data = [{
+    value: "Salaried",
+    label: "salaried"
+  }, {
+    value: "Self Employed",
+    label: "Self Employed"
+  }]
 
 
   console.log("payslips", initialValues?.payslips)
@@ -545,6 +555,36 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
                       {touched.loanProcessStatus && errors.loanProcessStatus && (
                         <FormHelperText error>
                           {errors.loanProcessStatus?.message}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+                  </Grid>
+                  <Grid item
+                    xs={6}>
+                    <FormControl
+                      fullWidth
+                      error={touched.Employee_Type && !!errors.Employee_Type}
+                    >
+                      <InputLabel>Employee Type
+                      </InputLabel>
+                      <Field
+                        as={Select}
+                        name="Employee_Type"
+                        value={values.Employee_Type}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      >
+                        <MenuItem value="">Select</MenuItem>
+                        {Employee_Type_Data?.map(option => (
+                          <MenuItem key={option?.value}
+                            value={option?.value}>
+                            {option?.label}
+                          </MenuItem>
+                        ))}
+                      </Field>
+                      {touched.Employee_Type && errors.Employee_Type && (
+                        <FormHelperText error>
+                          {errors.Employee_Type?.message}
                         </FormHelperText>
                       )}
                     </FormControl>

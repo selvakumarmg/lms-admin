@@ -206,7 +206,10 @@ const Page = () => {
 
   async function createLeadApiFn(LeadData) {
     setLoading(true)
+    console.log('LeadData', LeadData)
     const apiData = {
+      Employee_Type: LeadData?.Employee_Type,
+
       Bank_Id: LeadData?.bankName,
       City: LeadData?.city,
       Lead_Details_Id: LeadData?.id,
