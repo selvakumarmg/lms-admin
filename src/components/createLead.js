@@ -164,17 +164,21 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
 
 
   const handlePayslipUpload = (info, setFieldValue) => {
-    const { fileList } = info;
+    const { file, fileList } = info;
     // console.log("fileList", fileList)
+
     let isFileTypeAllowed = true;
-    fileList.forEach(file => {
-      if (!allowedFileTypes.includes(file.type)) {
-        isFileTypeAllowed = false;
-      }
-    });
 
+    // fileList.forEach(file => {
+    if (!allowedFileTypes.includes(file.type)) {
+      isFileTypeAllowed = false;
+    }
+    // });
 
+    if (file?.originFileObj === undefined && file?.file?.includes("assets/leads/")) {
 
+      setFieldValue('payslips', fileList);
+    }
     if (isFileTypeAllowed) {
       if (fileList.length > 3) {
         fileList.splice(-1, 1);
@@ -183,6 +187,9 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
       setFieldValue('payslips', fileList);
     } else {
       message.error('You can only upload PNG, JPEG, or PDF files!');
+      // console.log("fileListfileList", fileList)
+      // fileList.splice(1);
+      // setFieldValue('payslips', fileList);
     }
   }
 
@@ -190,6 +197,9 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
     const { fileList } = info
 
     let isFileTypeAllowed = true;
+
+
+    console.log("fileList", fileList)
 
 
     // Iterate over each file in the fileList array
@@ -557,8 +567,10 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
                           <Dragger
                             {...field}
                             beforeUpload={() => false} // Prevent default upload behavior
-                            onChange={info =>
+                            onChange={info => {
                               handlePayslipUpload(info, setFieldValue)
+                              console.log("iiiiiiino", info)
+                            }
                             }
                             fileList={values.payslips}
                             multiple
