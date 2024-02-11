@@ -23,7 +23,6 @@ import { message } from 'antd'
 const now = new Date()
 
 const Page = () => {
-
   const [page, setPage] = useState(0)
   const [openModal, setOpenModal] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -75,6 +74,9 @@ const Page = () => {
           bankName: data?.Bank_Name,
           loanType: data?.Loan_Type_Name,
           loanProcessType: data?.Loan_Process_Name,
+          Bank_Id: data ? data?.Bank_Id : '',
+          Loan_Type_Id: data ? data?.Loan_Type_Id : '',
+          Loan_Process_Status_Id: data ? data?.Loan_Process_Status_Id : '',
           bankStatement: data?.assets
             ? JSON.parse(data?.assets)
                 .filter(filData => filData?.bankStatement)
@@ -159,21 +161,26 @@ const Page = () => {
     reader.readAsDataURL(file)
   }
   const imageUpload = async (data, type, LeadId, flag, id) => {
+    console.log('data', data)
     await convertImageToBase64(data, base64String => {
       const assetData = {
         Lead_detail_id: LeadId,
-
+        asset_type:
+          data?.type && data?.type.split('/')[0] === 'image' ? 'png' : 'pdf',
         Leads_asset_id: 0,
         asset_name: type,
-        asset_path: 'test/image',
+        asset_path: '',
         asset_status: 1,
         leads_Image: base64String,
       }
+
       const updateData = {
         Leads_asset_id: id,
         asset_name: type,
         leads_Image: base64String,
-        asset_path: 'test/image',
+        asset_path: '',
+        asset_type:
+          data?.type && data?.type.split('/')[0] === 'image' ? 'png' : 'pdf',
         Lead_detail_id: LeadId,
       }
       CreateAssetApi(

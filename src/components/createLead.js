@@ -26,6 +26,7 @@ const { Dragger } = Upload
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+const allowedFileTypes = ['image/png', 'image/jpeg', 'application/pdf'];
 
 
 const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
@@ -44,9 +45,9 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
     state: leadEditdata ? leadEditdata?.state : "",
     pincode: leadEditdata ? leadEditdata?.pincode : "",
     loanAmount: leadEditdata ? leadEditdata?.loanAmount : "",
-    bankName: leadEditdata ? leadEditdata?.BankId : "",
-    loanType: leadEditdata ? leadEditdata?.LoanTypeId : "",
-    loanProcessStatus: leadEditdata ? leadEditdata?.LoanProcessId : "",
+    bankName: leadEditdata ? leadEditdata?.Bank_Id : "",
+    loanType: leadEditdata ? leadEditdata?.Loan_Type_Id : "",
+    loanProcessStatus: leadEditdata ? leadEditdata?.Loan_Process_Status_Id : "",
     payslips: leadEditdata?.payslips !== "null" ? leadEditdata?.payslips?.map((data, index) => { return { file: data.split("#")[1], name: "payslips" + index + 1 } }) : [],
     aadharCard: leadEditdata?.aadharCard !== "null" ? leadEditdata?.aadharCard?.map((data, index) => { return { file: data.split("#")[1], name: "aadharCard" + index + 1 } }) : [],
     panCard: leadEditdata?.panCard !== "null" ? leadEditdata?.panCard?.map((data, index) => { return { file: data.split("#")[1], name: "panCard" + index + 1 } }) : [],
@@ -82,25 +83,27 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
       then: Yup.string().required('Please specify the loan type'),
     }),
     loanProcessStatus: Yup.string().required('Loan Process Status is required'),
-    payslips: leadEditdata?.payslips !== "null" ? Yup.mixed().required('payslips is required') : Yup.mixed().required('payslips is required')
-      .test("filesize", "Max allowed size is 2MB", (value) => {
+    payslips: leadEditdata?.payslips !== "null" ? Yup.array().required('payslips is required').min(3, 'Exactly 3 files are required').max(3, 'Exactly 3 files are required') : Yup.array().required('payslips is required').min(3, 'Exactly 3 files are required').max(3, 'Exactly 3 files are required')
+
+      .test("filetype", "Unsupported file format / 3 image must be upload", (value) => {
+
         if (value && value.length > 0) {
+
           for (let i = 0; i <= 2; i++) {
-            if (value[i]?.size > (2 * 1024 * 1024)) {
+            if (
+              value[i]?.type === "image/png" &&
+              value[i]?.type === "image/jpeg" &&
+              value[i]?.type === "application/pdf"
+            ) {
               return false;
             }
           }
         }
         return true;
-      })
-      .test("filetype", "Unsupported file format / 3 image must be upload", (value) => {
+      }).test("filesize", "Max allowed size is 2MB", (value) => {
         if (value && value.length > 0) {
           for (let i = 0; i <= 2; i++) {
-            if (
-              value[i]?.type !== "image/png" &&
-              value[i]?.type !== "image/jpg" &&
-              value[i]?.type !== "image/jpeg"
-            ) {
+            if (value[i]?.size > (2 * 1024 * 1024)) {
               return false;
             }
           }
@@ -157,48 +160,109 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
   const LoanTypeData = useSelector(state => state.Lookup.loanTypeData);
 
 
+  console.log("payslips", initialValues?.payslips)
+
 
   const handlePayslipUpload = (info, setFieldValue) => {
-    const { fileList } = info
+    const { fileList } = info;
+    // console.log("fileList", fileList)
+    let isFileTypeAllowed = true;
+    fileList.forEach(file => {
+      if (!allowedFileTypes.includes(file.type)) {
+        isFileTypeAllowed = false;
+      }
+    });
 
-    if (fileList.length > 3) {
-      fileList.splice(-1, 1)
-      message.error('You can only upload up to 3 files')
+
+
+    if (isFileTypeAllowed) {
+      if (fileList.length > 3) {
+        fileList.splice(-1, 1);
+        message.error('You can only upload up to 3 files');
+      }
+      setFieldValue('payslips', fileList);
+    } else {
+      message.error('You can only upload PNG, JPEG, or PDF files!');
     }
-
-    setFieldValue('payslips', fileList)
   }
 
   const handleAadharCardUpload = (info, setFieldValue) => {
     const { fileList } = info
 
-    if (fileList.length > 1) {
-      fileList.splice(-1, 1)
-      message.error('You can only upload one file')
+    let isFileTypeAllowed = true;
+
+
+    // Iterate over each file in the fileList array
+    fileList.forEach(file => {
+      if (!allowedFileTypes.includes(file.type)) {
+        isFileTypeAllowed = false;
+      }
+    });
+
+    if (!isFileTypeAllowed) {
+      message.error('You can only upload PNG, JPEG, or PDF files!');
+    } else {
+      if (fileList.length > 1) {
+        fileList.splice(-1, 1)
+        message.error('You can only upload one file')
+      }
+      setFieldValue('aadharCard', fileList)
     }
-    setFieldValue('aadharCard', fileList)
+
+
   }
 
   const handleBankStatementUpload = (info, setFieldValue) => {
     const { fileList } = info
 
-    if (fileList.length > 1) {
-      fileList.splice(-1, 1)
-      message.error('You can only upload one file')
+
+    let isFileTypeAllowed = true;
+
+    // Iterate over each file in the fileList array
+    fileList.forEach(file => {
+      if (!allowedFileTypes.includes(file.type)) {
+        isFileTypeAllowed = false;
+      }
+    });
+
+    if (!isFileTypeAllowed) {
+      message.error('You can only upload PNG, JPEG, or PDF files!');
+    } else {
+      if (fileList.length > 1) {
+        fileList.splice(-1, 1)
+        message.error('You can only upload one file')
+      }
+
+      setFieldValue('bankStatement', fileList)
     }
 
-    setFieldValue('bankStatement', fileList)
+
   }
 
   const handlePancardUpload = (info, setFieldValue) => {
     const { fileList } = info
 
-    if (fileList.length > 1) {
-      fileList.splice(-1, 1)
-      message.error('You can only upload one file')
+    let isFileTypeAllowed = true;
+
+    // Iterate over each file in the fileList array
+    fileList.forEach(file => {
+      if (!allowedFileTypes.includes(file.type)) {
+        isFileTypeAllowed = false;
+      }
+    });
+
+    if (!isFileTypeAllowed) {
+      message.error('You can only upload PNG, JPEG, or PDF files!');
+    } else {
+      if (fileList.length > 1) {
+        fileList.splice(-1, 1)
+        message.error('You can only upload one file')
+      }
+
+      setFieldValue('panCard', fileList)
     }
 
-    setFieldValue('panCard', fileList)
+
   }
 
   return (
@@ -394,7 +458,7 @@ const CreateLead = ({ open, onClose, loading, onSubmit, leadEditdata }) => {
                       <InputLabel>Bank Name</InputLabel>
                       <Field
                         as={Select}
-
+                        // defaultValue={initialValues?.bankName}
                         name="bankName"
                         value={values.bankName}
                         onChange={handleChange}
