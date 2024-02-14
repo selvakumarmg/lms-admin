@@ -77,6 +77,7 @@ const Page = () => {
           Bank_Id: data ? data?.Bank_Id : '',
           Loan_Type_Id: data ? data?.Loan_Type_Id : '',
           Loan_Process_Status_Id: data ? data?.Loan_Process_Status_Id : '',
+          Employee_Type: data ? data?.Employee_Type : '',
           bankStatement: data?.assets
             ? JSON.parse(data?.assets)
                 .filter(filData => filData?.bankStatement)
@@ -200,7 +201,9 @@ const Page = () => {
   const getApiData = async (StatusId, UserId, RoleId, setLoading) => {
     await getLeadApi(StatusId, UserId, RoleId, setLoading).then(res => {
       getResult(res)
-      setOpenModal(false)
+      setTimeout(() => {
+        setOpenModal(false)
+      }, 3000)
     })
   }
 
